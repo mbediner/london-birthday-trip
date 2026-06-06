@@ -10,6 +10,7 @@ const mapQueries = {
   "Boston Logan Airport": "Boston Logan International Airport",
   "London Heathrow Airport": "London Heathrow Airport",
   "JFK Airport": "John F. Kennedy International Airport",
+  "U.S. Embassy London": "U.S. Embassy London, 33 Nine Elms Lane, London SW11 7US",
   "Tachbrook Street Market": "Tachbrook Street Market, Pimlico",
   "Victoria Station": "Victoria Station Buckingham Palace Road entrance",
   "London Eye": "London Eye, London",
@@ -277,7 +278,8 @@ const resources = [
   ["TfL Heathrow Elizabeth line", "https://rms.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"],
   ["UK ETA", "https://www.gov.uk/guidance/apply-for-an-electronic-travel-authorisation-eta"],
   ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
-  ["U.S. Embassy London", "https://uk.usembassy.gov/"]
+  ["U.S. Embassy London", "https://uk.usembassy.gov/"],
+  ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")]
 ];
 
 function mapsUrl(name) {
