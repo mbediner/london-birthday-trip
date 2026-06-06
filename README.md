@@ -86,6 +86,16 @@ The Windows workstation is set up with:
 
 Avoid installing local `node_modules` inside this Google Drive folder. The sync layer can interfere with large dependency folders, so project scripts stay dependency-light.
 
+## Google Drive Sync Safety
+
+This repo lives inside Google Drive, so use the preflight check before committing:
+
+```powershell
+npm run drive:preflight
+```
+
+The check looks for sync conflict files, generated dependency folders, whitespace issues, and remote drift from GitHub.
+
 ## Update Rule
 
 After every push, print the live site URL so the newest version can be checked immediately.

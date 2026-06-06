@@ -5,6 +5,7 @@
   "description": "Mobile-first London birthday trip guide for Tiffany and Collin.",
   "scripts": {
     "check": "node --check app.js",
+    "drive:preflight": "powershell -ExecutionPolicy Bypass -File tools/drive-preflight.ps1",
     "preview": "python -m http.server 4173"
   },
   "devDependencies": {}
