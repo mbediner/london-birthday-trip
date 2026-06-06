@@ -146,15 +146,40 @@ const tickets = [
   "London Eye ticket",
   "Flight confirmation",
   "Hotel confirmation",
+  "Booking.com hotel confirmation",
   "UK ETA confirmations",
   "Parent travel consent letter"
 ];
+
+const booking = {
+  status: "Confirmed on Booking.com",
+  guest: "Marianna",
+  hotel: "Holiday Inn Express London - Victoria",
+  address: "106-110 Belgrave Road, London SW1V 2BJ, United Kingdom",
+  source: "Booking.com confirmation email / app",
+  screenshot: "assets/booking_confirmation.jpg",
+  dates: "June 26-29, 2026",
+  actionItems: [
+    "Save the Booking.com confirmation email on both phones.",
+    "Open the Booking.com app before leaving and confirm the reservation appears there.",
+    "Screenshot the confirmation page, confirmation number, PIN, check-in rules, and payment details.",
+    "Add the confirmation number and PIN to the Ticket Wallet once they are copied from the email.",
+    "Use the hotel address in this guide for Uber, FREENOW, Google Maps, and emergency help."
+  ],
+  fillIns: [
+    "Booking confirmation number: ____________________",
+    "Booking PIN: ____________________",
+    "Check-in time: ____________________",
+    "Cancellation/payment note: ____________________"
+  ]
+};
 
 const resources = [
   ["TfL Go", "https://tfl.gov.uk/maps"],
   ["Google Maps London", "https://www.google.com/maps/place/London,+UK"],
   ["Uber", "https://www.uber.com/gb/en/"],
   ["FREENOW black cabs", "https://www.free-now.com/uk/"],
+  ["Booking.com", "https://www.booking.com/"],
   ["JetBlue", "https://www.jetblue.com/"],
   ["UK ETA", "https://www.gov.uk/guidance/apply-for-an-electronic-travel-authorisation-eta"],
   ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
@@ -231,6 +256,35 @@ function renderTickets() {
   `).join("");
 }
 
+function renderBooking() {
+  document.querySelector("#bookingPanel").innerHTML = `
+    <article class="booking-card">
+      <strong>${booking.status}</strong>
+      <p><b>Guest:</b> ${booking.guest}</p>
+      <p><b>Hotel:</b> ${booking.hotel}</p>
+      <p><b>Dates:</b> ${booking.dates}</p>
+      <p><b>Address:</b> ${booking.address}</p>
+      <p><b>Where to verify:</b> ${booking.source}</p>
+      <div class="button-row">
+        <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Open Hotel Map</a>
+        <a class="button button--secondary" href="https://www.booking.com/" target="_blank" rel="noopener">Open Booking.com</a>
+        <a class="button button--secondary" href="${booking.screenshot}" target="_blank" rel="noopener">Open Screenshot</a>
+      </div>
+    </article>
+    <article class="booking-card">
+      <strong>Before travel</strong>
+      <ul>${booking.actionItems.map(item => `<li>${item}</li>`).join("")}</ul>
+      <ul>${booking.fillIns.map(item => `<li>${item}</li>`).join("")}</ul>
+    </article>
+    <article class="booking-card booking-card--image">
+      <strong>Confirmation screenshot</strong>
+      <a href="${booking.screenshot}" target="_blank" rel="noopener">
+        <img src="${booking.screenshot}" alt="Booking.com hotel confirmation screenshot">
+      </a>
+    </article>
+  `;
+}
+
 function renderResources() {
   document.querySelector("#resourceList").innerHTML = resources.map(([label, url]) => `
     <a href="${url}" target="_blank" rel="noopener">${label}</a>
@@ -271,6 +325,7 @@ renderDays();
 renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
 renderTickets();
+renderBooking();
 renderResources();
 renderMaps();
 wireEvents();

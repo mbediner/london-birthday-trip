@@ -31,3 +31,10 @@ Every time a commit is pushed, the final response must include the live site URL
 - Check for Drive conflict files before committing.
 - Fetch from `origin` before editing and before pushing so remote drift is visible.
 - Keep line endings stable through `.gitattributes`.
+
+## Confirmation Screenshots
+
+- Confirmation screenshots may be committed when the site owner explicitly approves making them public.
+- Copy approved screenshots into `assets/` with clear names.
+- Link the screenshot from the relevant itinerary section so it is easy to open on a phone.
+- If exact confirmation numbers or PINs are not clearly legible, add fill-in fields instead of guessing.

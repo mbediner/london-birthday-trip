@@ -96,6 +96,10 @@ npm run drive:preflight
 
 The check looks for sync conflict files, generated dependency folders, whitespace issues, and remote drift from GitHub.
 
+## Travel Details
+
+Confirmation screenshots may be included in the public site when approved. Copy approved screenshots into `assets/`, link them from the relevant itinerary section, and keep fill-in fields when exact numbers are not clearly legible.
+
 ## Update Rule
 
 After every push, print the live site URL so the newest version can be checked immediately.
