@@ -120,8 +120,10 @@ const days = [
 const flights = [
   {
     day: "Thursday, June 25",
+    dateQuery: "June 25 2026",
     time: "2:34 PM EDT",
     route: "RDU -> BOS",
+    number: "2184",
     airline: "JetBlue B6 2184",
     confirmation: "KDHSOU",
     terminal: "Depart Terminal 2",
@@ -129,8 +131,10 @@ const flights = [
   },
   {
     day: "Thursday, June 25",
+    dateQuery: "June 25 2026",
     time: "6:39 PM EDT",
     route: "BOS -> LHR",
+    number: "1620",
     airline: "JetBlue B6 1620",
     confirmation: "KDHSOU",
     terminal: "Depart Terminal C",
@@ -138,8 +142,10 @@ const flights = [
   },
   {
     day: "Monday, June 29",
+    dateQuery: "June 29 2026",
     time: "11:55 AM BST",
     route: "LHR -> JFK",
+    number: "20",
     airline: "JetBlue B6 20",
     confirmation: "KDHSOU",
     terminal: "Depart Terminal 2",
@@ -147,8 +153,10 @@ const flights = [
   },
   {
     day: "Monday, June 29",
+    dateQuery: "June 29 2026",
     time: "6:30 PM EDT",
     route: "JFK -> RDU",
+    number: "585",
     airline: "JetBlue B6 585",
     confirmation: "KDHSOU",
     terminal: "Depart Terminal 5",
@@ -157,6 +165,16 @@ const flights = [
 ];
 
 const airportPlans = [
+  {
+    title: "Live flight checks",
+    bullets: [
+      "Free option: tap Google Status on each flight. Google usually shows a flight-status card near departure day.",
+      "Use the JetBlue app first because airline status and gate changes are the source of truth.",
+      "Use the tracker buttons below for a second opinion when the flight is close to departure.",
+      "FlightAware generally shows flights currently flying, recently flown, or scheduled soon.",
+      "If trackers disagree, trust JetBlue, airport screens, and gate agents."
+    ]
+  },
   {
     title: "Arrival: Heathrow to hotel",
     bullets: [
@@ -294,6 +312,16 @@ function mapsUrl(name) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQueries[name] || name)}`;
 }
 
+function flightTrackers(flight) {
+  const googleQuery = encodeURIComponent(`B6 ${flight.number} ${flight.dateQuery} flight status`);
+  return [
+    ["Google Status", `https://www.google.com/search?q=${googleQuery}`],
+    ["JetBlue", `https://www.jetblue.com/flight-tracker-and-status`],
+    ["FlightStats", `https://www.flightstats.com/v2/flight-tracker/B6/${flight.number}`],
+    ["FlightAware", `https://www.flightaware.com/live/flight/JBU${flight.number}`]
+  ];
+}
+
 function escapeHtml(value) {
   return value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
 }
@@ -394,6 +422,9 @@ function renderFlights() {
             <strong>${flight.route}</strong>
             <p>${flight.day} | ${flight.airline} | Conf. ${flight.confirmation}</p>
             <p>${flight.terminal} | ${flight.arrive}</p>
+            <div class="tracker-links">
+              ${flightTrackers(flight).map(([label, url]) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
+            </div>
           </div>
         </article>
       `).join("")}

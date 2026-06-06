@@ -347,6 +347,22 @@ main {
   font-size: 1.05rem;
 }
 .flight-card p { margin: 0; color: var(--muted); }
+.tracker-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.tracker-links a {
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--green);
+  background: white;
+  font-size: .85rem;
+  font-weight: 850;
+  text-decoration: none;
+}
 .airport-plan {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

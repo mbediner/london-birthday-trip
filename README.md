@@ -86,6 +86,17 @@ The Windows workstation is set up with:
 
 Avoid installing local `node_modules` inside this Google Drive folder. The sync layer can interfere with large dependency folders, so project scripts stay dependency-light.
 
+## Flight Tracking
+
+The public site includes one-tap tracker links for each JetBlue leg:
+
+- Google Status search for the free Google flight-status card.
+- JetBlue flight tracker and app for the source of truth.
+- FlightStats for public flight status pages.
+- FlightAware for live tracking near departure/in-flight windows.
+
+No paid flight API is required. Google does not provide a simple public flight-status API for this static site, so the free path is to open Google's flight-status result directly for each flight.
+
 ## Google Drive Sync Safety
 
 This repo lives inside Google Drive, so use the preflight check before committing:
