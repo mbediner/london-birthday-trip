@@ -216,6 +216,7 @@ const airportPlans = [
 ];
 
 const flightScreenshot = "assets/flight_itinerary.jpg";
+const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 let flightStatusData = null;
 
 const photoReminderDates = new Set([
@@ -306,7 +307,8 @@ const resources = [
   ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
   ["U.S. Embassy London", "https://uk.usembassy.gov/"],
   ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")],
-  ["Add daily photo reminder", "assets/photo-reminder.ics"]
+  ["Add daily photo reminder", "assets/photo-reminder.ics"],
+  ["ntfy phone push setup", `https://ntfy.sh/${ntfyTopic}`]
 ];
 
 function mapsUrl(name) {
@@ -490,6 +492,31 @@ function renderFlights() {
   `;
 }
 
+function renderPhonePush() {
+  document.querySelector("#phonePushPanel").innerHTML = `
+    <article class="push-card">
+      <strong>Subscribe on each phone</strong>
+      <p>Install the free ntfy app, then subscribe to this topic:</p>
+      <code class="topic-code">${ntfyTopic}</code>
+      <div class="button-row">
+        <a class="button" href="https://ntfy.sh/${ntfyTopic}" target="_blank" rel="noopener">Open Topic</a>
+        <a class="button button--secondary" href="https://ntfy.sh/app" target="_blank" rel="noopener">Open ntfy Web</a>
+      </div>
+    </article>
+    <article class="push-card">
+      <strong>How alerts work</strong>
+      <ol>
+        <li>Download ntfy from the App Store or Google Play.</li>
+        <li>Add the topic above.</li>
+        <li>Keep notifications allowed for ntfy.</li>
+        <li>Flight status checks run every 30 minutes inside each flight's monitoring window.</li>
+        <li>If the first active check or a status change happens, GitHub sends a phone push to this topic.</li>
+      </ol>
+      <p>JetBlue app alerts are still the source of truth; this is the free backup notifier.</p>
+    </article>
+  `;
+}
+
 function renderFlightStatusBox(status) {
   if (!status) {
     return `
@@ -606,6 +633,7 @@ renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
 renderTickets();
 renderFlights();
+renderPhonePush();
 renderBooking();
 renderResources();
 renderMaps();

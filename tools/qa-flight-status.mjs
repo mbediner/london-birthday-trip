@@ -8,6 +8,7 @@ const node = process.execPath;
 const script = path.resolve("tools", "update-flight-status.mjs");
 const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "flight-status-qa-"));
 const output = path.join(tmpDir, "flight-status.json");
+const notificationsOutput = path.join(tmpDir, "flight-notifications.json");
 
 async function runAt(iso) {
   execFileSync(node, [script], {
@@ -15,10 +16,14 @@ async function runAt(iso) {
     env: {
       ...process.env,
       FLIGHT_STATUS_OUTPUT: output,
+      FLIGHT_NOTIFICATIONS_OUTPUT: notificationsOutput,
       FLIGHT_STATUS_NOW: iso
     }
   });
-  return JSON.parse(await fs.readFile(output, "utf8"));
+  return {
+    status: JSON.parse(await fs.readFile(output, "utf8")),
+    notifications: JSON.parse(await fs.readFile(notificationsOutput, "utf8"))
+  };
 }
 
 await fs.writeFile(output, JSON.stringify({
@@ -32,11 +37,14 @@ await fs.writeFile(output, JSON.stringify({
   ]
 }, null, 2));
 
-const outside = await runAt("2026-06-06T12:00:00Z");
+const outsideRun = await runAt("2026-06-06T12:00:00Z");
+const outside = outsideRun.status;
 assert.equal(outside.updatedAt, "stable-outside-window", "outside windows should not churn updatedAt");
 assert.equal(outside.flights.every(flight => flight.statusKind === "inactive"), true, "all flights should be inactive outside windows");
+assert.equal(outsideRun.notifications.notifications.length, 0, "outside windows should not generate notifications");
 
-const firstTravelWindow = await runAt("2026-06-25T19:00:00Z");
+const firstTravelWindowRun = await runAt("2026-06-25T19:00:00Z");
+const firstTravelWindow = firstTravelWindowRun.status;
 const outboundDomestic = firstTravelWindow.flights.find(flight => flight.id === "b6-2184");
 const outboundInternational = firstTravelWindow.flights.find(flight => flight.id === "b6-1620");
 const returnInternational = firstTravelWindow.flights.find(flight => flight.id === "b6-20");
@@ -44,11 +52,17 @@ assert.notEqual(firstTravelWindow.updatedAt, "stable-outside-window", "active wi
 assert.ok(outboundDomestic.lastCheckedAt, "active RDU -> BOS should be checked");
 assert.ok(outboundInternational.lastCheckedAt, "active BOS -> LHR should be checked");
 assert.equal(returnInternational.statusKind, "inactive", "return flight should remain inactive during outbound window");
+assert.ok(firstTravelWindowRun.notifications.notifications.length >= 1, "entering an active window should generate at least one phone notification");
 
-const returnWindow = await runAt("2026-06-29T21:00:00Z");
+const duplicateOutboundRun = await runAt("2026-06-25T19:00:00Z");
+assert.equal(duplicateOutboundRun.notifications.notifications.length, 0, "unchanged status should not repeat phone notifications");
+
+const returnWindowRun = await runAt("2026-06-29T21:00:00Z");
+const returnWindow = returnWindowRun.status;
 const lhrToJfk = returnWindow.flights.find(flight => flight.id === "b6-20");
 const jfkToRdu = returnWindow.flights.find(flight => flight.id === "b6-585");
 assert.ok(lhrToJfk.lastCheckedAt, "active LHR -> JFK should be checked");
 assert.ok(jfkToRdu.lastCheckedAt, "active JFK -> RDU should be checked");
+assert.ok(returnWindowRun.notifications.notifications.length >= 1, "return active window should generate phone notifications");
 
 console.log("Flight status QA passed.");

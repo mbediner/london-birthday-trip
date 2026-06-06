@@ -33,6 +33,7 @@ const flights = [
 ];
 
 const outputPath = process.env.FLIGHT_STATUS_OUTPUT || path.join("data", "flight-status.json");
+const notificationsPath = process.env.FLIGHT_NOTIFICATIONS_OUTPUT || path.join("data", "flight-notifications.json");
 const now = process.env.FLIGHT_STATUS_NOW ? new Date(process.env.FLIGHT_STATUS_NOW) : new Date();
 
 function activeWindow(flight) {
@@ -180,6 +181,7 @@ async function build() {
   const updatedAt = hasActiveFlight || existingHadActiveFlight
     ? now.toISOString()
     : existing?.updatedAt || null;
+  const notifications = buildNotifications(existing?.flights || [], results);
 
   await fs.mkdir(path.dirname(outputPath), { recursive: true });
   await fs.writeFile(outputPath, JSON.stringify({
@@ -188,6 +190,46 @@ async function build() {
     note: "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
     flights: results
   }, null, 2) + "\n");
+  await fs.writeFile(notificationsPath, JSON.stringify({
+    generatedAt: now.toISOString(),
+    notifications
+  }, null, 2) + "\n");
 }
 
 await build();
+
+function buildNotifications(previousFlights, nextFlights) {
+  const previousById = new Map(previousFlights.map(flight => [flight.id, flight]));
+  const notifications = [];
+
+  for (const next of nextFlights) {
+    const previous = previousById.get(next.id);
+    if (next.statusKind === "inactive") continue;
+
+    const previousSignature = previous
+      ? `${previous.statusKind}|${previous.status}|${previous.departure?.estimated || ""}|${previous.arrival?.estimated || ""}|${previous.departure?.gate || ""}`
+      : "";
+    const nextSignature = `${next.statusKind}|${next.status}|${next.departure?.estimated || ""}|${next.arrival?.estimated || ""}|${next.departure?.gate || ""}`;
+
+    const enteringWindow = !previous || previous.statusKind === "inactive";
+    const importantChange = previousSignature !== nextSignature;
+    const alert = ["delayed", "cancelled", "alert", "unknown"].includes(next.statusKind);
+
+    if (!enteringWindow && !importantChange) continue;
+
+    notifications.push({
+      id: next.id,
+      title: alert ? `Flight alert: B6 ${next.number}` : `Flight check: B6 ${next.number}`,
+      message: [
+        `${next.route}: ${next.status}.`,
+        `Departure: ${next.departure?.estimated || next.departure?.scheduled || "not available"}.`,
+        `Arrival: ${next.arrival?.estimated || next.arrival?.scheduled || "not available"}.`,
+        `Gate: ${next.departure?.gate || "not available"}.`
+      ].join(" "),
+      priority: alert ? "high" : "default",
+      tags: alert ? "warning,airplane" : "airplane"
+    });
+  }
+
+  return notifications;
+}

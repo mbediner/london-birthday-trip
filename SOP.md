@@ -7,21 +7,24 @@ Use this standard process every time the London Birthday Trip site changes.
 1. Run the Drive preflight before editing when returning to the project:
    - `npm run drive:preflight`
 2. Make the requested site or documentation edits.
-3. Run the relevant local checks.
+3. For every new feature, add or update QA coverage that proves the feature works.
+4. Run the relevant local checks.
    - `npm run check` for JavaScript syntax.
    - Use browser or Playwright checks when layout or interaction changes.
-4. Run the Drive preflight again before committing:
+   - Use feature-specific checks such as `npm run flight:qa` when touching flight tracking.
+5. Run the Drive preflight again before committing:
    - `npm run drive:preflight`
-5. Commit the finished change.
-6. Push to `main`.
-7. Confirm the GitHub Pages deployment succeeds.
-8. Print the live site URL for review:
+6. Commit the finished change.
+7. Push to `main`.
+8. Confirm the GitHub Pages deployment succeeds.
+9. Print the live site URL for review:
 
 https://mbediner.github.io/london-birthday-trip/
 
 ## Non-Negotiable
 
 Every time a commit is pushed, the final response must include the live site URL.
+When adding a new feature, do not stop at implementation. QA it, commit it, push it, verify deployment, and print the live site URL.
 
 ## Google Drive Drift Rules
 
@@ -47,5 +50,7 @@ Every time a commit is pushed, the final response must include the live site URL
 - `Update Now` refreshes the latest published JSON in the browser. It cannot secretly start a GitHub Actions run without a private token.
 - For immediate human confirmation, use the Google Status and JetBlue buttons.
 - Browser notifications work while the site is open and notification permission is granted. Closed-phone push requires a real push service or airline app notifications.
+- Closed-phone flight push uses ntfy.sh topic `london-birthday-trip-2026-a9x4m2q7`.
+- Keep the ntfy topic hard to guess. It is public if someone has the topic name.
 - Run `npm run flight:qa` after changing flight tracking logic.
 - Run `npm run flight:update` outside the monitoring windows and confirm it does not create a `data/flight-status.json` diff.

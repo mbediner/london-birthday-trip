@@ -29,9 +29,40 @@ jobs:
       - name: Update flight status
         run: node tools/update-flight-status.mjs
 
+      - name: Send phone push notifications
+        env:
+          NTFY_TOPIC: london-birthday-trip-2026-a9x4m2q7
+        shell: bash
+        run: |
+          count=$(node -e "console.log(require('./data/flight-notifications.json').notifications.length)")
+          if [ "$count" = "0" ]; then
+            echo "No phone push notifications to send."
+            exit 0
+          fi
+          node <<'NODE'
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('data/flight-notifications.json', 'utf8'));
+          for (const [index, item] of data.notifications.entries()) {
+            fs.writeFileSync(`notification-${index}.txt`, item.message);
+            console.log(JSON.stringify(item));
+          }
+          NODE
+          for i in $(seq 0 $((count - 1))); do
+            title=$(node -e "console.log(require('./data/flight-notifications.json').notifications[$i].title)")
+            priority=$(node -e "console.log(require('./data/flight-notifications.json').notifications[$i].priority)")
+            tags=$(node -e "console.log(require('./data/flight-notifications.json').notifications[$i].tags)")
+            curl -sS \
+              -H "Title: $title" \
+              -H "Priority: $priority" \
+              -H "Tags: $tags" \
+              --data-binary "@notification-$i.txt" \
+              "https://ntfy.sh/$NTFY_TOPIC"
+          done
+
       - name: Commit status data
         id: commit_status
         run: |
+          rm -f data/flight-notifications.json notification-*.txt
           if git diff --quiet -- data/flight-status.json; then
             echo "No flight status changes."
             echo "changed=false" >> "$GITHUB_OUTPUT"
