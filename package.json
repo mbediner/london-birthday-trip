@@ -1,0 +1,11 @@
+{
+  "name": "london-birthday-trip",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mobile-first London birthday trip guide for Tiffany and Collin.",
+  "scripts": {
+    "check": "node --check app.js",
+    "preview": "python -m http.server 4173"
+  },
+  "devDependencies": {}
+}

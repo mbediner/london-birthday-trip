@@ -59,7 +59,32 @@ For a new repository:
 
 ## Local Preview
 
-Open `index.html` in a browser. Because this is plain static HTML/CSS/JS, no local server is required.
+Open `index.html` in a browser, or run a local preview:
+
+```powershell
+npm run preview
+```
+
+Then open `http://localhost:4173/`.
+
+Before pushing JavaScript changes, run:
+
+```powershell
+npm run check
+```
+
+## Local Tools
+
+The Windows workstation is set up with:
+
+- Git and GitHub CLI for commits, pushes, repo management, and Pages checks.
+- Node.js and npm for lightweight site validation.
+- Python plus `pillow` and `python-docx` for regenerating the legacy printable itinerary files.
+- ImageMagick for optimizing or resizing photos.
+- VS Code for editing.
+- Playwright Chromium for browser screenshots and visual checks.
+
+Avoid installing local `node_modules` inside this Google Drive folder. The sync layer can interfere with large dependency folders, so project scripts stay dependency-light.
 
 ## Update Rule
 
