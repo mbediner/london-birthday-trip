@@ -199,6 +199,13 @@ const airportPlans = [
 
 const flightScreenshot = "assets/flight_itinerary.jpg";
 
+const photoReminderDates = new Set([
+  "2026-06-26",
+  "2026-06-27",
+  "2026-06-28",
+  "2026-06-29"
+]);
+
 const todo = [
   "Order British pounds from Chase",
   "Download TripIt",
@@ -279,7 +286,8 @@ const resources = [
   ["UK ETA", "https://www.gov.uk/guidance/apply-for-an-electronic-travel-authorisation-eta"],
   ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
   ["U.S. Embassy London", "https://uk.usembassy.gov/"],
-  ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")]
+  ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")],
+  ["Add daily photo reminder", "assets/photo-reminder.ics"]
 ];
 
 function mapsUrl(name) {
@@ -295,6 +303,25 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
   window.setTimeout(() => toast.classList.remove("is-visible"), 2200);
+}
+
+function localDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function openPhotoReminder(force = false) {
+  const today = localDateKey();
+  const storageKey = `photoMission:${today}`;
+  if (!force && (!photoReminderDates.has(today) || localStorage.getItem(storageKey))) return;
+  document.querySelector("#photoModal").hidden = false;
+}
+
+function closePhotoReminder(markDone = false) {
+  if (markDone) localStorage.setItem(`photoMission:${localDateKey()}`, "done");
+  document.querySelector("#photoModal").hidden = true;
 }
 
 function renderDays() {
@@ -445,6 +472,17 @@ function wireEvents() {
   });
 
   document.querySelector("#mapSearch").addEventListener("input", event => renderMaps(event.target.value));
+
+  document.querySelectorAll("[data-photo-reminder]").forEach(button => {
+    button.addEventListener("click", () => openPhotoReminder(true));
+  });
+  document.querySelectorAll("[data-photo-close]").forEach(button => {
+    button.addEventListener("click", () => closePhotoReminder(false));
+  });
+  document.querySelector("[data-photo-done]").addEventListener("click", () => {
+    closePhotoReminder(true);
+    showToast("Photo mission checked off for today");
+  });
 }
 
 renderDays();
@@ -456,3 +494,4 @@ renderBooking();
 renderResources();
 renderMaps();
 wireEvents();
+window.setTimeout(() => openPhotoReminder(false), 900);
