@@ -90,6 +90,10 @@ Avoid installing local `node_modules` inside this Google Drive folder. The sync 
 
 After every push, print the live site URL so the newest version can be checked immediately.
 
+See `SOP.md` for the standard update process. The live URL must be printed after every commit and push:
+
+https://mbediner.github.io/london-birthday-trip/
+
 ## Photo Sources
 
 Photo credits are documented in the original itinerary README history and builder metadata. Current site images live in `assets/`.
