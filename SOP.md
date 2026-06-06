@@ -47,3 +47,5 @@ Every time a commit is pushed, the final response must include the live site URL
 - `Update Now` refreshes the latest published JSON in the browser. It cannot secretly start a GitHub Actions run without a private token.
 - For immediate human confirmation, use the Google Status and JetBlue buttons.
 - Browser notifications work while the site is open and notification permission is granted. Closed-phone push requires a real push service or airline app notifications.
+- Run `npm run flight:qa` after changing flight tracking logic.
+- Run `npm run flight:update` outside the monitoring windows and confirm it does not create a `data/flight-status.json` diff.

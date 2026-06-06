@@ -30,25 +30,31 @@ jobs:
         run: node tools/update-flight-status.mjs
 
       - name: Commit status data
+        id: commit_status
         run: |
           if git diff --quiet -- data/flight-status.json; then
             echo "No flight status changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add data/flight-status.json
             git commit -m "Update flight status data"
             git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Configure Pages
+        if: steps.commit_status.outputs.changed == 'true'
         uses: actions/configure-pages@v5
 
       - name: Upload site
+        if: steps.commit_status.outputs.changed == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
 
       - name: Deploy to GitHub Pages
+        if: steps.commit_status.outputs.changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v4

@@ -32,7 +32,7 @@ const flights = [
   }
 ];
 
-const outputPath = path.join("data", "flight-status.json");
+const outputPath = process.env.FLIGHT_STATUS_OUTPUT || path.join("data", "flight-status.json");
 const now = process.env.FLIGHT_STATUS_NOW ? new Date(process.env.FLIGHT_STATUS_NOW) : new Date();
 
 function activeWindow(flight) {
@@ -127,6 +127,13 @@ async function fetchFlight(flight) {
 
 async function build() {
   const results = [];
+  let existing = null;
+
+  try {
+    existing = JSON.parse(await fs.readFile(outputPath, "utf8"));
+  } catch {
+    existing = null;
+  }
 
   for (const flight of flights) {
     const window = activeWindow(flight);
@@ -168,9 +175,15 @@ async function build() {
     }
   }
 
-  await fs.mkdir("data", { recursive: true });
+  const hasActiveFlight = results.some(flight => flight.statusKind !== "inactive");
+  const existingHadActiveFlight = existing?.flights?.some(flight => flight.statusKind !== "inactive") || false;
+  const updatedAt = hasActiveFlight || existingHadActiveFlight
+    ? now.toISOString()
+    : existing?.updatedAt || null;
+
+  await fs.mkdir(path.dirname(outputPath), { recursive: true });
   await fs.writeFile(outputPath, JSON.stringify({
-    updatedAt: now.toISOString(),
+    updatedAt,
     source: "scheduled-flightstats",
     note: "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
     flights: results

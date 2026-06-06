@@ -115,6 +115,14 @@ To simulate an active window:
 $env:FLIGHT_STATUS_NOW="2026-06-25T19:00:00Z"; npm run flight:update
 ```
 
+To run the flight tracker QA suite:
+
+```powershell
+npm run flight:qa
+```
+
+The QA suite verifies that inactive dates do not churn the status file, outbound flights are checked during the outbound window, and return flights are checked during the return window.
+
 ## Google Drive Sync Safety
 
 This repo lives inside Google Drive, so use the preflight check before committing:
