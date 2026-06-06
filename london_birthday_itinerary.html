@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>London Birthday Itinerary - Tiffany and Collin</title>
+  <style>
+    :root{--ink:#102828;--muted:#5d6d6d;--sea:#dcefed;--mint:#edf8f2;--coral:#ff7f6e;--gold:#f7c56b;--sky:#dcecff;--line:#d8e3e1;--card:#ffffff}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:#f7faf9;line-height:1.55}
+    a{color:#12605b} .hero{min-height:74vh;background:linear-gradient(180deg,rgba(12,34,38,.40),rgba(12,34,38,.70)),url("assets/london_eye.jpg") center/cover;display:flex;align-items:end;padding:24px}
+    .hero-inner{max-width:1000px;margin:0 auto;color:white;width:100%;padding-bottom:34px}.kicker{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;font-weight:800}.hero h1{font-size:clamp(2.2rem,7vw,5rem);line-height:.95;margin:.3rem 0}.hero p{font-size:1.1rem;max-width:760px}
+    .topnav{position:sticky;top:0;z-index:2;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto;padding:10px 16px}.topnav a{white-space:nowrap;text-decoration:none;font-weight:750;padding:9px 12px;border-radius:999px;background:var(--mint);color:#173f3d}
+    main{max-width:1120px;margin:0 auto;padding:18px}.section{margin:24px 0}.section h2,.day-body h2{font-size:clamp(1.55rem,4vw,2.5rem);line-height:1.05;margin:0 0 14px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .card,.quick,.ticket-slot,.callout{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;box-shadow:0 10px 28px rgba(22,51,48,.07)}.quick{background:linear-gradient(135deg,#ffffff,#edf8f2)}
+    .copybox{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:#102828;color:white;padding:14px;border-radius:8px;white-space:pre-wrap;margin:12px 0}.copy-btn,.map-btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;background:#173f3d;color:white;text-decoration:none;font-weight:800;padding:9px 12px;cursor:pointer}
+    .checklist{display:grid;gap:8px}.checklist label{background:white;border:1px solid var(--line);border-radius:8px;padding:10px}.apps li{margin:6px 0}.day-card{background:white;border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:26px 0;box-shadow:0 16px 38px rgba(22,51,48,.08)}.day-hero{width:100%;height:270px;object-fit:cover}.day-body{padding:18px}.eyebrow{font-weight:900;color:#b9473b;text-transform:uppercase;font-size:.78rem;letter-spacing:.09em}
+    .glance-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:14px 0}.glance-grid div{background:#f5faf9;border:1px solid var(--line);border-radius:8px;padding:11px}.glance-grid strong{display:block;font-size:.75rem;text-transform:uppercase;color:var(--muted)}.glance-grid span{display:block;font-weight:700;font-size:.93rem}
+    .steps{list-style:none;padding:0;margin:18px 0;display:grid;gap:14px}.steps li{display:grid;grid-template-columns:42px 1fr;gap:12px}.step-num{width:34px;height:34px;border-radius:50%;background:var(--coral);color:white;display:grid;place-items:center;font-weight:900}.steps h4{margin:0 0 3px;font-size:1.05rem}.steps p{margin:0 0 8px}
+    .map-links{display:flex;flex-wrap:wrap;gap:8px}.map-chip{display:flex;gap:7px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px;background:#fbfdfd}.map-chip span{font-size:.88rem}.map-chip .map-btn{font-size:.78rem;padding:6px 8px}.callout-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.callout h3{margin:0 0 7px}.photo{background:#fff8e8}.tired{background:#eef4ff}.rain{background:#eef8f2}
+    .photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.photo-card{margin:0;background:white;border:1px solid var(--line);border-radius:8px;overflow:hidden}.photo-card img{width:100%;height:170px;object-fit:cover}.photo-card figcaption{font-size:.78rem;color:var(--muted);padding:9px}.map-index{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.map-index a{display:flex;justify-content:space-between;gap:10px;padding:10px;border:1px solid var(--line);background:white;border-radius:8px;text-decoration:none}.transport p{margin:.35rem 0}.footer{color:var(--muted);font-size:.85rem;margin:28px 0}
+    @media(max-width:820px){.two,.three,.glance-grid,.callout-row,.photo-grid,.map-index{grid-template-columns:1fr}.hero{min-height:64vh;padding:18px}.day-hero{height:210px}main{padding:12px}.map-chip{width:100%;justify-content:space-between}.steps li{grid-template-columns:36px 1fr}.topnav{padding:9px 10px}.quick{padding:14px}}
+    @media print{.topnav,.copy-btn,.map-btn{display:none}.hero{min-height:auto;color:#102828;background:none;padding:0}.hero-inner{color:#102828;padding:0}.card,.quick,.day-card,.ticket-slot,.callout{box-shadow:none}.day-card{break-inside:avoid}.photo-grid{grid-template-columns:repeat(2,1fr)}body{background:white}main{max-width:none}.day-hero{height:180px}}
+    </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="kicker">June 26-29, 2026</div>
+      <h1>London Birthday Trip</h1>
+      <p>A first-time London guide for Tiffany Bediner and Collin Bediner: practical, flexible, photo-friendly, and easy to follow from a phone.</p>
+    </div>
+  </header>
+  <nav class="topnav">
+    <a href="#quick">Quick Reference</a><a href="#todo">To Do</a><a href="#tickets">Ticket Wallet</a><a href="#day-1">Day 1</a><a href="#day-2">Day 2</a><a href="#day-3">Day 3</a><a href="#maps">Maps</a>
+  </nav>
+  <main>
+    <section class="section quick" id="quick">
+      <h2>Quick Reference</h2>
+      <div class="grid two">
+        <div>
+          <p><strong>Travelers:</strong> Tiffany Bediner, 20; Collin Bediner, 14<br>
+          <strong>Trip dates:</strong> Travel starts Thursday, June 25, 2026; arrive London Friday morning, June 26; depart London Monday, June 29.</p>
+          <p><strong>Hotel:</strong> Holiday Inn Express London - Victoria<br>
+          <strong>Address:</strong> 106-110 Belgrave Road, London SW1V 2BJ, United Kingdom<br>
+          <strong>Phone:</strong> +44 20 7630 8888<br>
+          <strong>Nearest Tube:</strong> Pimlico<br>
+          <strong>Main nearby hub:</strong> Victoria Station<br>
+          <strong>UK emergency number:</strong> 999</p>
+          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Holiday%20Inn%20Express%20London%20-%20Victoria%2C%20106-110%20Belgrave%20Road%2C%20London%20SW1V%202BJ" target="_blank" rel="noopener">Open in Google Maps</a>
+        </div>
+        <div>
+          <p><strong>Parent contacts:</strong><br>Parent 1: ____________________<br>Parent 2: ____________________</p>
+          <p>Save the hotel in Uber and Google Maps before leaving home. Use Uber or FREENOW when tired; use only Uber, FREENOW, or an official black cab.</p>
+        </div>
+      </div>
+      <h3>Copy / Paste Hotel Address</h3>
+      <div class="copybox" id="hotel-copy">Holiday Inn Express London - Victoria
+106-110 Belgrave Road
+London SW1V 2BJ
+United Kingdom
+Phone: +44 20 7630 8888</div>
+      <button class="copy-btn" id="copy-btn" onclick="copyHotel()">Copy hotel address</button>
+    </section>
+
+    <section class="section grid two" id="todo">
+      <div class="card"><h2>To Do Before Travel</h2><div class="checklist"><label><input type="checkbox"> Order British pounds from Chase</label><label><input type="checkbox"> Download TripIt</label><label><input type="checkbox"> Download JetBlue app</label><label><input type="checkbox"> Download offline maps for London</label><label><input type="checkbox"> Download TfL Go</label><label><input type="checkbox"> Download Uber</label><label><input type="checkbox"> Download FREENOW</label><label><input type="checkbox"> Apply for UK ETA for Tiffany and Collin</label><label><input type="checkbox"> Buy Big Bus London hop-on hop-off tickets</label><label><input type="checkbox"> Buy London Eye tickets</label><label><input type="checkbox"> Save hotel address as favorite in Uber</label><label><input type="checkbox"> Save hotel address in Google Maps</label><label><input type="checkbox"> Save parent travel consent letter on both phones</label></div></div>
+      <div class="card"><h2>To Bring</h2><div class="checklist"><label><input type="checkbox"> Passports</label><label><input type="checkbox"> International chargers / UK plug adapters</label><label><input type="checkbox"> Copies of UK ETA confirmations</label><label><input type="checkbox"> Copy of parental travel consent letter</label><label><input type="checkbox"> Printed hotel confirmation</label><label><input type="checkbox"> Printed return flight confirmation</label><label><input type="checkbox"> Portable phone charger</label><label><input type="checkbox"> Comfortable shoes</label><label><input type="checkbox"> Rain jacket or small umbrella</label><label><input type="checkbox"> Small amount of cash</label><label><input type="checkbox"> Credit/debit card</label><label><input type="checkbox"> Medication, if applicable</label></div></div>
+    </section>
+
+    <section class="section card" id="tickets"><h2>Ticket Wallet</h2><p>Keep screenshots saved on both phones, plus printed copies for the most important items.</p><div class="grid three"><div class="ticket-slot"><strong>Big Bus ticket</strong><span>Add confirmation number, QR code note, or screenshot location.</span></div><div class="ticket-slot"><strong>London Eye ticket</strong><span>Add confirmation number, QR code note, or screenshot location.</span></div><div class="ticket-slot"><strong>Flight confirmation</strong><span>Add confirmation number, QR code note, or screenshot location.</span></div><div class="ticket-slot"><strong>Hotel confirmation</strong><span>Add confirmation number, QR code note, or screenshot location.</span></div><div class="ticket-slot"><strong>UK ETA confirmations</strong><span>Add confirmation number, QR code note, or screenshot location.</span></div><div class="ticket-slot"><strong>Parent travel consent letter</strong><span>Add confirmation number, QR code note, or screenshot location.</span></div></div></section>
+
+    <section class="section card transport">
+      <h2>Transportation Tips</h2>
+      <p><strong>Use the Tube for most daytime travel.</strong> Each person needs their own contactless card, phone, or Oyster card. Use the same device to tap in and tap out. Do not tap in with a phone and tap out with an Apple Watch or a different card.</p>
+      <p><strong>Keep phone battery charged.</strong> Use TfL Go and Google Maps to confirm routes each morning.</p>
+      <p><strong>Use Uber or a black cab at night if tired.</strong> Uber is usually cheaper. A black cab may feel easier and more official if one is available. FREENOW can book black cabs.</p>
+      <p><strong>Never accept rides from anyone offering a car on the street.</strong> Use only Uber, FREENOW, or an official black cab with a TAXI light.</p>
+      <p><strong>Night 1 rule:</strong> Do not take the Tube back on Night 1. Take Uber directly to the hotel. If Uber is too expensive, confusing, or pickup looks difficult, use FREENOW or an official black cab.</p>
+    </section>
+
+    <section class="section grid two">
+      <div class="card"><h2>Apps To Have</h2><ul class="apps"><li>Google Maps</li><li>TfL Go</li><li>Uber</li><li>FREENOW</li><li>JetBlue app</li><li>TripIt</li></ul></div>
+      <div class="card"><h2>Safety and Common Sense</h2><p>Stay together. Stay on main streets and main walking routes. Keep phones zipped away when not actively using them. Use Uber or black cab if tired or if it feels late. Do not accept rides from strangers. Message parents when leaving the hotel, arriving at major stops, and heading back. Carry passport copies, not passports, during daily sightseeing unless otherwise needed. Use the hotel address if you ever need help getting back.</p></div>
+    </section>
+
+    <section class="section card"><h2>Food Strategy</h2><p>Do not over-plan restaurants. Most meals should be casual walk-in areas so the day can flex around weather, energy, and crowds.</p><ul><li><strong>Near hotel:</strong> Tachbrook Street / Warwick Way for easy food near the hotel.</li><li><strong>Day 1 dinner:</strong> Southbank Centre / Royal Festival Hall for casual walk-in options.</li><li><strong>Day 2 lunch:</strong> Borough Market. Walk around first, then choose.</li><li><strong>West End:</strong> Chinatown, Soho, Covent Garden, and Seven Dials for casual dinner, snacks, and dessert.</li><li><strong>Day 3 lunch:</strong> Camden Market for street food and snacks.</li></ul></section>
+
+    
+            <section class="day-card" id="day-1">
+              <img class="day-hero" src="assets/london_eye.jpg" alt="London Eye">
+              <div class="day-body">
+                <p class="eyebrow">Day 1 - Friday, June 26</p>
+                <h2>Victoria, Westminster and South Bank</h2>
+                <div class="glance-grid">
+                  <div><strong>Main area</strong><span>Victoria / Westminster / South Bank</span></div>
+                  <div><strong>Transportation</strong><span>Walking + Big Bus + Uber home</span></div>
+                  <div><strong>Food</strong><span>Casual lunch near hotel; casual dinner at Southbank Centre / Royal Festival Hall</span></div>
+                  <div><strong>Tickets</strong><span>Big Bus and London Eye</span></div>
+                  <div><strong>Night return</strong><span>Uber directly back to the hotel</span></div>
+                </div>
+                <ol class="steps">
+                <li>
+                  <div class="step-num">1</div>
+                  <div>
+                    <h4>Eat near the hotel</h4>
+                    <p>Walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.</p>
+                    <div class="map-links"><span class="map-chip"><span>Tachbrook Street Market</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tachbrook%20Street%20Market%2C%20Pimlico" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">2</div>
+                  <div>
+                    <h4>Start the bus loop</h4>
+                    <p>Walk to the Victoria Station / Buckingham Palace Road entrance. Board the Hop-On / Hop-Off Big Bus that matches your ticket.</p>
+                    <div class="map-links"><span class="map-chip"><span>Victoria Station Buckingham Palace Road entrance</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Victoria%20Station%20Buckingham%20Palace%20Road%20entrance" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">3</div>
+                  <div>
+                    <h4>Sightseeing loop</h4>
+                    <p>Stay on the bus for the main sightseeing loop. You should pass Buckingham Palace / Green Park, Trafalgar Square / Piccadilly, Westminster / Big Ben, and London Eye / South Bank.</p>
+                    
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">4</div>
+                  <div>
+                    <h4>Westminster photos</h4>
+                    <p>Get off near London Eye / Westminster Bridge. Walk: London Eye -&gt; Westminster Bridge -&gt; Big Ben photos -&gt; Parliament Square -&gt; Westminster Abbey exterior -&gt; back to London Eye.</p>
+                    <div class="map-links"><span class="map-chip"><span>London Eye</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=London%20Eye%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Westminster Bridge</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Westminster%20Bridge%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Big Ben</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Big%20Ben%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Parliament Square</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Parliament%20Square%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Westminster Abbey</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Westminster%20Abbey%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">5</div>
+                  <div>
+                    <h4>London Eye</h4>
+                    <p>Ride the London Eye. Aim for a timed ticket around 5:30 PM or 6:00 PM.</p>
+                    <div class="map-links"><span class="map-chip"><span>London Eye</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=London%20Eye%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">6</div>
+                  <div>
+                    <h4>Dinner and river walk</h4>
+                    <p>After the London Eye, walk along Queen&#x27;s Walk. Eat around Southbank Centre / Royal Festival Hall. If you still have energy, continue toward Gabriel&#x27;s Wharf or Oxo Tower.</p>
+                    <div class="map-links"><span class="map-chip"><span>Southbank Centre / Royal Festival Hall</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Southbank%20Centre%20Royal%20Festival%20Hall%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Gabriel&#x27;s Wharf</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Gabriel%27s%20Wharf%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Oxo Tower</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Oxo%20Tower%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">7</div>
+                  <div>
+                    <h4>Go home</h4>
+                    <p>Take an Uber directly back to the hotel. Night 1 return is Uber or black cab, not the Tube.</p>
+                    <div class="map-links"><span class="map-chip"><span>Hotel</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Holiday%20Inn%20Express%20London%20-%20Victoria%2C%20106-110%20Belgrave%20Road%2C%20London%20SW1V%202BJ" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li></ol>
+                <div class="callout-row">
+                  <div class="callout photo"><h3>Photo Spots</h3><ul><li>Big Ben from Westminster Bridge</li><li>London Eye from Westminster Bridge</li><li>Queen&#x27;s Walk river views</li></ul></div>
+                  <div class="callout tired"><h3>If You're Tired</h3><p>If tired after the London Eye, skip the longer Queen&#x27;s Walk and eat near Southbank Centre / Royal Festival Hall, then Uber directly back to the hotel.</p></div>
+                  <div class="callout rain"><h3>Rain Plan</h3><p>If raining, still do the London Eye if tickets are booked, then stay around Southbank Centre / Royal Festival Hall for food and indoor cover. Use Uber back to the hotel.</p></div>
+                </div>
+              </div>
+            </section>
+            <section class="day-card" id="day-2">
+              <img class="day-hero" src="assets/tower_bridge.jpg" alt="Tower Bridge">
+              <div class="day-body">
+                <p class="eyebrow">Day 2 - Saturday, June 27</p>
+                <h2>Tower Bridge, Borough Market and West End Exploring</h2>
+                <div class="glance-grid">
+                  <div><strong>Main area</strong><span>Tower Hill / Tower Bridge / Borough Market / Covent Garden / Soho / Chinatown</span></div>
+                  <div><strong>Transportation</strong><span>Tube + walking; Uber or black cab back if tired</span></div>
+                  <div><strong>Food</strong><span>Borough Market lunch; casual dinner in Soho / Chinatown / Covent Garden</span></div>
+                  <div><strong>Tickets</strong><span>No tickets planned in advance</span></div>
+                  <div><strong>Night return</strong><span>Tube if early and comfortable; Uber or black cab if tired</span></div>
+                </div>
+                <ol class="steps">
+                <li>
+                  <div class="step-num">1</div>
+                  <div>
+                    <h4>Breakfast</h4>
+                    <p>Start with breakfast at the hotel.</p>
+                    
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">2</div>
+                  <div>
+                    <h4>Tube to Tower Hill</h4>
+                    <p>Walk to Pimlico Station. Take Pimlico -&gt; Victoria Station, change at Victoria, then Victoria -&gt; Tower Hill Station. Confirm the easiest route that morning with TfL Go or Google Maps.</p>
+                    <div class="map-links"><span class="map-chip"><span>Pimlico Station</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Pimlico%20Station%2C%20Bessborough%20Street%2C%20London%20SW1V%202JA" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Tower Hill Station</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tower%20Hill%20Station%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">3</div>
+                  <div>
+                    <h4>Tower area</h4>
+                    <p>Walk around the Tower of London area. No need to buy tickets ahead: see it from the outside, take photos, and enjoy the area without committing to a long tour.</p>
+                    <div class="map-links"><span class="map-chip"><span>Tower of London</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tower%20of%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">4</div>
+                  <div>
+                    <h4>Tower Bridge</h4>
+                    <p>Walk to Tower Bridge, take photos outside, and walk across for the views. Only buy Tower Bridge tickets if you decide in the moment that you want to go inside.</p>
+                    <div class="map-links"><span class="map-chip"><span>Tower Bridge</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Tower%20Bridge%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">5</div>
+                  <div>
+                    <h4>Borough Market lunch</h4>
+                    <p>Walk from Tower Bridge along the south side of the Thames toward London Bridge / Borough Market. Saturday will be crowded, so walk around first and pick food casually.</p>
+                    <div class="map-links"><span class="map-chip"><span>Borough Market</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Borough%20Market%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>London Bridge Underground Station</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=London%20Bridge%20Underground%20Station%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">6</div>
+                  <div>
+                    <h4>West End exploring</h4>
+                    <p>Take the Northern line northbound from London Bridge to Leicester Square. Walk Leicester Square -&gt; Covent Garden -&gt; Seven Dials -&gt; Neal&#x27;s Yard -&gt; Soho -&gt; Carnaby Street -&gt; Chinatown.</p>
+                    <div class="map-links"><span class="map-chip"><span>Leicester Square Station</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Leicester%20Square%20Station%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Covent Garden</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Covent%20Garden%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Seven Dials</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Seven%20Dials%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Neal&#x27;s Yard</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Neal%27s%20Yard%2C%20Covent%20Garden%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Soho</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Soho%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Carnaby Street</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Carnaby%20Street%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Chinatown</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Chinatown%20Gate%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">7</div>
+                  <div>
+                    <h4>Dinner and return</h4>
+                    <p>Dinner in Soho, Chinatown, or Covent Garden. Use the Tube if it is still early and comfortable; use Uber or black cab if tired, late, or pickup is easier.</p>
+                    <div class="map-links"><span class="map-chip"><span>Hotel</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Holiday%20Inn%20Express%20London%20-%20Victoria%2C%20106-110%20Belgrave%20Road%2C%20London%20SW1V%202BJ" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li></ol>
+                <div class="callout-row">
+                  <div class="callout photo"><h3>Photo Spots</h3><ul><li>Tower Bridge from the south side of the Thames</li><li>Neal&#x27;s Yard colorful courtyard</li><li>Chinatown gate</li><li>Carnaby Street</li></ul></div>
+                  <div class="callout tired"><h3>If You're Tired</h3><p>If tired after Borough Market, skip the full Soho / Carnaby Street walk and go straight to Covent Garden and Neal&#x27;s Yard, then dinner.</p></div>
+                  <div class="callout rain"><h3>Rain Plan</h3><p>If raining, spend more time around Borough Market, Covent Garden, covered shops, cafes, and Chinatown. Use Tube or Uber between areas as needed.</p></div>
+                </div>
+              </div>
+            </section>
+            <section class="day-card" id="day-3">
+              <img class="day-hero" src="assets/camden_market.jpg" alt="Camden Market">
+              <div class="day-body">
+                <p class="eyebrow">Day 3 - Sunday, June 28</p>
+                <h2>Palace Morning and Camden Daytime Adventure</h2>
+                <div class="glance-grid">
+                  <div><strong>Main area</strong><span>Buckingham Palace / St. James&#x27;s Park / Trafalgar Square / Camden</span></div>
+                  <div><strong>Transportation</strong><span>Walking + Tube; Uber or Tube back depending on timing and energy</span></div>
+                  <div><strong>Food</strong><span>Camden Market lunch; final dinner in Covent Garden, Soho, or near the hotel</span></div>
+                  <div><strong>Tickets</strong><span>No fixed tickets</span></div>
+                  <div><strong>Night return</strong><span>Keep Camden as a daytime stop; return central before final dinner</span></div>
+                </div>
+                <ol class="steps">
+                <li>
+                  <div class="step-num">1</div>
+                  <div>
+                    <h4>Breakfast</h4>
+                    <p>Start with breakfast at the hotel.</p>
+                    
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">2</div>
+                  <div>
+                    <h4>Palace photos</h4>
+                    <p>Walk or take short transit to Buckingham Palace. See the exterior and gates.</p>
+                    <div class="map-links"><span class="map-chip"><span>Buckingham Palace</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Buckingham%20Palace%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">3</div>
+                  <div>
+                    <h4>Park and Mall walk</h4>
+                    <p>Walk through St. James&#x27;s Park, then walk The Mall toward Trafalgar Square.</p>
+                    <div class="map-links"><span class="map-chip"><span>St. James&#x27;s Park</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=St%20James%27s%20Park%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>The Mall</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=The%20Mall%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Trafalgar Square</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Trafalgar%20Square%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">4</div>
+                  <div>
+                    <h4>Tube to Camden</h4>
+                    <p>From central London, take the Tube to Camden Town. Use Google Maps or TfL Go for the best route that morning.</p>
+                    <div class="map-links"><span class="map-chip"><span>Camden Town Station</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Camden%20Town%20Station%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">5</div>
+                  <div>
+                    <h4>Camden Market lunch</h4>
+                    <p>Make Camden Market the daytime anchor. Get lunch and explore the stalls, shops, signs, and street food.</p>
+                    <div class="map-links"><span class="map-chip"><span>Camden Market</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Camden%20Market%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">6</div>
+                  <div>
+                    <h4>Regent&#x27;s Canal if energy is good</h4>
+                    <p>If weather and energy are good, take a short Regent&#x27;s Canal walk near Camden Lock. Keep it short and easy.</p>
+                    <div class="map-links"><span class="map-chip"><span>Regent&#x27;s Canal</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Regent%27s%20Canal%20Camden%20Lock%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li>
+                <li>
+                  <div class="step-num">7</div>
+                  <div>
+                    <h4>Final dinner</h4>
+                    <p>Return toward central London for final dinner in Covent Garden, Soho, or near the hotel. Use Uber or the Tube depending on timing and energy.</p>
+                    <div class="map-links"><span class="map-chip"><span>Covent Garden</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Covent%20Garden%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Soho</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Soho%2C%20London" target="_blank" rel="noopener">Open in Google Maps</a></span>
+<span class="map-chip"><span>Hotel</span><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Holiday%20Inn%20Express%20London%20-%20Victoria%2C%20106-110%20Belgrave%20Road%2C%20London%20SW1V%202BJ" target="_blank" rel="noopener">Open in Google Maps</a></span></div>
+                  </div>
+                </li></ol>
+                <div class="callout-row">
+                  <div class="callout photo"><h3>Photo Spots</h3><ul><li>Buckingham Palace gates</li><li>Camden Market signs</li><li>Queen&#x27;s Walk river views</li></ul></div>
+                  <div class="callout tired"><h3>If You're Tired</h3><p>If tired, skip Regent&#x27;s Canal and spend only 1 to 2 hours at Camden Market before returning toward the hotel.</p></div>
+                  <div class="callout rain"><h3>Rain Plan</h3><p>If raining, shorten the park walk and spend more time in Camden Market covered areas, cafes, and shops.</p></div>
+                </div>
+              </div>
+            </section>
+
+    <section class="section card" id="departure">
+      <h2>Departure Day: Monday, June 29</h2>
+      <p>Keep this morning simple. Eat breakfast at the hotel if timing works, double-check passports and phones before leaving the room, and use the JetBlue app plus the flight confirmation for updates. Use the hotel address and saved ride apps if you need help coordinating pickup.</p>
+    </section>
+
+    <section class="section" id="photos"><h2>Photo Gallery and Sources</h2><div class="photo-grid">
+        <figure class="photo-card">
+          <img src="assets/pimlico.jpg" alt="Hotel area / Pimlico">
+          <figcaption>Hotel area / Pimlico<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/big_ben.jpg" alt="Big Ben">
+          <figcaption>Big Ben<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/london_eye.jpg" alt="London Eye">
+          <figcaption>London Eye<br><a href="https://commons.wikimedia.org/wiki/File:The_London_Eye,_from_Westminster_Bridge.JPG" target="_blank" rel="noopener">Evans1551, public domain</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/westminster_bridge.jpg" alt="Westminster Bridge">
+          <figcaption>Westminster Bridge<br><a href="https://commons.wikimedia.org/wiki/File:Westminster_Bridge_and_Big_Ben.jpg" target="_blank" rel="noopener">Ralf Roletschek, Wikimedia Commons license</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/south_bank.jpg" alt="South Bank / Queen&#x27;s Walk">
+          <figcaption>South Bank / Queen&#x27;s Walk<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/tower_bridge.jpg" alt="Tower Bridge">
+          <figcaption>Tower Bridge<br><a href="https://commons.wikimedia.org/wiki/File:Tower_Bridge_from_South_Bank.jpg" target="_blank" rel="noopener">Helen Ilus, Wikimedia Commons license</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/borough_market.jpg" alt="Borough Market">
+          <figcaption>Borough Market<br><a href="https://commons.wikimedia.org/wiki/File:Borough_Market_in_London.jpg" target="_blank" rel="noopener">Jeong seolah, CC0</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/covent_garden.jpg" alt="Covent Garden">
+          <figcaption>Covent Garden<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/neals_yard.jpg" alt="Neal&#x27;s Yard">
+          <figcaption>Neal&#x27;s Yard<br><a href="https://commons.wikimedia.org/wiki/File:Neal%27s_Yard_(39823638025).jpg" target="_blank" rel="noopener">Paul The Archivist, CC BY-SA 2.0</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/chinatown.jpg" alt="Chinatown">
+          <figcaption>Chinatown<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/buckingham_palace.jpg" alt="Buckingham Palace">
+          <figcaption>Buckingham Palace<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/st_jamess_park.jpg" alt="St. James&#x27;s Park">
+          <figcaption>St. James&#x27;s Park<br><a href="https://commons.wikimedia.org/" target="_blank" rel="noopener">Wikimedia Commons image</a></figcaption>
+        </figure>
+
+        <figure class="photo-card">
+          <img src="assets/camden_market.jpg" alt="Camden Market">
+          <figcaption>Camden Market<br><a href="https://commons.wikimedia.org/wiki/File:Camden_Market_-_London.jpg" target="_blank" rel="noopener">Jim Linwood, CC BY 2.0</a></figcaption>
+        </figure></div></section>
+    <section class="section card" id="maps"><h2>Map Link Index</h2><div class="map-index"><a href="https://www.google.com/maps/search/?api=1&query=Holiday%20Inn%20Express%20London%20-%20Victoria%2C%20106-110%20Belgrave%20Road%2C%20London%20SW1V%202BJ" target="_blank" rel="noopener"><span>Hotel</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Tachbrook%20Street%20Market%2C%20Pimlico" target="_blank" rel="noopener"><span>Tachbrook Street Market</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Victoria%20Station%20Buckingham%20Palace%20Road%20entrance" target="_blank" rel="noopener"><span>Victoria Station Buckingham Palace Road entrance</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=London%20Eye%2C%20London" target="_blank" rel="noopener"><span>London Eye</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Westminster%20Bridge%2C%20London" target="_blank" rel="noopener"><span>Westminster Bridge</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Big%20Ben%2C%20London" target="_blank" rel="noopener"><span>Big Ben</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Parliament%20Square%2C%20London" target="_blank" rel="noopener"><span>Parliament Square</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Westminster%20Abbey%2C%20London" target="_blank" rel="noopener"><span>Westminster Abbey</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Southbank%20Centre%20Royal%20Festival%20Hall%2C%20London" target="_blank" rel="noopener"><span>Southbank Centre / Royal Festival Hall</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Gabriel%27s%20Wharf%2C%20London" target="_blank" rel="noopener"><span>Gabriel&#x27;s Wharf</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Oxo%20Tower%2C%20London" target="_blank" rel="noopener"><span>Oxo Tower</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Pimlico%20Station%2C%20Bessborough%20Street%2C%20London%20SW1V%202JA" target="_blank" rel="noopener"><span>Pimlico Station</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Tower%20Hill%20Station%2C%20London" target="_blank" rel="noopener"><span>Tower Hill Station</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Tower%20of%20London" target="_blank" rel="noopener"><span>Tower of London</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Tower%20Bridge%2C%20London" target="_blank" rel="noopener"><span>Tower Bridge</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Borough%20Market%2C%20London" target="_blank" rel="noopener"><span>Borough Market</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=London%20Bridge%20Underground%20Station%2C%20London" target="_blank" rel="noopener"><span>London Bridge Underground Station</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Leicester%20Square%20Station%2C%20London" target="_blank" rel="noopener"><span>Leicester Square Station</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Covent%20Garden%2C%20London" target="_blank" rel="noopener"><span>Covent Garden</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Seven%20Dials%2C%20London" target="_blank" rel="noopener"><span>Seven Dials</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Neal%27s%20Yard%2C%20Covent%20Garden%2C%20London" target="_blank" rel="noopener"><span>Neal&#x27;s Yard</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Soho%2C%20London" target="_blank" rel="noopener"><span>Soho</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Carnaby%20Street%2C%20London" target="_blank" rel="noopener"><span>Carnaby Street</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Chinatown%20Gate%2C%20London" target="_blank" rel="noopener"><span>Chinatown</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Buckingham%20Palace%2C%20London" target="_blank" rel="noopener"><span>Buckingham Palace</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=St%20James%27s%20Park%2C%20London" target="_blank" rel="noopener"><span>St. James&#x27;s Park</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=The%20Mall%2C%20London" target="_blank" rel="noopener"><span>The Mall</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Trafalgar%20Square%2C%20London" target="_blank" rel="noopener"><span>Trafalgar Square</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Camden%20Market%2C%20London" target="_blank" rel="noopener"><span>Camden Market</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Camden%20Town%20Station%2C%20London" target="_blank" rel="noopener"><span>Camden Town Station</span><b>Open</b></a>
+<a href="https://www.google.com/maps/search/?api=1&query=Regent%27s%20Canal%20Camden%20Lock%2C%20London" target="_blank" rel="noopener"><span>Regent&#x27;s Canal</span><b>Open</b></a></div></section>
+    <p class="footer">Created for Tiffany Bediner and Collin Bediner. All attraction plans stay inside London.</p>
+  </main>
+  <script>
+    function copyHotel(){
+      const text = document.getElementById('hotel-copy').innerText;
+      navigator.clipboard.writeText(text);
+      const btn = document.getElementById('copy-btn');
+      btn.innerText = 'Copied';
+      setTimeout(()=>btn.innerText='Copy hotel address', 1500);
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173f3d">
+  <meta name="description" content="Mobile-first London birthday trip guide for Tiffany and Collin.">
+  <title>London Birthday Trip</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="hero" id="top">
+    <div class="hero__shade"></div>
+    <div class="hero__content">
+      <p class="eyebrow">June 26-29, 2026</p>
+      <h1>London Birthday Trip</h1>
+      <p class="lede">A pocket guide for Tiffany and Collin: where to go, how to get there, what to save, and what to do when plans need to flex.</p>
+      <div class="hero__actions">
+        <a class="button button--light" href="#today">Start Here</a>
+        <a class="button button--ghost" href="#maps">Map Links</a>
+      </div>
+    </div>
+  </header>
+
+  <nav class="dock" aria-label="Primary">
+    <a href="#today">Today</a>
+    <a href="#days">Days</a>
+    <a href="#wallet">Wallet</a>
+    <a href="#maps">Maps</a>
+    <a href="#help">Help</a>
+  </nav>
+
+  <main>
+    <section class="panel quick-panel" id="today">
+      <div>
+        <p class="eyebrow">Quick Reference</p>
+        <h2>Keep this handy</h2>
+      </div>
+      <div class="quick-grid">
+        <article>
+          <span>Hotel</span>
+          <strong>Holiday Inn Express London - Victoria</strong>
+          <p>106-110 Belgrave Road, London SW1V 2BJ</p>
+          <div class="button-row">
+            <a class="button" data-map="Hotel" target="_blank" rel="noopener">Open Map</a>
+            <button class="button button--secondary" data-copy-hotel>Copy Address</button>
+          </div>
+        </article>
+        <article>
+          <span>Transit</span>
+          <strong>Nearest Tube: Pimlico</strong>
+          <p>Main nearby hub: Victoria Station. Use TfL Go and Google Maps before each move.</p>
+        </article>
+        <article>
+          <span>Emergency</span>
+          <strong>999</strong>
+          <p>For police, ambulance, or fire. Use the hotel address if you need help getting back.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-strip">
+      <div class="mini-card">
+        <span class="mini-card__icon">1</span>
+        <strong>Stay together</strong>
+        <p>Main streets, main routes, phones zipped away when not in use.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-card__icon">2</span>
+        <strong>Keep battery</strong>
+        <p>Charge before leaving, carry the portable charger, save offline maps.</p>
+      </div>
+      <div class="mini-card">
+        <span class="mini-card__icon">3</span>
+        <strong>Use official rides</strong>
+        <p>Uber, FREENOW, or official black cabs only. No street ride offers.</p>
+      </div>
+    </section>
+
+    <section id="days" class="section">
+      <div class="section-heading">
+        <p class="eyebrow">Itinerary</p>
+        <h2>Day by day</h2>
+      </div>
+      <div id="dayCards" class="day-list"></div>
+    </section>
+
+    <section class="section split" id="wallet">
+      <div class="panel">
+        <p class="eyebrow">Before You Go</p>
+        <h2>Checklist</h2>
+        <div id="todoList" class="checklist"></div>
+      </div>
+      <div class="panel">
+        <p class="eyebrow">Ticket Wallet</p>
+        <h2>Save these on both phones</h2>
+        <div id="ticketList" class="wallet-grid"></div>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div class="panel">
+        <p class="eyebrow">Pack</p>
+        <h2>Bring this</h2>
+        <div id="packList" class="checklist"></div>
+      </div>
+      <div class="panel resource-panel">
+        <p class="eyebrow">Resources</p>
+        <h2>Apps and links</h2>
+        <div id="resourceList" class="resource-list"></div>
+      </div>
+    </section>
+
+    <section class="section panel" id="maps">
+      <div class="section-heading">
+        <p class="eyebrow">Maps</p>
+        <h2>Open any stop fast</h2>
+      </div>
+      <label class="search">
+        <span>Search stops</span>
+        <input id="mapSearch" type="search" placeholder="Try Borough, hotel, Camden...">
+      </label>
+      <div id="mapList" class="map-list"></div>
+    </section>
+
+    <section class="section panel" id="help">
+      <p class="eyebrow">When Things Change</p>
+      <h2>Simple fallback rules</h2>
+      <div class="rules-grid">
+        <article>
+          <strong>If tired</strong>
+          <p>Shorten the walk, eat nearby, and use Uber or a black cab back to the hotel.</p>
+        </article>
+        <article>
+          <strong>If it rains</strong>
+          <p>Shift toward markets, cafes, shops, covered areas, and indoor stops. Keep the day easy.</p>
+        </article>
+        <article>
+          <strong>If separated</strong>
+          <p>Stop moving, call each other, share location, and meet at the last agreed major landmark.</p>
+        </article>
+        <article>
+          <strong>If lost</strong>
+          <p>Open the hotel map, use TfL Go, or ask staff inside a shop, station, hotel, or restaurant.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built for on-the-go reference. Last updated from the trip site source files.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
