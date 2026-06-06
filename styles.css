@@ -324,6 +324,25 @@ main {
 .flight-grid {
   grid-template-columns: 1fr;
 }
+.status-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfa;
+}
+.status-toolbar strong,
+.status-toolbar span {
+  display: block;
+}
+.status-toolbar span {
+  color: var(--muted);
+  font-size: .9rem;
+}
 .flight-route {
   display: grid;
   gap: 10px;
@@ -363,6 +382,36 @@ main {
   font-weight: 850;
   text-decoration: none;
 }
+.status-box {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: white;
+}
+.status-box strong {
+  display: inline-flex;
+  margin: 0 0 4px;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: white;
+  background: var(--muted);
+  font-size: .8rem;
+}
+.status-box--ok strong { background: var(--teal); }
+.status-box--delayed strong,
+.status-box--cancelled strong,
+.status-box--alert strong { background: var(--coral); }
+.status-box--inactive strong { background: var(--blue); }
+.status-box dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 9px;
+  margin: 8px 0 0;
+  font-size: .9rem;
+}
+.status-box dt { color: var(--muted); font-weight: 850; }
+.status-box dd { margin: 0; }
 .airport-plan {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -474,6 +523,7 @@ footer {
   .hero { min-height: 72svh; padding: 18px; }
   .hero__content { padding-bottom: 28px; }
   main { padding: 10px; }
+  .status-toolbar { align-items: stretch; flex-direction: column; }
   .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan { grid-template-columns: 1fr; }
   .flight-card { grid-template-columns: 1fr; }
   .panel { padding: 14px; }

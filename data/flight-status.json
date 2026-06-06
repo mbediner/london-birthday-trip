@@ -1,0 +1,67 @@
+{
+  "updatedAt": "2026-06-06T20:48:51.947Z",
+  "source": "scheduled-flightstats",
+  "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
+  "flights": [
+    {
+      "id": "b6-2184",
+      "number": "2184",
+      "route": "RDU -> BOS",
+      "departureIso": "2026-06-25T18:34:00Z",
+      "arrivalIso": "2026-06-25T20:34:00Z",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
+      "activeWindow": {
+        "starts": "2026-06-24T18:34:00.000Z",
+        "ends": "2026-06-25T23:34:00.000Z"
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
+    },
+    {
+      "id": "b6-1620",
+      "number": "1620",
+      "route": "BOS -> LHR",
+      "departureIso": "2026-06-25T22:39:00Z",
+      "arrivalIso": "2026-06-26T05:30:00Z",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
+      "activeWindow": {
+        "starts": "2026-06-24T22:39:00.000Z",
+        "ends": "2026-06-26T08:30:00.000Z"
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
+    },
+    {
+      "id": "b6-20",
+      "number": "20",
+      "route": "LHR -> JFK",
+      "departureIso": "2026-06-29T10:55:00Z",
+      "arrivalIso": "2026-06-29T19:25:00Z",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
+      "activeWindow": {
+        "starts": "2026-06-28T10:55:00.000Z",
+        "ends": "2026-06-29T22:25:00.000Z"
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
+    },
+    {
+      "id": "b6-585",
+      "number": "585",
+      "route": "JFK -> RDU",
+      "departureIso": "2026-06-29T22:30:00Z",
+      "arrivalIso": "2026-06-30T00:33:00Z",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
+      "activeWindow": {
+        "starts": "2026-06-28T22:30:00.000Z",
+        "ends": "2026-06-30T03:33:00.000Z"
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
+    }
+  ]
+}

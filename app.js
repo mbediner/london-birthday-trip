@@ -216,6 +216,7 @@ const airportPlans = [
 ];
 
 const flightScreenshot = "assets/flight_itinerary.jpg";
+let flightStatusData = null;
 
 const photoReminderDates = new Set([
   "2026-06-26",
@@ -333,6 +334,54 @@ function showToast(message) {
   window.setTimeout(() => toast.classList.remove("is-visible"), 2200);
 }
 
+function formatDateTime(value) {
+  if (!value) return "Not updated yet";
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: "short",
+    timeStyle: "short"
+  }).format(new Date(value));
+}
+
+function statusForFlight(flight) {
+  return flightStatusData?.flights?.find(item => item.id === `b6-${flight.number}`) || null;
+}
+
+function maybeNotifyFlightStatus(data) {
+  if (!("Notification" in window) || Notification.permission !== "granted") return;
+  const previous = JSON.parse(localStorage.getItem("flightStatusSnapshot") || "{}");
+  const next = {};
+  for (const flight of data.flights || []) {
+    next[flight.id] = `${flight.statusKind}:${flight.status}:${flight.lastCheckedAt || ""}`;
+    if (
+      previous[flight.id] &&
+      previous[flight.id] !== next[flight.id] &&
+      ["delayed", "cancelled", "alert"].includes(flight.statusKind)
+    ) {
+      new Notification(`Flight ${flight.number}: ${flight.status}`, {
+        body: flight.message || "Check JetBlue and airport screens before acting."
+      });
+    }
+  }
+  localStorage.setItem("flightStatusSnapshot", JSON.stringify(next));
+}
+
+async function loadFlightStatus({ force = false } = {}) {
+  const summary = document.querySelector("#flightStatusSummary");
+  summary.textContent = force ? "Checking latest site data..." : "Loading status...";
+  try {
+    const response = await fetch(`data/flight-status.json?ts=${Date.now()}`);
+    if (!response.ok) throw new Error(`Status file ${response.status}`);
+    flightStatusData = await response.json();
+    summary.textContent = `Last updated: ${formatDateTime(flightStatusData.updatedAt)}`;
+    maybeNotifyFlightStatus(flightStatusData);
+    renderFlights();
+    if (force) showToast("Flight status refreshed from latest site data");
+  } catch (error) {
+    summary.textContent = "Status cache unavailable. Use tracker links.";
+    if (force) showToast("Could not refresh cached status");
+  }
+}
+
 function localDateKey(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -422,6 +471,7 @@ function renderFlights() {
             <strong>${flight.route}</strong>
             <p>${flight.day} | ${flight.airline} | Conf. ${flight.confirmation}</p>
             <p>${flight.terminal} | ${flight.arrive}</p>
+            ${renderFlightStatusBox(statusForFlight(flight))}
             <div class="tracker-links">
               ${flightTrackers(flight).map(([label, url]) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
             </div>
@@ -436,6 +486,29 @@ function renderFlights() {
           <ul>${plan.bullets.map(item => `<li>${item}</li>`).join("")}</ul>
         </article>
       `).join("")}
+    </div>
+  `;
+}
+
+function renderFlightStatusBox(status) {
+  if (!status) {
+    return `
+      <div class="status-box status-box--unknown">
+        <strong>Status loading</strong>
+        <p>Use tracker links if this does not update.</p>
+      </div>
+    `;
+  }
+  return `
+    <div class="status-box status-box--${status.statusKind || "unknown"}">
+      <strong>${status.status}</strong>
+      <p>${status.message || ""}</p>
+      <dl>
+        <dt>Last checked</dt><dd>${formatDateTime(status.lastCheckedAt)}</dd>
+        <dt>Departure</dt><dd>${status.departure?.estimated || status.departure?.scheduled || "Not available"}</dd>
+        <dt>Arrival</dt><dd>${status.arrival?.estimated || status.arrival?.scheduled || "Not available"}</dd>
+        <dt>Gate</dt><dd>${status.departure?.gate || "Not available"}</dd>
+      </dl>
     </div>
   `;
 }
@@ -504,6 +577,18 @@ function wireEvents() {
 
   document.querySelector("#mapSearch").addEventListener("input", event => renderMaps(event.target.value));
 
+  document.querySelector("[data-refresh-flight-status]").addEventListener("click", async () => {
+    await loadFlightStatus({ force: true });
+  });
+  document.querySelector("[data-enable-flight-alerts]").addEventListener("click", async () => {
+    if (!("Notification" in window)) {
+      showToast("Browser notifications are not supported here");
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    showToast(permission === "granted" ? "Flight alerts enabled while this site is open" : "Flight alerts were not enabled");
+  });
+
   document.querySelectorAll("[data-photo-reminder]").forEach(button => {
     button.addEventListener("click", () => openPhotoReminder(true));
   });
@@ -525,4 +610,5 @@ renderBooking();
 renderResources();
 renderMaps();
 wireEvents();
+loadFlightStatus();
 window.setTimeout(() => openPhotoReminder(false), 900);

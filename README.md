@@ -88,14 +88,32 @@ Avoid installing local `node_modules` inside this Google Drive folder. The sync 
 
 ## Flight Tracking
 
-The public site includes one-tap tracker links for each JetBlue leg:
+The public site includes a no-paid flight status system:
 
+- GitHub Actions runs `tools/update-flight-status.mjs` every 30 minutes.
+- The script checks only flights inside their monitoring window: 24 hours before departure through 3 hours after scheduled arrival.
+- The script writes `data/flight-status.json`.
+- The site reads that JSON and shows each flight's status, last checked time, estimated departure/arrival, and gate when available.
+- The `Update Now` button refreshes the latest status data already published to the site.
+- Browser alerts can notify about status changes while the site is open and notification permission is granted.
 - Google Status search for the free Google flight-status card.
 - JetBlue flight tracker and app for the source of truth.
 - FlightStats for public flight status pages.
 - FlightAware for live tracking near departure/in-flight windows.
 
-No paid flight API is required. Google does not provide a simple public flight-status API for this static site, so the free path is to open Google's flight-status result directly for each flight.
+No paid flight API is required. Google does not provide a simple public flight-status API for this static site, so the free on-demand path is to open Google's flight-status result directly for each flight.
+
+To test the status updater locally:
+
+```powershell
+npm run flight:update
+```
+
+To simulate an active window:
+
+```powershell
+$env:FLIGHT_STATUS_NOW="2026-06-25T19:00:00Z"; npm run flight:update
+```
 
 ## Google Drive Sync Safety
 

@@ -6,6 +6,7 @@
   "scripts": {
     "check": "node --check app.js",
     "drive:preflight": "powershell -ExecutionPolicy Bypass -File tools/drive-preflight.ps1",
+    "flight:update": "node tools/update-flight-status.mjs",
     "preview": "python -m http.server 4173"
   },
   "devDependencies": {}

@@ -38,3 +38,12 @@ Every time a commit is pushed, the final response must include the live site URL
 - Copy approved screenshots into `assets/` with clear names.
 - Link the screenshot from the relevant itinerary section so it is easy to open on a phone.
 - If exact confirmation numbers or PINs are not clearly legible, add fill-in fields instead of guessing.
+
+## Flight Status Automation
+
+- Flight status checks run from GitHub Actions every 30 minutes.
+- Checks only fetch live status during each flight's active window: 24 hours before departure until 3 hours after scheduled arrival.
+- The site reads `data/flight-status.json` and shows last updated / last checked times.
+- `Update Now` refreshes the latest published JSON in the browser. It cannot secretly start a GitHub Actions run without a private token.
+- For immediate human confirmation, use the Google Status and JetBlue buttons.
+- Browser notifications work while the site is open and notification permission is granted. Closed-phone push requires a real push service or airline app notifications.
