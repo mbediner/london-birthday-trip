@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-06T20:48:51.947Z",
+  "updatedAt": "2026-06-06T20:52:11.505Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
