@@ -6,6 +6,7 @@ Phone: +44 20 7630 8888`;
 
 const mapQueries = {
   "Hotel": "Holiday Inn Express London - Victoria, 106-110 Belgrave Road, London SW1V 2BJ",
+  "London Heathrow Airport": "London Heathrow Airport",
   "Tachbrook Street Market": "Tachbrook Street Market, Pimlico",
   "Victoria Station": "Victoria Station Buckingham Palace Road entrance",
   "London Eye": "London Eye, London",
@@ -45,12 +46,14 @@ const days = [
     title: "Victoria, Westminster and South Bank",
     image: "assets/london_eye.jpg",
     area: "Victoria / Westminster / South Bank",
-    transport: "Walking + Big Bus + Uber home",
+    transport: "Airport transfer + bag drop + walking + Big Bus + Uber home",
     food: "Casual lunch near hotel; casual dinner at Southbank Centre",
     tickets: "Big Bus and London Eye",
     night: "Uber directly back to the hotel",
     steps: [
-      ["Eat near the hotel", "Walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
+      ["Arrive and get to the hotel", "After landing, go straight from the airport to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags with the hotel before sightseeing.", ["London Heathrow Airport", "Hotel"]],
+      ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
+      ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
       ["Start the bus loop", "Walk to Victoria Station / Buckingham Palace Road entrance. Board the Hop-On / Hop-Off Big Bus that matches your ticket.", ["Victoria Station"]],
       ["Sightseeing loop", "Stay on the bus for the main sightseeing loop through Buckingham Palace, Trafalgar Square, Westminster, Big Ben, London Eye, and South Bank.", []],
       ["Westminster photos", "Get off near London Eye / Westminster Bridge. Walk London Eye to Westminster Bridge to Big Ben photos to Parliament Square to Westminster Abbey exterior.", ["London Eye", "Westminster Bridge", "Big Ben", "Parliament Square", "Westminster Abbey"]],
@@ -121,6 +124,7 @@ const todo = [
   "Apply for UK ETA for Tiffany and Collin",
   "Buy Big Bus London hop-on hop-off tickets",
   "Buy London Eye tickets",
+  "Confirm hotel luggage storage for arrival morning before check-in",
   "Save hotel address as favorite in Uber",
   "Save hotel address in Google Maps",
   "Save parent travel consent letter on both phones"
@@ -162,6 +166,7 @@ const booking = {
   actionItems: [
     "Save the Booking.com confirmation email on both phones.",
     "Open the Booking.com app before leaving and confirm the reservation appears there.",
+    "Confirm the hotel can store bags on arrival day before check-in.",
     "Screenshot the confirmation page, confirmation number, PIN, check-in rules, and payment details.",
     "Add the confirmation number and PIN to the Ticket Wallet once they are copied from the email.",
     "Use the hotel address in this guide for Uber, FREENOW, Google Maps, and emergency help."
