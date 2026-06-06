@@ -6,7 +6,10 @@ Phone: +44 20 7630 8888`;
 
 const mapQueries = {
   "Hotel": "Holiday Inn Express London - Victoria, 106-110 Belgrave Road, London SW1V 2BJ",
+  "RDU Airport": "Raleigh-Durham International Airport",
+  "Boston Logan Airport": "Boston Logan International Airport",
   "London Heathrow Airport": "London Heathrow Airport",
+  "JFK Airport": "John F. Kennedy International Airport",
   "Tachbrook Street Market": "Tachbrook Street Market, Pimlico",
   "Victoria Station": "Victoria Station Buckingham Palace Road entrance",
   "London Eye": "London Eye, London",
@@ -51,7 +54,7 @@ const days = [
     tickets: "Big Bus and London Eye",
     night: "Uber directly back to the hotel",
     steps: [
-      ["Arrive and get to the hotel", "After landing, go straight from the airport to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags with the hotel before sightseeing.", ["London Heathrow Airport", "Hotel"]],
+      ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
       ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
       ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
       ["Start the bus loop", "Walk to Victoria Station / Buckingham Palace Road entrance. Board the Hop-On / Hop-Off Big Bus that matches your ticket.", ["Victoria Station"]],
@@ -113,6 +116,88 @@ const days = [
   }
 ];
 
+const flights = [
+  {
+    day: "Thursday, June 25",
+    time: "2:34 PM EDT",
+    route: "RDU -> BOS",
+    airline: "JetBlue B6 2184",
+    confirmation: "KDHSOU",
+    terminal: "Depart Terminal 2",
+    arrive: "Arrive 4:34 PM EDT"
+  },
+  {
+    day: "Thursday, June 25",
+    time: "6:39 PM EDT",
+    route: "BOS -> LHR",
+    airline: "JetBlue B6 1620",
+    confirmation: "KDHSOU",
+    terminal: "Depart Terminal C",
+    arrive: "Arrive Friday, June 26 at 6:30 AM BST"
+  },
+  {
+    day: "Monday, June 29",
+    time: "11:55 AM BST",
+    route: "LHR -> JFK",
+    airline: "JetBlue B6 20",
+    confirmation: "KDHSOU",
+    terminal: "Depart Terminal 2",
+    arrive: "Arrive 3:25 PM EDT"
+  },
+  {
+    day: "Monday, June 29",
+    time: "6:30 PM EDT",
+    route: "JFK -> RDU",
+    airline: "JetBlue B6 585",
+    confirmation: "KDHSOU",
+    terminal: "Depart Terminal 5",
+    arrive: "Arrive 8:33 PM EDT"
+  }
+];
+
+const airportPlans = [
+  {
+    title: "Arrival: Heathrow to hotel",
+    bullets: [
+      "Land at Heathrow at 6:30 AM BST on Friday, June 26.",
+      "Plan 60-90 minutes for immigration, bathrooms, bags, and getting oriented.",
+      "Plan 60-90 minutes from Heathrow to the hotel once you start moving.",
+      "Realistic hotel arrival target: about 8:45-10:00 AM.",
+      "Check-in is later, so ask the front desk to store luggage."
+    ]
+  },
+  {
+    title: "Best arrival route with bags",
+    bullets: [
+      "Easiest: Uber, FREENOW, or official black cab from Heathrow to the hotel.",
+      "Train/taxi option: Elizabeth line to Paddington, then Uber or black cab to the hotel.",
+      "TfL lists Elizabeth line Paddington-Heathrow travel at about 28 minutes, but transfers and bags add time.",
+      "Avoid planning anything timed before late morning."
+    ]
+  },
+  {
+    title: "Departure: hotel to Heathrow",
+    bullets: [
+      "Flight leaves Heathrow at 11:55 AM BST on Monday, June 29.",
+      "Heathrow recommends arriving 3 hours before international flights.",
+      "Target airport arrival: 8:55 AM.",
+      "Leave the hotel around 7:00-7:15 AM to protect the morning.",
+      "Use the JetBlue app that morning to reconfirm terminal and flight status."
+    ]
+  },
+  {
+    title: "Departure route",
+    bullets: [
+      "Easiest: Uber, FREENOW, or official black cab straight to Heathrow Terminal 2.",
+      "Train/taxi option: taxi/Uber to Paddington, then Elizabeth line or Heathrow Express to Heathrow.",
+      "Eat early or bring breakfast snacks; this is not a slow hotel morning.",
+      "Keep passports and flight screenshots out before leaving the hotel."
+    ]
+  }
+];
+
+const flightScreenshot = "assets/flight_itinerary.jpg";
+
 const todo = [
   "Order British pounds from Chase",
   "Download TripIt",
@@ -122,6 +207,7 @@ const todo = [
   "Download Uber",
   "Download FREENOW",
   "Apply for UK ETA for Tiffany and Collin",
+  "Save JetBlue confirmation KDHSOU on both phones",
   "Buy Big Bus London hop-on hop-off tickets",
   "Buy London Eye tickets",
   "Confirm hotel luggage storage for arrival morning before check-in",
@@ -146,6 +232,7 @@ const pack = [
 ];
 
 const tickets = [
+  "JetBlue confirmation KDHSOU",
   "Big Bus ticket",
   "London Eye ticket",
   "Flight confirmation",
@@ -186,6 +273,8 @@ const resources = [
   ["FREENOW black cabs", "https://www.free-now.com/uk/"],
   ["Booking.com", "https://www.booking.com/"],
   ["JetBlue", "https://www.jetblue.com/"],
+  ["Heathrow check-in guidance", "https://www.heathrow.com/departures/checking-in"],
+  ["TfL Heathrow Elizabeth line", "https://rms.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"],
   ["UK ETA", "https://www.gov.uk/guidance/apply-for-an-electronic-travel-authorisation-eta"],
   ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
   ["U.S. Embassy London", "https://uk.usembassy.gov/"]
@@ -261,6 +350,36 @@ function renderTickets() {
   `).join("");
 }
 
+function renderFlights() {
+  document.querySelector("#flightPanel").innerHTML = `
+    <div class="button-row">
+      <a class="button" href="${flightScreenshot}" target="_blank" rel="noopener">Open Flight Screenshot</a>
+      <a class="button button--secondary" href="https://www.heathrow.com/departures/checking-in" target="_blank" rel="noopener">Heathrow Check-In</a>
+      <a class="button button--secondary" href="https://rms.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line" target="_blank" rel="noopener">TfL Heathrow</a>
+    </div>
+    <div class="flight-route">
+      ${flights.map(flight => `
+        <article class="flight-card">
+          <time>${flight.time}</time>
+          <div>
+            <strong>${flight.route}</strong>
+            <p>${flight.day} | ${flight.airline} | Conf. ${flight.confirmation}</p>
+            <p>${flight.terminal} | ${flight.arrive}</p>
+          </div>
+        </article>
+      `).join("")}
+    </div>
+    <div class="airport-plan">
+      ${airportPlans.map(plan => `
+        <article>
+          <h3>${plan.title}</h3>
+          <ul>${plan.bullets.map(item => `<li>${item}</li>`).join("")}</ul>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
 function renderBooking() {
   document.querySelector("#bookingPanel").innerHTML = `
     <article class="booking-card">
@@ -330,6 +449,7 @@ renderDays();
 renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
 renderTickets();
+renderFlights();
 renderBooking();
 renderResources();
 renderMaps();

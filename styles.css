@@ -145,7 +145,7 @@ main {
 .panel { padding: 16px; }
 .quick-panel { background: linear-gradient(135deg, #ffffff, #edf8f2); }
 
-.quick-grid, .section-strip, .split, .rules-grid, .booking-grid {
+.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid {
   display: grid;
   gap: 12px;
 }
@@ -317,6 +317,53 @@ main {
   object-fit: contain;
   background: white;
 }
+.flight-grid {
+  grid-template-columns: 1fr;
+}
+.flight-route {
+  display: grid;
+  gap: 10px;
+}
+.flight-card {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfa;
+}
+.flight-card time {
+  color: var(--blue);
+  font-weight: 900;
+}
+.flight-card strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.05rem;
+}
+.flight-card p { margin: 0; color: var(--muted); }
+.airport-plan {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+.airport-plan article {
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: white;
+}
+.airport-plan h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+.airport-plan ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.airport-plan li { margin: 6px 0; }
 .resource-panel { background: #102828; color: white; }
 .resource-panel .eyebrow { color: #ffe19b; }
 .resource-list a { color: var(--ink); }
@@ -376,7 +423,8 @@ footer {
   .hero { min-height: 72svh; padding: 18px; }
   .hero__content { padding-bottom: 28px; }
   main { padding: 10px; }
-  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid { grid-template-columns: 1fr; }
+  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan { grid-template-columns: 1fr; }
+  .flight-card { grid-template-columns: 1fr; }
   .panel { padding: 14px; }
   .day-card img { height: 210px; }
   .button-row .button, .hero__actions .button { flex: 1 1 140px; }
