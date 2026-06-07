@@ -40,8 +40,10 @@ Design changes happen in `styles.css`. The site intentionally has no build depen
 1. Edit the site files.
 2. Commit the changes.
 3. Push to the `main` branch.
-4. GitHub Actions runs `Deploy GitHub Pages`.
-5. The public site updates automatically.
+4. GitHub Actions runs validation and `Deploy GitHub Pages`.
+5. The public site updates automatically only after the workflow succeeds.
+6. Send a family release email for every new feature.
+7. Print the public site URL.
 
 The deployment workflow uses official GitHub Pages actions:
 
@@ -176,6 +178,13 @@ After every push, print the live site URL so the newest version can be checked i
 See `SOP.md` for the standard update process. The live URL must be printed after every commit and push:
 
 https://mbediner.github.io/london-birthday-trip/
+
+Every new feature release must also email:
+
+- To: `mbediner@gmail.com`
+- CC: `rbediner@gmail.com`, `tbediner@gmail.com`, `collin.bediner@gmail.com`
+
+The email should explain the new feature, why it matters, QA completed, any action needed, and the live site link. Send it only after QA passes and GitHub Pages deployment succeeds.
 
 ## Photo Sources
 

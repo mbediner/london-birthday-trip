@@ -18,7 +18,8 @@ Use this standard process every time the London Birthday Trip site changes.
 6. Commit the finished change.
 7. Push to `main`.
 8. Confirm the GitHub Pages deployment succeeds.
-9. Print the live site URL for review:
+9. Email the release note to the family list with the new feature summary and live site URL.
+10. Print the live site URL for review:
 
 https://mbediner.github.io/london-birthday-trip/
 
@@ -26,6 +27,31 @@ https://mbediner.github.io/london-birthday-trip/
 
 Every time a commit is pushed, the final response must include the live site URL.
 When adding a new feature, do not stop at implementation. QA it, commit it, push it, verify deployment, and print the live site URL.
+Every new feature release must also send an email update after the production deployment succeeds.
+
+## Production Promotion
+
+- `main` is the production branch.
+- GitHub Pages is production.
+- Do not push feature work to production until the relevant QA commands pass locally.
+- The GitHub Pages workflow runs validation before deploying, so production promotion only completes after CI succeeds.
+- After the deployment succeeds, verify the live site when practical with a direct fetch or browser check.
+
+## Family Release Email
+
+Send a release email after every successful feature deployment.
+
+- To: `mbediner@gmail.com`
+- CC: `rbediner@gmail.com`, `tbediner@gmail.com`, `collin.bediner@gmail.com`
+- Subject format: `London Trip App Update: <short feature name>`
+- Body must include:
+  - What changed, in plain English.
+  - Why it matters for the trip.
+  - Any action Tiffany, Collin, Roman, or Marianna should take.
+  - QA completed.
+  - Production/live site URL: `https://mbediner.github.io/london-birthday-trip/`
+- Send the email only after QA passes, the commit is pushed, and GitHub Pages deployment succeeds.
+- If deployment or QA fails, do not send a feature email. Fix the issue first.
 
 ## Google Drive Drift Rules
 
