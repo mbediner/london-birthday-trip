@@ -54,3 +54,10 @@ When adding a new feature, do not stop at implementation. QA it, commit it, push
 - Keep the ntfy topic hard to guess. It is public if someone has the topic name.
 - Run `npm run flight:qa` after changing flight tracking logic.
 - Run `npm run flight:update` outside the monitoring windows and confirm it does not create a `data/flight-status.json` diff.
+
+## Calendar Writes
+
+- Use Marianna's Google Calendar connection.
+- Put travel reminders/events on the `Family` calendar, not the primary personal calendar.
+- Before creating real trip events, create and delete one short test event on the Family calendar to prove the connector can write there.
+- If Google Calendar says reauthentication is required, stop calendar writes and ask Marianna to reconnect Google Calendar.

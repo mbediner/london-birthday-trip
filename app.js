@@ -217,6 +217,7 @@ const airportPlans = [
 
 const flightScreenshot = "assets/flight_itinerary.jpg";
 const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
+const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
 let flightStatusData = null;
 
 const photoReminderDates = new Set([
@@ -296,6 +297,7 @@ const booking = {
 
 const resources = [
   ["TfL Go", "https://tfl.gov.uk/maps"],
+  ["Official TfL Tube map", tubeMapUrl],
   ["Google Maps London", "https://www.google.com/maps/place/London,+UK"],
   ["Uber", "https://www.uber.com/gb/en/"],
   ["FREENOW black cabs", "https://www.free-now.com/uk/"],
@@ -309,6 +311,84 @@ const resources = [
   ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")],
   ["Add daily photo reminder", "assets/photo-reminder.ics"],
   ["ntfy phone push setup", `https://ntfy.sh/${ntfyTopic}`]
+];
+
+const tubeBasics = [
+  "Use TfL Go and Google Maps before every Tube move; routes can change because of delays or closures.",
+  "Each person taps in and taps out with their own card, phone, or Oyster card.",
+  "Use the same device for tap in and tap out. Do not mix phone/watch/card.",
+  "Follow the line color and direction, not just the destination. Platform signs show the next train's direction.",
+  "If tired, late, carrying bags, or confused, use Uber, FREENOW, or an official black cab."
+];
+
+const tubeRoutes = [
+  {
+    title: "Heathrow to hotel with bags",
+    tags: ["Elizabeth", "Taxi"],
+    steps: [
+      "Easiest free-planning route: Heathrow Elizabeth line toward central London.",
+      "Get off at Paddington.",
+      "Use Uber, FREENOW, or an official black cab from Paddington to Holiday Inn Express London - Victoria.",
+      "Goal is not speed; goal is low-stress bag drop before check-in."
+    ],
+    backup: "All-cab option: official black cab, Uber, or FREENOW straight from Heathrow to the hotel."
+  },
+  {
+    title: "Hotel to Tower Hill",
+    tags: ["Victoria", "District", "Circle"],
+    steps: [
+      "Walk to Pimlico Station.",
+      "Take Victoria line one stop to Victoria.",
+      "Change to District or Circle line eastbound.",
+      "Get off at Tower Hill.",
+      "Walk to Tower of London / Tower Bridge."
+    ],
+    backup: "If the change feels annoying, use Uber or black cab from hotel to Tower Hill."
+  },
+  {
+    title: "Borough Market to West End",
+    tags: ["Northern"],
+    steps: [
+      "Walk to London Bridge Underground Station.",
+      "Take Northern line northbound via the Charing Cross branch.",
+      "Get off at Leicester Square.",
+      "Walk Leicester Square -> Covent Garden -> Seven Dials -> Neal's Yard -> Soho -> Chinatown."
+    ],
+    backup: "If crowded, stay around Borough Market longer or use Uber to Covent Garden."
+  },
+  {
+    title: "West End back to hotel",
+    tags: ["Piccadilly", "Victoria"],
+    steps: [
+      "From Leicester Square, take Piccadilly line westbound to Green Park.",
+      "Change to Victoria line southbound.",
+      "Get off at Pimlico or Victoria, whichever Google Maps says is easier.",
+      "If it is late or you are tired, skip the Tube and take Uber/FREENOW/black cab."
+    ],
+    backup: "Night 1 rule still applies: Uber or black cab directly to the hotel."
+  },
+  {
+    title: "Central London to Camden",
+    tags: ["Northern"],
+    steps: [
+      "Use Google Maps/TfL Go from your exact location.",
+      "Aim for Camden Town Station on the Northern line.",
+      "At Camden Town, follow signs for Camden Market / Camden Lock.",
+      "Keep Camden as a daytime stop and return central before final dinner."
+    ],
+    backup: "If Camden Town is crowded, use Mornington Crescent or Chalk Farm if TfL/Google suggests it."
+  },
+  {
+    title: "Hotel to Heathrow for departure",
+    tags: ["Elizabeth", "Taxi"],
+    steps: [
+      "Leave hotel around 7:00-7:15 AM.",
+      "Easiest: Uber, FREENOW, or official black cab straight to Heathrow Terminal 2.",
+      "Train/taxi option: taxi or Uber to Paddington, then Elizabeth line or Heathrow Express to Heathrow.",
+      "Target Heathrow arrival is 8:55 AM for the 11:55 AM flight."
+    ],
+    backup: "Use JetBlue app that morning to reconfirm Terminal 2 and flight status."
+  }
 ];
 
 function mapsUrl(name) {
@@ -517,6 +597,38 @@ function renderPhonePush() {
   `;
 }
 
+function routeClass(tag) {
+  return `route-pill route-pill--${tag.toLowerCase().replace(/[^a-z]+/g, "")}`;
+}
+
+function renderTube() {
+  document.querySelector("#tubePanel").innerHTML = `
+    <article class="tube-card">
+      <strong>Official Tube map</strong>
+      <p>Use the official TfL Tube map and always check TfL Go before moving.</p>
+      <div class="button-row">
+        <a class="button" href="${tubeMapUrl}" target="_blank" rel="noopener">Open TfL Tube Map</a>
+        <a class="button button--secondary" href="https://tfl.gov.uk/plan-a-journey/" target="_blank" rel="noopener">TfL Journey Planner</a>
+      </div>
+      <iframe class="tube-map-frame" src="${tubeMapUrl}" title="Official TfL Tube map"></iframe>
+    </article>
+    <article class="tube-card">
+      <strong>Tube rules</strong>
+      <ul>${tubeBasics.map(item => `<li>${item}</li>`).join("")}</ul>
+    </article>
+    <div class="tube-routes">
+      ${tubeRoutes.map(route => `
+        <article class="tube-card">
+          <strong>${route.title}</strong>
+          <div>${route.tags.map(tag => `<span class="${routeClass(tag)}">${tag}</span>`).join("")}</div>
+          <ol>${route.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+          <p><b>Backup:</b> ${route.backup}</p>
+        </article>
+      `).join("")}
+    </div>
+  `;
+}
+
 function renderFlightStatusBox(status) {
   if (!status) {
     return `
@@ -634,6 +746,7 @@ renderChecklist("#packList", pack, "londonTripPack");
 renderTickets();
 renderFlights();
 renderPhonePush();
+renderTube();
 renderBooking();
 renderResources();
 renderMaps();

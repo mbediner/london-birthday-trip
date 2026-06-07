@@ -145,7 +145,7 @@ main {
 .panel { padding: 16px; }
 .quick-panel { background: linear-gradient(135deg, #ffffff, #edf8f2); }
 
-.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid {
+.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid {
   display: grid;
   gap: 12px;
 }
@@ -464,6 +464,54 @@ main {
   padding-left: 20px;
 }
 .push-card li { margin: 6px 0; }
+.tube-grid {
+  grid-template-columns: 1fr;
+}
+.tube-map-frame {
+  width: 100%;
+  min-height: 460px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: white;
+}
+.tube-card {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfa;
+}
+.tube-card strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+}
+.tube-card ol,
+.tube-card ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.tube-card li { margin: 6px 0; }
+.tube-routes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.route-pill {
+  display: inline-flex;
+  margin: 4px 6px 4px 0;
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: white;
+  background: var(--blue);
+  font-size: .8rem;
+  font-weight: 900;
+}
+.route-pill--victoria { background: #0098d4; }
+.route-pill--district { background: #00782a; }
+.route-pill--circle { background: #ffd329; color: var(--ink); }
+.route-pill--northern { background: #111111; }
+.route-pill--piccadilly { background: #0019a8; }
+.route-pill--elizabeth { background: #6950a1; }
 .resource-panel { background: #102828; color: white; }
 .resource-panel .eyebrow { color: #ffe19b; }
 .resource-list a { color: var(--ink); }
@@ -555,8 +603,9 @@ footer {
   .hero__content { padding-bottom: 28px; }
   main { padding: 10px; }
   .status-toolbar { align-items: stretch; flex-direction: column; }
-  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid { grid-template-columns: 1fr; }
+  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes { grid-template-columns: 1fr; }
   .flight-card { grid-template-columns: 1fr; }
+  .tube-map-frame { min-height: 360px; }
   .panel { padding: 14px; }
   .day-card img { height: 210px; }
   .button-row .button, .hero__actions .button { flex: 1 1 140px; }
