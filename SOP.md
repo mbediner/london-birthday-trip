@@ -10,6 +10,7 @@ Use this standard process every time the London Birthday Trip site changes.
 3. For every new feature, add or update QA coverage that proves the feature works.
 4. Run the relevant local checks.
    - `npm run check` for JavaScript syntax.
+   - `npm run site:qa` for install/offline/site resilience changes.
    - Use browser or Playwright checks when layout or interaction changes.
    - Use feature-specific checks such as `npm run flight:qa` when touching flight tracking.
 5. Run the Drive preflight again before committing:
@@ -54,6 +55,14 @@ When adding a new feature, do not stop at implementation. QA it, commit it, push
 - Keep the ntfy topic hard to guess. It is public if someone has the topic name.
 - Run `npm run flight:qa` after changing flight tracking logic.
 - Run `npm run flight:update` outside the monitoring windows and confirm it does not create a `data/flight-status.json` diff.
+
+## Installable / Offline App
+
+- Keep `site.webmanifest`, `sw.js`, and `assets/icon.svg` in sync when changing the installable app experience.
+- Static trip content should stay cache-first for speed.
+- Flight status JSON should stay network-first so fresh status wins when online and cached status remains available when offline.
+- Run `npm run site:qa` after changing app install, offline cache, critical travel assets, or departure guardrails.
+- If adding a new must-have image, PDF, or local asset, add it to the service worker cache list so it is available when signal is poor.
 
 ## Calendar Writes
 

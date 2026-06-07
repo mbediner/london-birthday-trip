@@ -104,6 +104,7 @@ h2 {
 .button--light { color: var(--green); background: white; }
 .button--ghost { color: white; background: rgba(255, 255, 255, .18); border: 1px solid rgba(255, 255, 255, .42); }
 .button--secondary { color: var(--green); background: var(--mint); }
+.install-button[hidden] { display: none; }
 
 .dock {
   position: sticky;
@@ -145,7 +146,7 @@ main {
 .panel { padding: 16px; }
 .quick-panel { background: linear-gradient(135deg, #ffffff, #edf8f2); }
 
-.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid {
+.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid, .safety-grid, .departure-grid {
   display: grid;
   gap: 12px;
 }
@@ -172,6 +173,23 @@ main {
 .section-strip {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 18px 0;
+}
+.safety-panel {
+  background: linear-gradient(135deg, #ffffff, #fff8df);
+}
+.safety-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.safety-grid article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .82);
+}
+.safety-grid strong {
+  display: block;
+  font-size: 1.05rem;
 }
 .mini-card { padding: 14px; }
 .mini-card__icon {
@@ -433,6 +451,37 @@ main {
   padding-left: 20px;
 }
 .airport-plan li { margin: 6px 0; }
+.departure-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 12px;
+}
+.departure-card {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(135deg, #173f3d, #12605b);
+  color: white;
+}
+.departure-card span {
+  color: #ffe19b;
+  font-size: .75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.departure-card strong {
+  display: block;
+  margin: 5px 0;
+  font-size: 1.06rem;
+}
+.departure-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, .84);
+}
+.departure-card ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+.departure-card li { margin: 6px 0; }
 .push-grid {
   grid-template-columns: 1fr 1fr;
 }
@@ -603,7 +652,7 @@ footer {
   .hero__content { padding-bottom: 28px; }
   main { padding: 10px; }
   .status-toolbar { align-items: stretch; flex-direction: column; }
-  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes { grid-template-columns: 1fr; }
+  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes, .safety-grid, .departure-grid { grid-template-columns: 1fr; }
   .flight-card { grid-template-columns: 1fr; }
   .tube-map-frame { min-height: 360px; }
   .panel { padding: 14px; }

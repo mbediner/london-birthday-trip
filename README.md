@@ -15,6 +15,7 @@ Every time the site is pushed to `main`, GitHub Actions deploys the latest versi
 - `index.html` - site structure and page sections.
 - `styles.css` - mobile-first styling.
 - `app.js` - itinerary data, map links, saved checklists, ticket wallet, and resource rendering.
+- `site.webmanifest` and `sw.js` - installable/offline app support.
 - `assets/` - London photos used by the site.
 - `.github/workflows/pages.yml` - GitHub Pages CI/CD workflow.
 - `.nojekyll` - tells GitHub Pages to serve the static files exactly as-is.
@@ -30,6 +31,7 @@ Most trip changes happen in `app.js`.
 - Update packing items in `pack`.
 - Update ticket reminders in `tickets`.
 - Update app and safety links in `resources`.
+- Update flight departure rules in `departureGuardrails`.
 
 Design changes happen in `styles.css`. The site intentionally has no build dependency, so small edits are easy and fast.
 
@@ -71,6 +73,12 @@ Before pushing JavaScript changes, run:
 
 ```powershell
 npm run check
+```
+
+For the site resilience checks, run:
+
+```powershell
+npm run site:qa
 ```
 
 ## Local Tools
@@ -134,6 +142,18 @@ npm run flight:qa
 ```
 
 The QA suite verifies that inactive dates do not churn the status file, outbound flights are checked during the outbound window, and return flights are checked during the return window.
+
+## Installable Offline App
+
+The site can be added to a phone home screen using the browser's install/add-to-home-screen option.
+
+- `site.webmanifest` supplies the app name, color, and icon.
+- `sw.js` caches the app shell and key trip assets for offline use.
+- Static content uses cache-first loading for speed.
+- `data/flight-status.json` uses network-first loading so fresh flight information wins when a connection is available, with cached status as the fallback.
+- `npm run site:qa` verifies that the manifest, service worker, offline shell, flight-status caching strategy, and departure guardrail rendering are wired.
+
+This does not replace JetBlue app notifications or ntfy phone push. It makes the guide more reliable when cellular service is weak.
 
 ## Google Drive Sync Safety
 

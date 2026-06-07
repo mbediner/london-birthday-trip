@@ -215,10 +215,58 @@ const airportPlans = [
   }
 ];
 
+const departureGuardrails = [
+  {
+    title: "Outbound: leave Raleigh safely",
+    date: "Thursday, June 25",
+    anchor: "B6 2184 RDU -> BOS, 2:34 PM EDT",
+    bullets: [
+      "Set phone alarms for 10:00 AM and 11:00 AM.",
+      "Be at RDU by 12:30 PM for the 2:34 PM departure.",
+      "JetBlue confirmation is KDHSOU. Check the JetBlue app before leaving home.",
+      "Use airport screens and gate agents as the source of truth if the website, Google, and JetBlue disagree."
+    ]
+  },
+  {
+    title: "London arrival: bags first",
+    date: "Friday, June 26",
+    anchor: "B6 1620 BOS -> LHR, arrives 6:30 AM BST",
+    bullets: [
+      "After immigration and bags, go to the hotel before sightseeing.",
+      "Ask Holiday Inn Express London - Victoria to store luggage because check-in is later.",
+      "Keep passports, cards, chargers, medicine, and tickets with you.",
+      "Do not book a timed London activity before late morning."
+    ]
+  },
+  {
+    title: "Return: protect Heathrow morning",
+    date: "Monday, June 29",
+    anchor: "B6 20 LHR -> JFK, 11:55 AM BST",
+    bullets: [
+      "Set phone alarms for 6:00 AM and 6:30 AM London time.",
+      "Leave the hotel around 7:00-7:15 AM.",
+      "Target Heathrow arrival is 8:55 AM.",
+      "Use JetBlue app first, then Google Status and the site tracker as backups."
+    ]
+  },
+  {
+    title: "Connection: JFK to Raleigh",
+    date: "Monday, June 29",
+    anchor: "B6 585 JFK -> RDU, 6:30 PM EDT",
+    bullets: [
+      "After landing at JFK, stay airside unless JetBlue or airport staff says otherwise.",
+      "Find the next gate before food.",
+      "If delayed or confused, talk to a JetBlue gate agent immediately.",
+      "Keep parent group text updated at JFK."
+    ]
+  }
+];
+
 const flightScreenshot = "assets/flight_itinerary.jpg";
 const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
 let flightStatusData = null;
+let deferredInstallPrompt = null;
 
 const photoReminderDates = new Set([
   "2026-06-26",
@@ -486,7 +534,7 @@ function closePhotoReminder(markDone = false) {
 function renderDays() {
   document.querySelector("#dayCards").innerHTML = days.map((day, index) => `
     <article class="day-card" id="${day.id}">
-      <img src="${day.image}" alt="${escapeHtml(day.title)}">
+      <img src="${day.image}" alt="${escapeHtml(day.title)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
       <div class="day-body">
         <p class="eyebrow">Day ${index + 1} - ${day.date}</p>
         <h2>${day.title}</h2>
@@ -570,6 +618,17 @@ function renderFlights() {
       `).join("")}
     </div>
   `;
+}
+
+function renderDepartureGuard() {
+  document.querySelector("#departureGuardPanel").innerHTML = departureGuardrails.map(item => `
+    <article class="departure-card">
+      <span>${item.date}</span>
+      <strong>${item.title}</strong>
+      <p>${item.anchor}</p>
+      <ul>${item.bullets.map(bullet => `<li>${bullet}</li>`).join("")}</ul>
+    </article>
+  `).join("");
 }
 
 function renderPhonePush() {
@@ -675,7 +734,7 @@ function renderBooking() {
     <article class="booking-card booking-card--image">
       <strong>Confirmation screenshot</strong>
       <a href="${booking.screenshot}" target="_blank" rel="noopener">
-        <img src="${booking.screenshot}" alt="Booking.com hotel confirmation screenshot">
+        <img src="${booking.screenshot}" alt="Booking.com hotel confirmation screenshot" loading="lazy" decoding="async">
       </a>
     </article>
   `;
@@ -700,9 +759,28 @@ function wireEvents() {
     link.href = mapsUrl(link.dataset.map);
   });
 
-  document.querySelector("[data-copy-hotel]").addEventListener("click", async () => {
-    await navigator.clipboard.writeText(hotelAddress);
-    showToast("Hotel address copied");
+  document.querySelectorAll("[data-copy-hotel]").forEach(button => {
+    button.addEventListener("click", async () => {
+      await navigator.clipboard.writeText(hotelAddress);
+      showToast("Hotel address copied");
+    });
+  });
+
+  window.addEventListener("beforeinstallprompt", event => {
+    event.preventDefault();
+    deferredInstallPrompt = event;
+    document.querySelector("[data-install-app]").hidden = false;
+  });
+
+  document.querySelector("[data-install-app]").addEventListener("click", async () => {
+    if (!deferredInstallPrompt) {
+      showToast("Use your browser menu to add this guide to the home screen");
+      return;
+    }
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    document.querySelector("[data-install-app]").hidden = true;
   });
 
   document.addEventListener("change", event => {
@@ -745,6 +823,7 @@ renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
 renderTickets();
 renderFlights();
+renderDepartureGuard();
 renderPhonePush();
 renderTube();
 renderBooking();
@@ -753,3 +832,11 @@ renderMaps();
 wireEvents();
 loadFlightStatus();
 window.setTimeout(() => openPhotoReminder(false), 900);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {
+      showToast("Offline mode could not start on this browser");
+    });
+  });
+}

@@ -6,6 +6,10 @@
   <meta name="theme-color" content="#173f3d">
   <meta name="description" content="Mobile-first London birthday trip guide for Tiffany and Collin.">
   <title>London Birthday Trip</title>
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icon.svg">
+  <link rel="preload" as="image" href="assets/london_eye.jpg">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -18,6 +22,7 @@
       <div class="hero__actions">
         <a class="button button--light" href="#today">Start Here</a>
         <a class="button button--ghost" href="#maps">Map Links</a>
+        <button class="button button--ghost install-button" data-install-app hidden>Install</button>
       </div>
     </div>
   </header>
@@ -84,6 +89,35 @@
       </div>
     </section>
 
+    <section class="section panel safety-panel" id="safety">
+      <div class="section-heading">
+        <p class="eyebrow">Safety Command Center</p>
+        <h2>If plans wobble, do this</h2>
+      </div>
+      <div class="safety-grid">
+        <article>
+          <strong>Get back to hotel</strong>
+          <p>Use this when tired, lost, separated, or done for the day.</p>
+          <div class="button-row">
+            <a class="button" data-map="Hotel" target="_blank" rel="noopener">Open Hotel Map</a>
+            <button class="button button--secondary" data-copy-hotel>Copy Address</button>
+          </div>
+        </article>
+        <article>
+          <strong>Emergency help</strong>
+          <p>Call 999 for police, ambulance, or fire. The hotel address is 106-110 Belgrave Road, SW1V 2BJ.</p>
+          <div class="button-row">
+            <a class="button button--secondary" href="tel:999">Call 999</a>
+            <a class="button button--secondary" data-map="U.S. Embassy London" target="_blank" rel="noopener">U.S. Embassy</a>
+          </div>
+        </article>
+        <article>
+          <strong>When separated</strong>
+          <p>Stop walking, call each other, share location, and meet at the last agreed major landmark or the hotel.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="section panel" id="flights">
       <div class="section-heading">
         <p class="eyebrow">Flights + Airport</p>
@@ -100,6 +134,7 @@
         </div>
       </div>
       <div id="flightPanel" class="flight-grid"></div>
+      <div id="departureGuardPanel" class="departure-grid"></div>
     </section>
 
     <section class="section panel" id="phone-push">

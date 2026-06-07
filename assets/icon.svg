@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="London Trip">
+  <rect width="512" height="512" rx="96" fill="#173f3d"/>
+  <circle cx="376" cy="122" r="54" fill="#f4c95d"/>
+  <path d="M104 354c52-72 100-108 145-108 38 0 73 25 105 76 18 29 34 46 48 51 20 7 41-3 62-29v70H56v-34c17 2 32-6 48-26Z" fill="#edf8f2"/>
+  <path d="M256 84c-31 56-48 116-48 180 0 57 15 108 48 152 33-44 48-95 48-152 0-64-17-120-48-180Z" fill="#ffffff"/>
+  <path d="M256 84v332" stroke="#d85f50" stroke-width="20" stroke-linecap="round"/>
+  <path d="M208 254h96" stroke="#173f3d" stroke-width="16" stroke-linecap="round"/>
+</svg>

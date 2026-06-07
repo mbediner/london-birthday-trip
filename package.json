@@ -4,8 +4,9 @@
   "private": true,
   "description": "Mobile-first London birthday trip guide for Tiffany and Collin.",
   "scripts": {
-    "check": "node --check app.js",
+    "check": "node --check app.js && node --check sw.js && node --check tools/qa-site.mjs",
     "drive:preflight": "powershell -ExecutionPolicy Bypass -File tools/drive-preflight.ps1",
+    "site:qa": "node tools/qa-site.mjs",
     "flight:update": "node tools/update-flight-status.mjs",
     "flight:qa": "node tools/qa-flight-status.mjs",
     "preview": "python -m http.server 4173"

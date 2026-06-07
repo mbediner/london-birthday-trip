@@ -5,11 +5,29 @@ function Section($name) {
   Write-Host "== $name =="
 }
 
-$repoRoot = (& git rev-parse --show-toplevel).Trim()
+function Resolve-Git {
+  $cmd = Get-Command git -ErrorAction SilentlyContinue
+  if ($cmd) { return $cmd.Source }
+
+  $candidates = @(
+    "C:\Program Files\Git\cmd\git.exe",
+    "C:\Program Files\Git\bin\git.exe",
+    "$env:LOCALAPPDATA\Programs\Git\cmd\git.exe"
+  )
+
+  foreach ($candidate in $candidates) {
+    if (Test-Path -LiteralPath $candidate) { return $candidate }
+  }
+
+  throw "Git was not found. Install Git or add it to PATH before running the Drive preflight."
+}
+
+$git = Resolve-Git
+$repoRoot = (& $git rev-parse --show-toplevel).Trim()
 Set-Location $repoRoot
 
 Section "Refresh Git Index"
-git update-index -q --refresh
+& $git update-index -q --refresh
 
 Section "Google Drive Conflict Files"
 $conflicts = Get-ChildItem -LiteralPath $repoRoot -Recurse -Force -File |
@@ -36,13 +54,13 @@ if ($blocked) {
 Write-Host "No generated dependency/cache folders found."
 
 Section "Whitespace"
-git diff --check
+& $git diff --check
 
 Section "Remote Drift"
-git fetch --quiet origin
-$upstream = (& git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null).Trim()
+& $git fetch --quiet origin
+$upstream = (& $git rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null).Trim()
 if ($upstream) {
-  $counts = (& git rev-list --left-right --count "HEAD...$upstream").Trim() -split "\s+"
+  $counts = (& $git rev-list --left-right --count "HEAD...$upstream").Trim() -split "\s+"
   Write-Host "Ahead: $($counts[0])  Behind: $($counts[1])"
   if ([int]$counts[1] -gt 0) {
     throw "Local branch is behind $upstream. Pull/rebase before editing or pushing."
@@ -52,7 +70,7 @@ if ($upstream) {
 }
 
 Section "Working Tree"
-$status = git status --porcelain=v1
+$status = & $git status --porcelain=v1
 if ($status) {
   $status
   Write-Host ""
@@ -60,4 +78,3 @@ if ($status) {
 } else {
   Write-Host "Working tree is clean."
 }
-
