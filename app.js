@@ -43,6 +43,65 @@ const mapQueries = {
   "Regent's Canal": "Regent's Canal Camden Lock, London"
 };
 
+const routeShortcuts = [
+  {
+    label: "Heathrow to hotel",
+    from: "London Heathrow Airport",
+    to: "Hotel",
+    mode: "transit",
+    note: "Use this after landing. If tired or bags are awkward, switch to Uber/FREENOW/black cab."
+  },
+  {
+    label: "Hotel to Heathrow",
+    from: "Hotel",
+    to: "London Heathrow Airport",
+    mode: "driving",
+    note: "Departure morning backup. Leave around 7:00-7:15 AM for the 11:55 AM flight."
+  },
+  {
+    label: "Hotel to Tower Hill",
+    from: "Hotel",
+    to: "Tower Hill Station",
+    mode: "transit",
+    note: "Day 2 Tube move for Tower of London and Tower Bridge."
+  },
+  {
+    label: "Tower Bridge to Borough Market",
+    from: "Tower Bridge",
+    to: "Borough Market",
+    mode: "walking",
+    note: "Easy Thames-side walk before lunch."
+  },
+  {
+    label: "Borough Market to Covent Garden",
+    from: "Borough Market",
+    to: "Covent Garden",
+    mode: "transit",
+    note: "Use after lunch for the West End walk."
+  },
+  {
+    label: "West End back to hotel",
+    from: "Chinatown",
+    to: "Hotel",
+    mode: "driving",
+    note: "Use Uber/FREENOW/black cab if tired, late, or unsure."
+  },
+  {
+    label: "Hotel to Camden Market",
+    from: "Hotel",
+    to: "Camden Market",
+    mode: "transit",
+    note: "Day 3 route. Keep Camden as a daytime stop."
+  },
+  {
+    label: "Central London to U.S. Embassy",
+    from: "Victoria Station",
+    to: "U.S. Embassy London",
+    mode: "transit",
+    note: "Backup resource if official U.S. help is needed."
+  }
+];
+
 const days = [
   {
     id: "day-1",
@@ -590,6 +649,15 @@ function mapsUrl(name) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQueries[name] || name)}`;
 }
 
+function directionsUrl(from, to, mode = "transit") {
+  return [
+    "https://www.google.com/maps/dir/?api=1",
+    `origin=${encodeURIComponent(mapQueries[from] || from)}`,
+    `destination=${encodeURIComponent(mapQueries[to] || to)}`,
+    `travelmode=${encodeURIComponent(mode)}`
+  ].join("&");
+}
+
 function flightTrackers(flight) {
   const googleQuery = encodeURIComponent(`B6 ${flight.number} ${flight.dateQuery} flight status`);
   return [
@@ -924,6 +992,20 @@ function renderResources() {
   `).join("");
 }
 
+function renderRouteShortcuts() {
+  document.querySelector("#routeShortcutList").innerHTML = routeShortcuts.map(route => `
+    <article class="route-shortcut">
+      <div>
+        <span>${route.mode}</span>
+        <strong>${route.label}</strong>
+        <p>${route.from} -> ${route.to}</p>
+        <p>${route.note}</p>
+      </div>
+      <a class="button" href="${directionsUrl(route.from, route.to, route.mode)}" target="_blank" rel="noopener">Directions</a>
+    </article>
+  `).join("");
+}
+
 function renderMaps(filter = "") {
   const query = filter.trim().toLowerCase();
   const entries = Object.keys(mapQueries).filter(name => name.toLowerCase().includes(query));
@@ -1007,6 +1089,7 @@ renderPhonePush();
 renderTube();
 renderBooking();
 renderResources();
+renderRouteShortcuts();
 renderMaps();
 wireEvents();
 loadFlightStatus();

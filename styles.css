@@ -317,7 +317,7 @@ main {
   font-weight: 850;
 }
 
-.callouts, .wallet-grid, .resource-list, .map-list {
+.callouts, .wallet-grid, .resource-list, .map-list, .route-shortcuts {
   display: grid;
   gap: 10px;
 }
@@ -621,6 +621,40 @@ main {
   background: white;
 }
 .map-list a::after, .resource-list a::after { content: "Open"; color: var(--teal); font-weight: 900; }
+.route-shortcuts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 12px 0;
+}
+.route-shortcut {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfa;
+}
+.route-shortcut span {
+  color: var(--coral);
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.route-shortcut strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 1.03rem;
+}
+.route-shortcut p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+.route-shortcut .button {
+  flex: 0 0 auto;
+}
 .rules-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .rules-grid article {
   padding: 12px;
@@ -691,8 +725,10 @@ footer {
   .hero__content { padding-bottom: 28px; }
   main { padding: 10px; }
   .status-toolbar { align-items: stretch; flex-direction: column; }
-  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes, .safety-grid, .departure-grid { grid-template-columns: 1fr; }
+  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes, .safety-grid, .departure-grid, .route-shortcuts { grid-template-columns: 1fr; }
   .flight-card { grid-template-columns: 1fr; }
+  .route-shortcut { flex-direction: column; }
+  .route-shortcut .button { width: 100%; }
   .tube-map-frame { min-height: 360px; }
   .panel { padding: 14px; }
   .day-card img { height: 210px; }

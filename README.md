@@ -27,6 +27,7 @@ Most trip changes happen in `app.js`.
 
 - Update the daily itinerary in the `days` array.
 - Update Google Maps targets in `mapQueries`.
+- Update one-tap Google Maps direction cards in `routeShortcuts`.
 - Update pre-travel tasks in `todo`.
 - Update packing items in `pack`.
 - Update ticket reminders in `tickets`.
