@@ -146,7 +146,7 @@ main {
 .panel { padding: 16px; }
 .quick-panel { background: linear-gradient(135deg, #ffffff, #edf8f2); }
 
-.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid, .safety-grid, .departure-grid {
+.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid, .safety-grid, .departure-grid, .next-move {
   display: grid;
   gap: 12px;
 }
@@ -173,6 +173,45 @@ main {
 .section-strip {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin: 18px 0;
+}
+.next-panel {
+  background: linear-gradient(135deg, #173f3d, #2f5f98);
+  color: white;
+}
+.next-panel .eyebrow { color: #ffe19b; }
+.next-panel h2 { color: white; }
+.next-move-card {
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .12);
+}
+.next-move-card span {
+  color: #ffe19b;
+  font-size: .78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.next-move-card strong {
+  display: block;
+  margin: 5px 0 8px;
+  font-size: clamp(1.35rem, 6vw, 2.1rem);
+  line-height: 1;
+}
+.next-move-card p {
+  max-width: 780px;
+  margin: 8px 0;
+  color: rgba(255, 255, 255, .9);
+}
+.next-move-card small {
+  display: block;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, .72);
+  font-weight: 850;
+}
+.next-move-card .button--secondary {
+  color: var(--green);
+  background: white;
 }
 .safety-panel {
   background: linear-gradient(135deg, #ffffff, #fff8df);

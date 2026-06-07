@@ -32,6 +32,7 @@ Most trip changes happen in `app.js`.
 - Update ticket reminders in `tickets`.
 - Update app and safety links in `resources`.
 - Update flight departure rules in `departureGuardrails`.
+- Update date-aware next-step guidance in `nextMoveTimeline`.
 
 Design changes happen in `styles.css`. The site intentionally has no build dependency, so small edits are easy and fast.
 

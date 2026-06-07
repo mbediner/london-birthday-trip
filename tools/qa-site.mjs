@@ -11,7 +11,11 @@ assert.match(index, /<link rel="manifest" href="site\.webmanifest">/, "index sho
 assert.match(index, /data-install-app/, "index should include an install control");
 assert.match(app, /serviceWorker\.register\("sw\.js"\)/, "app should register the service worker");
 assert.match(app, /renderDepartureGuard/, "app should render departure guardrails");
+assert.match(app, /nextMoveTimeline/, "app should define date-aware next-step guidance");
+assert.match(app, /renderNextMove/, "app should render date-aware next-step guidance");
 assert.match(styles, /\.departure-grid/, "departure guardrail styles should exist");
+assert.match(styles, /\.next-move-card/, "next-step guidance styles should exist");
+assert.match(index, /id="nextMovePanel"/, "index should include the next-step panel");
 assert.match(worker, /networkFirst\(event\.request\)/, "flight status should use network-first caching");
 assert.match(worker, /cacheFirst\(event\.request\)/, "static shell should use cache-first caching");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");

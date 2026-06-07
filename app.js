@@ -262,6 +262,153 @@ const departureGuardrails = [
   }
 ];
 
+const nextMoveTimeline = [
+  {
+    starts: "2026-06-01T00:00:00-04:00",
+    ends: "2026-06-25T10:00:00-04:00",
+    label: "Before departure",
+    title: "Finish the phone setup",
+    message: "Install JetBlue, TfL Go, Uber/FREENOW, ntfy, and save this site to the phone home screen.",
+    detail: "Confirm passports, UK ETA, consent letter, hotel screenshot, and JetBlue confirmation KDHSOU are saved on both phones.",
+    actions: [
+      ["Open checklist", "#wallet"],
+      ["Phone alerts", "#phone-push"]
+    ]
+  },
+  {
+    starts: "2026-06-25T10:00:00-04:00",
+    ends: "2026-06-25T12:30:00-04:00",
+    label: "Outbound morning",
+    title: "Get to RDU",
+    message: "Leave enough margin to be at RDU by 12:30 PM EDT for B6 2184.",
+    detail: "Check JetBlue first, then use the site tracker and Google Status as backup.",
+    actions: [
+      ["RDU map", "map:RDU Airport"],
+      ["Flights", "#flights"]
+    ]
+  },
+  {
+    starts: "2026-06-25T12:30:00-04:00",
+    ends: "2026-06-25T14:34:00-04:00",
+    label: "RDU airport",
+    title: "Find the gate before food",
+    message: "Use the JetBlue app and airport screens. Be at the gate early for B6 2184.",
+    detail: "If anything disagrees, ask a JetBlue gate agent and update the parent group text.",
+    actions: [
+      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"],
+      ["Flights", "#flights"]
+    ]
+  },
+  {
+    starts: "2026-06-25T16:34:00-04:00",
+    ends: "2026-06-25T18:39:00-04:00",
+    label: "Boston connection",
+    title: "Find the London gate first",
+    message: "At BOS, find the B6 1620 gate before food or wandering.",
+    detail: "The connection is planned at 2h5m. Stay airside unless JetBlue staff tells you otherwise.",
+    actions: [
+      ["Flight status", "#flights"],
+      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"]
+    ]
+  },
+  {
+    starts: "2026-06-26T06:30:00+01:00",
+    ends: "2026-06-26T10:00:00+01:00",
+    label: "London arrival",
+    title: "Go to the hotel and drop bags",
+    message: "After immigration and bags, go straight to Holiday Inn Express London - Victoria.",
+    detail: "Check-in is later. Ask the front desk to store luggage, then keep passports, cards, chargers, tickets, and medicine with you.",
+    actions: [
+      ["Hotel map", "map:Hotel"],
+      ["Tube route", "#tube"]
+    ]
+  },
+  {
+    starts: "2026-06-26T10:00:00+01:00",
+    ends: "2026-06-26T23:00:00+01:00",
+    label: "Day 1",
+    title: "Victoria, Westminster, South Bank",
+    message: "Easy food near the hotel, Big Bus loop, Westminster photos, London Eye, then Uber back.",
+    detail: "Night 1 return is Uber or black cab, not the Tube.",
+    actions: [
+      ["Day 1 plan", "#day-1"],
+      ["Hotel map", "map:Hotel"]
+    ]
+  },
+  {
+    starts: "2026-06-27T07:00:00+01:00",
+    ends: "2026-06-27T23:00:00+01:00",
+    label: "Day 2",
+    title: "Tower Bridge, Borough Market, West End",
+    message: "Tube to Tower Hill, walk Tower Bridge, Borough Market lunch, then West End exploring.",
+    detail: "If tired or it is late, use Uber/FREENOW/black cab back to the hotel.",
+    actions: [
+      ["Day 2 plan", "#day-2"],
+      ["Tube routes", "#tube"]
+    ]
+  },
+  {
+    starts: "2026-06-28T07:00:00+01:00",
+    ends: "2026-06-28T23:00:00+01:00",
+    label: "Day 3",
+    title: "Palace morning and Camden",
+    message: "Buckingham Palace photos, St. James's Park, Camden Market lunch, final dinner central.",
+    detail: "Keep Camden as a daytime stop and return central before final dinner.",
+    actions: [
+      ["Day 3 plan", "#day-3"],
+      ["Camden map", "map:Camden Market"]
+    ]
+  },
+  {
+    starts: "2026-06-29T06:00:00+01:00",
+    ends: "2026-06-29T08:55:00+01:00",
+    label: "Departure morning",
+    title: "Leave for Heathrow",
+    message: "Leave the hotel around 7:00-7:15 AM BST. Target Heathrow arrival is 8:55 AM.",
+    detail: "Use JetBlue first. Keep passports and flight screenshots out before leaving the hotel.",
+    actions: [
+      ["Heathrow map", "map:London Heathrow Airport"],
+      ["Flights", "#flights"]
+    ]
+  },
+  {
+    starts: "2026-06-29T08:55:00+01:00",
+    ends: "2026-06-29T11:55:00+01:00",
+    label: "Heathrow airport",
+    title: "Gate first, food second",
+    message: "Check in, clear security, and find the B6 20 gate before stopping for food.",
+    detail: "Use airport screens and JetBlue agents as the source of truth.",
+    actions: [
+      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"],
+      ["Flights", "#flights"]
+    ]
+  },
+  {
+    starts: "2026-06-29T15:25:00-04:00",
+    ends: "2026-06-29T18:30:00-04:00",
+    label: "JFK connection",
+    title: "Find the Raleigh gate",
+    message: "After landing at JFK, find the B6 585 gate before food.",
+    detail: "If delayed or confused, talk to a JetBlue gate agent immediately.",
+    actions: [
+      ["Flight status", "#flights"],
+      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"]
+    ]
+  },
+  {
+    starts: "2026-06-29T20:33:00-04:00",
+    ends: "2026-07-01T00:00:00-04:00",
+    label: "Back home",
+    title: "Trip complete",
+    message: "You made it back to Raleigh. Send Mom and Dad the best photos.",
+    detail: "Keep passports and important documents in the same safe spot after getting home.",
+    actions: [
+      ["Photo reminder", "#today"],
+      ["Tickets", "#wallet"]
+    ]
+  }
+];
+
 const flightScreenshot = "assets/flight_itinerary.jpg";
 const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
@@ -470,6 +617,37 @@ function formatDateTime(value) {
     dateStyle: "short",
     timeStyle: "short"
   }).format(new Date(value));
+}
+
+function chooseNextMove(date = new Date()) {
+  const now = date.getTime();
+  const active = nextMoveTimeline.find(item => now >= new Date(item.starts).getTime() && now <= new Date(item.ends).getTime());
+  if (active) return { ...active, state: "active" };
+  const upcoming = nextMoveTimeline.find(item => now < new Date(item.starts).getTime());
+  if (upcoming) return { ...upcoming, state: "upcoming" };
+  return { ...nextMoveTimeline[nextMoveTimeline.length - 1], state: "complete" };
+}
+
+function actionHref(action) {
+  const target = action[1];
+  return target.startsWith("map:") ? mapsUrl(target.slice(4)) : target;
+}
+
+function renderNextMove(date = new Date()) {
+  const move = chooseNextMove(date);
+  const starts = formatDateTime(move.starts);
+  document.querySelector("#nextMovePanel").innerHTML = `
+    <article class="next-move-card next-move-card--${move.state}">
+      <span>${move.label}</span>
+      <strong>${move.title}</strong>
+      <p>${move.message}</p>
+      <p>${move.detail}</p>
+      <small>${move.state === "active" ? "Current window" : "Starts"}: ${starts}</small>
+      <div class="button-row">
+        ${move.actions.map(action => `<a class="button ${action[1].startsWith("#") ? "button--secondary" : ""}" href="${actionHref(action)}" ${action[1].startsWith("#") ? "" : "target=\"_blank\" rel=\"noopener\""}>${action[0]}</a>`).join("")}
+      </div>
+    </article>
+  `;
 }
 
 function statusForFlight(flight) {
@@ -822,6 +1000,7 @@ renderDays();
 renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
 renderTickets();
+renderNextMove();
 renderFlights();
 renderDepartureGuard();
 renderPhonePush();
