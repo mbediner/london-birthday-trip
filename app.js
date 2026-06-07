@@ -468,6 +468,94 @@ const nextMoveTimeline = [
   }
 ];
 
+const emergencyContacts = [
+  {
+    label: "Emergency",
+    value: "999 or 112",
+    href: "tel:999",
+    note: "Police, ambulance, fire, or immediate danger."
+  },
+  {
+    label: "Police non-emergency",
+    value: "101",
+    href: "tel:101",
+    note: "Use for non-urgent police reports."
+  },
+  {
+    label: "NHS urgent advice",
+    value: "111",
+    href: "tel:111",
+    note: "Medical help fast, but not life-threatening."
+  },
+  {
+    label: "U.S. Embassy London",
+    value: "+44 20 7499 9000",
+    href: "tel:+442074999000",
+    note: "U.S. citizen help and lost passport emergencies."
+  }
+];
+
+const recoveryPlans = [
+  {
+    title: "Lost passport",
+    urgency: "Highest priority",
+    steps: [
+      "Stop moving and search bags, pockets, hotel safe, and the last place it was used.",
+      "Call Mom/Dad and stay with your sibling.",
+      "If stolen or tied to a crime, call 101 or report to police online; call 999 only for immediate danger.",
+      "Contact the U.S. Embassy London for emergency passport guidance.",
+      "Use Travel.State.gov before reporting the passport lost, because a reported lost passport cannot be used for travel even if found later."
+    ],
+    actions: [
+      ["U.S. Embassy map", "map:U.S. Embassy London"],
+      ["Travel.State.gov lost passport", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"],
+      ["Report lost/stolen passport", "https://travel.state.gov/en/passports/renew-replace/report-passport-lost-stolen.html"]
+    ]
+  },
+  {
+    title: "Lost phone",
+    urgency: "Stay together",
+    steps: [
+      "Do not split up to search.",
+      "Use the other phone to call it, share location, and message the family group.",
+      "Retrace only the last safe stop; if it is on transit, use TfL lost property.",
+      "If the phone is gone, get back to the hotel and use Wi-Fi/front desk help."
+    ],
+    actions: [
+      ["Hotel map", "map:Hotel"],
+      ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"]
+    ]
+  },
+  {
+    title: "Lost wallet or card",
+    urgency: "Freeze cards",
+    steps: [
+      "Tell Mom/Dad immediately.",
+      "If a bank card is missing, ask a parent to freeze or cancel it.",
+      "If it was stolen, call 101 or report to police online; call 999 only for immediate danger.",
+      "Keep one payment method separate from the other phone/card if possible."
+    ],
+    actions: [
+      ["Police non-emergency", "https://www.gov.uk/contact-police"],
+      ["Hotel map", "map:Hotel"]
+    ]
+  },
+  {
+    title: "Lost item on Tube, bus, Elizabeth line, or black cab",
+    urgency: "Report details",
+    steps: [
+      "Write down the line, station, stop, vehicle, cab, time, and description.",
+      "TfL says credit/debit cards and individual Oyster cards are not kept; contact the bank or replacement service.",
+      "Make the TfL lost property enquiry as soon as practical.",
+      "If it is not critical, keep the day moving and let parents help with the report."
+    ],
+    actions: [
+      ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"],
+      ["Tube map", "https://content.tfl.gov.uk/standard-tube-map.pdf"]
+    ]
+  }
+];
+
 const flightScreenshot = "assets/flight_itinerary.jpg";
 const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
@@ -563,6 +651,11 @@ const resources = [
   ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
   ["U.S. Embassy London", "https://uk.usembassy.gov/"],
   ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")],
+  ["Travel.State.gov lost passport abroad", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"],
+  ["GOV.UK emergency numbers 999/112", "https://www.gov.uk/guidance/999-and-112-the-uks-national-emergency-numbers"],
+  ["GOV.UK police non-emergency 101", "https://www.gov.uk/contact-police"],
+  ["NHS 111", "https://111.nhs.uk/"],
+  ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"],
   ["Add daily photo reminder", "assets/photo-reminder.ics"],
   ["ntfy phone push setup", `https://ntfy.sh/${ntfyTopic}`]
 ];
@@ -902,6 +995,30 @@ function renderPhonePush() {
   `;
 }
 
+function renderRecovery() {
+  document.querySelector("#recoveryPanel").innerHTML = `
+    <div class="emergency-strip">
+      ${emergencyContacts.map(contact => `
+        <a href="${contact.href}">
+          <span>${contact.label}</span>
+          <strong>${contact.value}</strong>
+          <small>${contact.note}</small>
+        </a>
+      `).join("")}
+    </div>
+    ${recoveryPlans.map(plan => `
+      <article class="recovery-card">
+        <span>${plan.urgency}</span>
+        <strong>${plan.title}</strong>
+        <ol>${plan.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+        <div class="button-row">
+          ${plan.actions.map(action => `<a class="button ${action[1].startsWith("map:") ? "" : "button--secondary"}" href="${actionHref(action)}" target="_blank" rel="noopener">${action[0]}</a>`).join("")}
+        </div>
+      </article>
+    `).join("")}
+  `;
+}
+
 function routeClass(tag) {
   return `route-pill route-pill--${tag.toLowerCase().replace(/[^a-z]+/g, "")}`;
 }
@@ -1086,6 +1203,7 @@ renderNextMove();
 renderFlights();
 renderDepartureGuard();
 renderPhonePush();
+renderRecovery();
 renderTube();
 renderBooking();
 renderResources();

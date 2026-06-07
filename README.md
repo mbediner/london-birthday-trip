@@ -32,6 +32,7 @@ Most trip changes happen in `app.js`.
 - Update packing items in `pack`.
 - Update ticket reminders in `tickets`.
 - Update app and safety links in `resources`.
+- Update emergency and lost-item recovery guidance in `emergencyContacts` and `recoveryPlans`.
 - Update flight departure rules in `departureGuardrails`.
 - Update date-aware next-step guidance in `nextMoveTimeline`.
 

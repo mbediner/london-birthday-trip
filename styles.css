@@ -146,7 +146,7 @@ main {
 .panel { padding: 16px; }
 .quick-panel { background: linear-gradient(135deg, #ffffff, #edf8f2); }
 
-.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid, .safety-grid, .departure-grid, .next-move {
+.quick-grid, .section-strip, .split, .rules-grid, .booking-grid, .flight-grid, .push-grid, .tube-grid, .safety-grid, .departure-grid, .next-move, .recovery-grid {
   display: grid;
   gap: 12px;
 }
@@ -230,6 +230,60 @@ main {
   display: block;
   font-size: 1.05rem;
 }
+.recovery-panel {
+  background: #ffffff;
+}
+.emergency-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+.emergency-strip a {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: white;
+  background: var(--green);
+  text-decoration: none;
+}
+.emergency-strip span {
+  color: #ffe19b;
+  font-size: .72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.emergency-strip strong {
+  font-size: 1.22rem;
+}
+.emergency-strip small {
+  color: rgba(255, 255, 255, .8);
+  font-weight: 750;
+}
+.recovery-card {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #f8fbfa;
+}
+.recovery-card > span {
+  color: var(--coral);
+  font-size: .75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+.recovery-card > strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.15rem;
+}
+.recovery-card ol {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+.recovery-card li { margin: 7px 0; }
 .mini-card { padding: 14px; }
 .mini-card__icon {
   width: 32px;
@@ -725,7 +779,7 @@ footer {
   .hero__content { padding-bottom: 28px; }
   main { padding: 10px; }
   .status-toolbar { align-items: stretch; flex-direction: column; }
-  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes, .safety-grid, .departure-grid, .route-shortcuts { grid-template-columns: 1fr; }
+  .quick-grid, .section-strip, .split, .day-meta, .callouts, .rules-grid, .booking-grid, .airport-plan, .push-grid, .tube-routes, .safety-grid, .departure-grid, .route-shortcuts, .emergency-strip { grid-template-columns: 1fr; }
   .flight-card { grid-template-columns: 1fr; }
   .route-shortcut { flex-direction: column; }
   .route-shortcut .button { width: 100%; }
