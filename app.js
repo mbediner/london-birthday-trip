@@ -226,6 +226,33 @@ const flights = [
   }
 ];
 
+const flightReadiness = {
+  "2184": [
+    "Passport and JetBlue confirmation KDHSOU are saved and easy to open.",
+    "Phone is charged, ntfy/JetBlue alerts are on, and parent group text is updated.",
+    "At RDU by 12:30 PM EDT.",
+    "Gate is confirmed on JetBlue app and airport screens before food."
+  ],
+  "1620": [
+    "BOS arrival gate and London departure gate are checked before food.",
+    "Stay airside unless JetBlue staff says otherwise.",
+    "Passport, wallet, phone, charger, and medication are with you.",
+    "Parent group text is updated before boarding London flight."
+  ],
+  "20": [
+    "Leave hotel around 7:00-7:15 AM BST.",
+    "Passport, phone, charger, wallet, and flight screenshots are physically checked before leaving.",
+    "JetBlue app confirms Terminal 2 and current flight status.",
+    "At Heathrow by 8:55 AM and through security before food."
+  ],
+  "585": [
+    "After landing at JFK, find the Raleigh gate before food.",
+    "Stay airside unless JetBlue staff says otherwise.",
+    "If delayed or confused, talk to a JetBlue gate agent immediately.",
+    "Parent group text is updated from JFK."
+  ]
+};
+
 const airportPlans = [
   {
     title: "Live flight checks",
@@ -923,6 +950,16 @@ function renderChecklist(selector, items, key) {
   `).join("");
 }
 
+function renderInlineChecklist(items, key) {
+  const saved = JSON.parse(localStorage.getItem(key) || "{}");
+  return items.map((item, index) => `
+    <label class="check-item check-item--compact">
+      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
+      <span>${item}</span>
+    </label>
+  `).join("");
+}
+
 function renderTickets() {
   document.querySelector("#ticketList").innerHTML = tickets.map(ticket => `
     <div class="wallet-item">
@@ -947,6 +984,12 @@ function renderFlights() {
             <p>${flight.day} | ${flight.airline} | Conf. ${flight.confirmation}</p>
             <p>${flight.terminal} | ${flight.arrive}</p>
             ${renderFlightStatusBox(statusForFlight(flight))}
+            <div class="flight-readiness">
+              <strong>Before this leg</strong>
+              <div class="flight-readiness__items">
+                ${renderInlineChecklist(flightReadiness[flight.number] || [], `flightReady:b6-${flight.number}`)}
+              </div>
+            </div>
             <div class="tracker-links">
               ${flightTrackers(flight).map(([label, url]) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
             </div>

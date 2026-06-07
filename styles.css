@@ -397,6 +397,14 @@ main {
 .check-item { justify-content: start; }
 .check-item input { width: 20px; height: 20px; accent-color: var(--teal); }
 .check-item:has(input:checked) { color: var(--muted); background: #f3f8f7; }
+.check-item--compact {
+  padding: 8px;
+  font-size: .9rem;
+}
+.check-item--compact input {
+  width: 18px;
+  height: 18px;
+}
 .wallet-item { align-items: flex-start; }
 .wallet-item span {
   display: block;
@@ -526,6 +534,24 @@ main {
 }
 .status-box dt { color: var(--muted); font-weight: 850; }
 .status-box dd { margin: 0; }
+.flight-readiness {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffdf5;
+}
+.flight-readiness > strong {
+  margin: 0;
+  color: var(--green);
+  font-size: .92rem;
+}
+.flight-readiness__items {
+  display: grid;
+  gap: 7px;
+}
 .airport-plan {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

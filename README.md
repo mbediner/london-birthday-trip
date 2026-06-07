@@ -34,6 +34,7 @@ Most trip changes happen in `app.js`.
 - Update app and safety links in `resources`.
 - Update emergency and lost-item recovery guidance in `emergencyContacts` and `recoveryPlans`.
 - Update flight departure rules in `departureGuardrails`.
+- Update per-leg saved flight readiness checklists in `flightReadiness`.
 - Update date-aware next-step guidance in `nextMoveTimeline`.
 - Keep day/hero WebP image variants paired with JPG fallbacks for fast mobile loading.
 
