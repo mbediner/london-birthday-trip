@@ -59,5 +59,12 @@ When adding a new feature, do not stop at implementation. QA it, commit it, push
 
 - Use Marianna's Google Calendar connection.
 - Put travel reminders/events on the `Family` calendar, not the primary personal calendar.
+- Family calendar ID: `family08208447051494281676@group.calendar.google.com`.
 - Before creating real trip events, create and delete one short test event on the Family calendar to prove the connector can write there.
+- Calendar write test passed after reauthentication on June 6, 2026:
+  - Created `TEST - Codex Family Calendar Write Verification`
+  - Monday, June 8, 2026, 9:00-9:05 AM Eastern
+  - Read the event back from the Family calendar
+  - Deleted the test event
+- For future trip calendar work, use `family08208447051494281676@group.calendar.google.com` for every event and reminder unless Marianna explicitly says otherwise.
 - If Google Calendar says reauthentication is required, stop calendar writes and ask Marianna to reconnect Google Calendar.
