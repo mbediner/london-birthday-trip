@@ -33,7 +33,7 @@ button, input { font: inherit; }
   align-items: end;
   padding: 22px;
   color: white;
-  background: url("assets/london_eye.jpg") center / cover;
+  background: image-set(url("assets/london_eye.webp") type("image/webp"), url("assets/london_eye.jpg") type("image/jpeg")) center / cover;
 }
 
 .hero__shade {
@@ -301,10 +301,13 @@ main {
 
 .day-list { display: grid; gap: 18px; }
 .day-card { overflow: hidden; }
+.day-card picture,
 .day-card img {
   width: 100%;
   height: 230px;
   display: block;
+}
+.day-card img {
   object-fit: cover;
 }
 .day-body { padding: 16px; }
@@ -785,7 +788,7 @@ footer {
   .route-shortcut .button { width: 100%; }
   .tube-map-frame { min-height: 360px; }
   .panel { padding: 14px; }
-  .day-card img { height: 210px; }
+  .day-card picture, .day-card img { height: 210px; }
   .button-row .button, .hero__actions .button { flex: 1 1 140px; }
   .map-chip { width: 100%; justify-content: space-between; }
 }
@@ -795,7 +798,7 @@ footer {
     display: grid;
     grid-template-columns: 36% 1fr;
   }
-  .day-card img { height: 100%; min-height: 520px; }
+  .day-card picture, .day-card img { height: 100%; min-height: 520px; }
 }
 
 @media print {

@@ -108,6 +108,7 @@ const days = [
     date: "Friday, June 26",
     title: "Victoria, Westminster and South Bank",
     image: "assets/london_eye.jpg",
+    imageWebp: "assets/london_eye.webp",
     area: "Victoria / Westminster / South Bank",
     transport: "Airport transfer + bag drop + walking + Big Bus + Uber home",
     food: "Casual lunch near hotel; casual dinner at Southbank Centre",
@@ -133,6 +134,7 @@ const days = [
     date: "Saturday, June 27",
     title: "Tower Bridge, Borough Market and West End",
     image: "assets/tower_bridge.jpg",
+    imageWebp: "assets/tower_bridge.webp",
     area: "Tower Hill / Borough Market / Covent Garden / Soho",
     transport: "Tube + walking; Uber or black cab back if tired",
     food: "Borough Market lunch; casual dinner in Soho, Chinatown, or Covent Garden",
@@ -156,6 +158,7 @@ const days = [
     date: "Sunday, June 28",
     title: "Palace Morning and Camden Adventure",
     image: "assets/camden_market.jpg",
+    imageWebp: "assets/camden_market.webp",
     area: "Buckingham Palace / St. James's Park / Camden",
     transport: "Walking + Tube; Uber or Tube back depending on energy",
     food: "Camden Market lunch; final dinner in Covent Garden, Soho, or near the hotel",
@@ -873,7 +876,10 @@ function closePhotoReminder(markDone = false) {
 function renderDays() {
   document.querySelector("#dayCards").innerHTML = days.map((day, index) => `
     <article class="day-card" id="${day.id}">
-      <img src="${day.image}" alt="${escapeHtml(day.title)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
+      <picture>
+        <source srcset="${day.imageWebp}" type="image/webp">
+        <img src="${day.image}" alt="${escapeHtml(day.title)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
+      </picture>
       <div class="day-body">
         <p class="eyebrow">Day ${index + 1} - ${day.date}</p>
         <h2>${day.title}</h2>

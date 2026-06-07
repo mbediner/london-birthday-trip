@@ -35,6 +35,7 @@ Most trip changes happen in `app.js`.
 - Update emergency and lost-item recovery guidance in `emergencyContacts` and `recoveryPlans`.
 - Update flight departure rules in `departureGuardrails`.
 - Update date-aware next-step guidance in `nextMoveTimeline`.
+- Keep day/hero WebP image variants paired with JPG fallbacks for fast mobile loading.
 
 Design changes happen in `styles.css`. The site intentionally has no build dependency, so small edits are easy and fast.
 
@@ -84,6 +85,12 @@ For the site resilience checks, run:
 
 ```powershell
 npm run site:qa
+```
+
+For optimized image checks, run:
+
+```powershell
+npm run image:qa
 ```
 
 ## Local Tools
@@ -154,9 +161,11 @@ The site can be added to a phone home screen using the browser's install/add-to-
 
 - `site.webmanifest` supplies the app name, color, and icon.
 - `sw.js` caches the app shell and key trip assets for offline use.
+- Hero/day images use WebP first with JPG fallbacks.
 - Static content uses cache-first loading for speed.
 - `data/flight-status.json` uses network-first loading so fresh flight information wins when a connection is available, with cached status as the fallback.
 - `npm run site:qa` verifies that the manifest, service worker, offline shell, flight-status caching strategy, and departure guardrail rendering are wired.
+- `npm run image:qa` verifies optimized WebP assets exist and are smaller than the approved JPG fallbacks.
 
 This does not replace JetBlue app notifications or ntfy phone push. It makes the guide more reliable when cellular service is weak.
 

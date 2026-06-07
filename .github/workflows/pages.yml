@@ -37,6 +37,7 @@ jobs:
         run: |
           npm run check
           npm run site:qa
+          npm run image:qa
           npm run flight:qa
 
       - name: Configure Pages

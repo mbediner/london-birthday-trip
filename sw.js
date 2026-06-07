@@ -1,4 +1,4 @@
-const CACHE_NAME = "london-trip-v3";
+const CACHE_NAME = "london-trip-v4";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,8 +6,11 @@ const APP_SHELL = [
   "./app.js",
   "./site.webmanifest",
   "./assets/icon.svg",
+  "./assets/london_eye.webp",
   "./assets/london_eye.jpg",
+  "./assets/tower_bridge.webp",
   "./assets/tower_bridge.jpg",
+  "./assets/camden_market.webp",
   "./assets/camden_market.jpg",
   "./assets/flight_itinerary.jpg",
   "./assets/booking_confirmation.jpg",
