@@ -51,12 +51,19 @@ Design changes happen in `styles.css`. Shared pure helpers live in `site-logic.j
 ## Publishing Workflow
 
 1. Edit the site files.
-2. Commit the changes.
-3. Push to the `main` branch.
-4. GitHub Actions runs validation and `Deploy GitHub Pages`.
-5. The public site updates automatically only after the workflow succeeds.
-6. Send a family release email for every new feature.
-7. Print the public site URL.
+2. Run `npm run release:prepare`.
+3. Commit the changes.
+4. Push to the `main` branch.
+5. GitHub Actions runs validation and `Deploy GitHub Pages`.
+6. The public site updates automatically only after the workflow succeeds.
+7. Send a family release email for every new feature.
+8. Print the public site URL only after deploy success and cache-busting are both confirmed.
+
+`npm run release:prepare` automatically:
+
+- updates the stylesheet and app query-string token
+- bumps the service worker cache name
+- reruns the local checks before release
 
 The deployment workflow uses official GitHub Pages actions:
 
@@ -183,6 +190,14 @@ The site can be added to a phone home screen using the browser's install/add-to-
 - `npm run image:qa` verifies optimized WebP assets exist and are smaller than the approved JPG fallbacks.
 
 This does not replace JetBlue app notifications or ntfy phone push. It makes the guide more reliable when cellular service is weak.
+
+## Cache Busting Rule
+
+Every release must bust cache before anyone is told to open the live site.
+
+- Run `npm run release:prepare` before every production commit.
+- Do not present the live URL until the new deploy succeeds.
+- If the phone or installed app still looks stale, remove the saved app copy and reopen the browser version once so the new service worker and assets can take over.
 
 ## Google Drive Sync Safety
 

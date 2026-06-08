@@ -5,11 +5,14 @@ const index = await fs.readFile("index.html", "utf8");
 const app = await fs.readFile("app.js", "utf8");
 const styles = await fs.readFile("styles.css", "utf8");
 const worker = await fs.readFile("sw.js", "utf8");
+const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
 const manifest = JSON.parse(await fs.readFile("site.webmanifest", "utf8"));
 
 assert.match(index, /<link rel="manifest" href="site\.webmanifest">/, "index should expose the PWA manifest");
 assert.match(index, /assets\/london_eye\.webp/, "index should preload the optimized hero image");
 assert.match(index, /data-install-app/, "index should include install controls");
+assert.match(index, /styles\.css\?v=\d+/, "index should include a cache-busted stylesheet URL");
+assert.match(index, /app\.js\?v=\d+/, "index should include a cache-busted app URL");
 assert.match(index, /data-target="overview"/, "index should start from the itinerary panel");
 assert.match(index, /id="phonePushPanel"/, "index should include the phone push panel");
 assert.match(index, /id="hotelActionPanel"/, "index should include the move panel hotel actions");
@@ -38,8 +41,12 @@ assert.match(index, /id="routeShortcutList"/, "index should include route shortc
 assert.match(index, /id="recoveryPanel"/, "index should include recovery guidance");
 assert.match(worker, /networkFirst\(event\.request\)/, "flight status should use network-first caching");
 assert.match(worker, /cacheFirst\(event\.request\)/, "static shell should use cache-first caching");
+assert.match(worker, /const CACHE_NAME = "london-trip-v\d+"/, "service worker cache name should change per release");
+assert.match(worker, /"\.\/styles\.css\?v=\d+"/, "service worker should cache-bust styles");
+assert.match(worker, /"\.\/app\.js\?v=\d+"/, "service worker should cache-bust the app shell");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");
 assert.equal(manifest.start_url, "./", "manifest should start at the site root");
+assert.match(packageJson.scripts["release:prepare"], /bust-cache/, "package should define a cache-busting release prep script");
 
 for (const file of [
   "assets/icon.svg",

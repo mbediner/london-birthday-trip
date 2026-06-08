@@ -38,6 +38,7 @@ At the beginning of every session, Codex should do this automatically before edi
 3. Make the requested site or documentation edits.
 4. For every new feature, add or update QA coverage that proves the feature works.
 5. Run the relevant local checks.
+   - `npm run release:prepare` before every production release so cache is busted before the live URL is shared.
    - `npm run check` for JavaScript syntax.
    - `npm run site:qa` for install/offline/site resilience changes.
    - Use browser or Playwright checks when layout or interaction changes.
@@ -58,6 +59,7 @@ https://mbediner.github.io/london-birthday-trip/
 Every time a commit is pushed, the final response must include the live site URL.
 When adding a new feature, do not stop at implementation. QA it, commit it, push it, verify deployment, and print the live site URL.
 Every new feature release must also send an email update after the production deployment succeeds.
+Every production release must bust cache before the live URL is presented.
 If Git state is risky or unclear, Codex must pause and explain the exact blocker in plain English instead of guessing.
 
 ## Production Promotion
@@ -65,8 +67,10 @@ If Git state is risky or unclear, Codex must pause and explain the exact blocker
 - `main` is the production branch.
 - GitHub Pages is production.
 - Do not push feature work to production until the relevant QA commands pass locally.
+- Run `npm run release:prepare` before every production push so the CSS, JavaScript, and service worker cache all move to a fresh release token.
 - The GitHub Pages workflow runs validation before deploying, so production promotion only completes after CI succeeds.
 - After the deployment succeeds, verify the live site when practical with a direct fetch or browser check.
+- Do not present the live site URL until the new deploy and the cache-busting release token are both confirmed.
 
 ## End Of Session Behavior
 
@@ -74,11 +78,12 @@ When the requested work is complete, Codex should do this automatically when saf
 
 1. Review changed files.
 2. Run the relevant checks and QA commands.
+3. If this is a production release, make sure `npm run release:prepare` was run in this round of changes.
 3. Summarize what changed in plain English.
 4. Create a clear commit.
 5. Push to the active remote branch.
 6. Verify production deployment when the change is intended for production.
-7. Include the live site URL in the final response.
+7. Include the live site URL in the final response only after deploy success and cache-busting are confirmed.
 
 If push fails:
 
@@ -150,6 +155,7 @@ Send a release email after every successful feature deployment.
 - Keep `site.webmanifest`, `sw.js`, and `assets/icon.svg` in sync when changing the installable app experience.
 - Static trip content should stay cache-first for speed.
 - Flight status JSON should stay network-first so fresh status wins when online and cached status remains available when offline.
+- For every release, rotate the cache token for `styles.css`, `app.js`, and the service worker cache name by running `npm run release:prepare`.
 - Run `npm run site:qa` after changing app install, offline cache, critical travel assets, or departure guardrails.
 - If adding a new must-have image, PDF, or local asset, add it to the service worker cache list so it is available when signal is poor.
 

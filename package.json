@@ -8,6 +8,7 @@
     "check": "node --check app.js && node --check sw.js && node --check tools/qa-site.mjs && node --check tools/qa-image-assets.mjs",
     "test:unit": "node --test tests/*.test.mjs",
     "drive:preflight": "powershell -ExecutionPolicy Bypass -File tools/drive-preflight.ps1",
+    "release:prepare": "node tools/bust-cache.mjs && npm run check && npm run test:unit && npm run site:qa",
     "site:qa": "node tools/qa-site.mjs",
     "image:qa": "node tools/qa-image-assets.mjs",
     "flight:update": "node tools/update-flight-status.mjs",
