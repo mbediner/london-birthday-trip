@@ -644,9 +644,7 @@ function directionsUrl(from, to, mode = "transit") {
 function flightTrackers(flight) {
   const googleQuery = encodeURIComponent(`B6 ${flight.number} ${flight.dateQuery} flight status`);
   return [
-    ["Google Status", `https://www.google.com/search?q=${googleQuery}`],
-    ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"],
-    ["FlightStats", `https://www.flightstats.com/v2/flight-tracker/B6/${flight.number}`],
+    ["Live status", `https://www.google.com/search?q=${googleQuery}`],
     ["FlightAware", `https://www.flightaware.com/live/flight/JBU${flight.number}`]
   ];
 }
@@ -956,6 +954,7 @@ function renderFlights() {
         <div class="button-row">
           ${flightTrackers(flight).map(([label, url]) => `<a class="button button--secondary" href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
         </div>
+        <p class="flight-pocket__note">Use the JetBlue app on the phone for the most direct airline updates. The public JetBlue website does not deep-link cleanly into these exact flights, so this page now keeps the backup links short and practical.</p>
       </div>
     </details>
   `).join("");
