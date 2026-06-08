@@ -1,8 +1,18 @@
+import {
+  buildDirectionsUrl,
+  buildMapsUrl,
+  chooseNextMove,
+  resolveActionHref,
+  resolvePanelFromHash
+} from "./site-logic.js";
+
 const hotelAddress = `Holiday Inn Express London - Victoria
 106-110 Belgrave Road
 London SW1V 2BJ
 United Kingdom
 Phone: +44 20 7630 8888`;
+
+const panelIds = ["overview", "move", "flights", "wallet", "safety"];
 
 const mapQueries = {
   "Hotel": "Holiday Inn Express London - Victoria, 106-110 Belgrave Road, London SW1V 2BJ",
@@ -43,13 +53,36 @@ const mapQueries = {
   "Regent's Canal": "Regent's Canal Camden Lock, London"
 };
 
+const appLinks = {
+  ntfyIos: "https://apps.apple.com/us/app/ntfy/id1625396347",
+  ntfyAndroid: "https://play.google.com/store/apps/details?id=io.heckel.ntfy",
+  tflIos: "https://apps.apple.com/us/app/tfl-go-plan-pay-travel/id1419541638",
+  tflAndroid: "https://play.google.com/store/apps/details?id=uk.gov.tfl.gotfl",
+  jetBlueIos: "https://apps.apple.com/us/app/jetblue-book-manage-trips/id481370590",
+  jetBlueAndroid: "https://play.google.com/store/apps/details?id=com.jetblue.JetBlueAndroid"
+};
+
 const routeShortcuts = [
+  {
+    label: "Walk hotel to Pimlico Station",
+    from: "Hotel",
+    to: "Pimlico Station",
+    mode: "walking",
+    note: "Best fast-start move for the nearest Tube."
+  },
+  {
+    label: "Walk hotel to Victoria Station",
+    from: "Hotel",
+    to: "Victoria Station",
+    mode: "walking",
+    note: "Use this for bus, rail, and bigger station choices."
+  },
   {
     label: "Heathrow to hotel",
     from: "London Heathrow Airport",
     to: "Hotel",
     mode: "transit",
-    note: "Use this after landing. If tired or bags are awkward, switch to Uber/FREENOW/black cab."
+    note: "Use this after landing. If tired or bags are awkward, switch to Uber, FREENOW, or black cab."
   },
   {
     label: "Hotel to Heathrow",
@@ -70,21 +103,21 @@ const routeShortcuts = [
     from: "Tower Bridge",
     to: "Borough Market",
     mode: "walking",
-    note: "Easy Thames-side walk before lunch."
+    note: "Easy riverside walk before lunch."
   },
   {
     label: "Borough Market to Covent Garden",
     from: "Borough Market",
     to: "Covent Garden",
     mode: "transit",
-    note: "Use after lunch for the West End walk."
+    note: "Use after lunch for the West End segment."
   },
   {
     label: "West End back to hotel",
     from: "Chinatown",
     to: "Hotel",
     mode: "driving",
-    note: "Use Uber/FREENOW/black cab if tired, late, or unsure."
+    note: "Use Uber, FREENOW, or black cab if tired, late, or done for the day."
   },
   {
     label: "Hotel to Camden Market",
@@ -92,13 +125,6 @@ const routeShortcuts = [
     to: "Camden Market",
     mode: "transit",
     note: "Day 3 route. Keep Camden as a daytime stop."
-  },
-  {
-    label: "Central London to U.S. Embassy",
-    from: "Victoria Station",
-    to: "U.S. Embassy London",
-    mode: "transit",
-    note: "Backup resource if official U.S. help is needed."
   }
 ];
 
@@ -112,14 +138,13 @@ const days = [
     area: "Victoria / Westminster / South Bank",
     transport: "Airport transfer + bag drop + walking + Big Bus + Uber home",
     food: "Casual lunch near hotel; casual dinner at Southbank Centre",
-    tickets: "Big Bus and London Eye",
     night: "Uber directly back to the hotel",
+    launchRoute: ["Hotel", "Victoria Station", "walking"],
     steps: [
       ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
       ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
       ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
       ["Start the bus loop", "Walk to Victoria Station / Buckingham Palace Road entrance. Board the Hop-On / Hop-Off Big Bus that matches your ticket.", ["Victoria Station"]],
-      ["Sightseeing loop", "Stay on the bus for the main sightseeing loop through Buckingham Palace, Trafalgar Square, Westminster, Big Ben, London Eye, and South Bank.", []],
       ["Westminster photos", "Get off near London Eye / Westminster Bridge. Walk London Eye to Westminster Bridge to Big Ben photos to Parliament Square to Westminster Abbey exterior.", ["London Eye", "Westminster Bridge", "Big Ben", "Parliament Square", "Westminster Abbey"]],
       ["London Eye", "Ride the London Eye. Aim for a timed ticket around 5:30 PM or 6:00 PM.", ["London Eye"]],
       ["Dinner and river walk", "Walk along Queen's Walk. Eat around Southbank Centre / Royal Festival Hall. If energy is good, continue toward Gabriel's Wharf or Oxo Tower.", ["Southbank Centre", "Gabriel's Wharf", "Oxo Tower"]],
@@ -127,7 +152,7 @@ const days = [
     ],
     photo: "Big Ben from Westminster Bridge, London Eye from Westminster Bridge, Queen's Walk river views.",
     tired: "If tired after the London Eye, skip the longer Queen's Walk and eat near Southbank Centre, then Uber directly back.",
-    rain: "Still do the London Eye if tickets are booked, then use Southbank Centre / Royal Festival Hall for food and indoor cover."
+    rain: "Still do the London Eye if tickets are booked, then use Southbank Centre or Royal Festival Hall for food and indoor cover."
   },
   {
     id: "day-2",
@@ -138,8 +163,8 @@ const days = [
     area: "Tower Hill / Borough Market / Covent Garden / Soho",
     transport: "Tube + walking; Uber or black cab back if tired",
     food: "Borough Market lunch; casual dinner in Soho, Chinatown, or Covent Garden",
-    tickets: "No tickets planned in advance",
     night: "Tube if early and comfortable; Uber or black cab if tired",
+    launchRoute: ["Hotel", "Tower Hill Station", "transit"],
     steps: [
       ["Breakfast", "Start with breakfast at the hotel.", []],
       ["Tube to Tower Hill", "Walk to Pimlico Station. Take Pimlico to Victoria, change at Victoria, then Victoria to Tower Hill. Confirm the easiest route that morning.", ["Pimlico Station", "Tower Hill Station"]],
@@ -162,8 +187,8 @@ const days = [
     area: "Buckingham Palace / St. James's Park / Camden",
     transport: "Walking + Tube; Uber or Tube back depending on energy",
     food: "Camden Market lunch; final dinner in Covent Garden, Soho, or near the hotel",
-    tickets: "No fixed tickets",
     night: "Keep Camden as a daytime stop; return central before final dinner",
+    launchRoute: ["Hotel", "Buckingham Palace", "transit"],
     steps: [
       ["Breakfast", "Start with breakfast at the hotel.", []],
       ["Palace photos", "Walk or take short transit to Buckingham Palace. See the exterior and gates.", ["Buckingham Palace"]],
@@ -229,7 +254,7 @@ const flights = [
 const flightReadiness = {
   "2184": [
     "Passport and JetBlue confirmation KDHSOU are saved and easy to open.",
-    "Phone is charged, ntfy/JetBlue alerts are on, and parent group text is updated.",
+    "Phone is charged, ntfy and JetBlue alerts are on, and parent group text is updated.",
     "At RDU by 12:30 PM EDT.",
     "Gate is confirmed on JetBlue app and airport screens before food."
   ],
@@ -252,57 +277,6 @@ const flightReadiness = {
     "Parent group text is updated from JFK."
   ]
 };
-
-const airportPlans = [
-  {
-    title: "Live flight checks",
-    bullets: [
-      "Free option: tap Google Status on each flight. Google usually shows a flight-status card near departure day.",
-      "Use the JetBlue app first because airline status and gate changes are the source of truth.",
-      "Use the tracker buttons below for a second opinion when the flight is close to departure.",
-      "FlightAware generally shows flights currently flying, recently flown, or scheduled soon.",
-      "If trackers disagree, trust JetBlue, airport screens, and gate agents."
-    ]
-  },
-  {
-    title: "Arrival: Heathrow to hotel",
-    bullets: [
-      "Land at Heathrow at 6:30 AM BST on Friday, June 26.",
-      "Plan 60-90 minutes for immigration, bathrooms, bags, and getting oriented.",
-      "Plan 60-90 minutes from Heathrow to the hotel once you start moving.",
-      "Realistic hotel arrival target: about 8:45-10:00 AM.",
-      "Check-in is later, so ask the front desk to store luggage."
-    ]
-  },
-  {
-    title: "Best arrival route with bags",
-    bullets: [
-      "Easiest: Uber, FREENOW, or official black cab from Heathrow to the hotel.",
-      "Train/taxi option: Elizabeth line to Paddington, then Uber or black cab to the hotel.",
-      "TfL lists Elizabeth line Paddington-Heathrow travel at about 28 minutes, but transfers and bags add time.",
-      "Avoid planning anything timed before late morning."
-    ]
-  },
-  {
-    title: "Departure: hotel to Heathrow",
-    bullets: [
-      "Flight leaves Heathrow at 11:55 AM BST on Monday, June 29.",
-      "Heathrow recommends arriving 3 hours before international flights.",
-      "Target airport arrival: 8:55 AM.",
-      "Leave the hotel around 7:00-7:15 AM to protect the morning.",
-      "Use the JetBlue app that morning to reconfirm terminal and flight status."
-    ]
-  },
-  {
-    title: "Departure route",
-    bullets: [
-      "Easiest: Uber, FREENOW, or official black cab straight to Heathrow Terminal 2.",
-      "Train/taxi option: taxi/Uber to Paddington, then Elizabeth line or Heathrow Express to Heathrow.",
-      "Eat early or bring breakfast snacks; this is not a slow hotel morning.",
-      "Keep passports and flight screenshots out before leaving the hotel."
-    ]
-  }
-];
 
 const departureGuardrails = [
   {
@@ -357,11 +331,11 @@ const nextMoveTimeline = [
     ends: "2026-06-25T10:00:00-04:00",
     label: "Before departure",
     title: "Finish the phone setup",
-    message: "Install JetBlue, TfL Go, Uber/FREENOW, ntfy, and save this site to the phone home screen.",
+    message: "Install JetBlue, TfL Go, ntfy, and save this guide to the phone home screen.",
     detail: "Confirm passports, UK ETA, consent letter, hotel screenshot, and JetBlue confirmation KDHSOU are saved on both phones.",
     actions: [
-      ["Open checklist", "#wallet"],
-      ["Phone alerts", "#phone-push"]
+      ["Open Wallet", "panel:wallet"],
+      ["Alerts Setup", "panel:flights"]
     ]
   },
   {
@@ -372,32 +346,8 @@ const nextMoveTimeline = [
     message: "Leave enough margin to be at RDU by 12:30 PM EDT for B6 2184.",
     detail: "Check JetBlue first, then use the site tracker and Google Status as backup.",
     actions: [
-      ["RDU map", "map:RDU Airport"],
-      ["Flights", "#flights"]
-    ]
-  },
-  {
-    starts: "2026-06-25T12:30:00-04:00",
-    ends: "2026-06-25T14:34:00-04:00",
-    label: "RDU airport",
-    title: "Find the gate before food",
-    message: "Use the JetBlue app and airport screens. Be at the gate early for B6 2184.",
-    detail: "If anything disagrees, ask a JetBlue gate agent and update the parent group text.",
-    actions: [
-      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"],
-      ["Flights", "#flights"]
-    ]
-  },
-  {
-    starts: "2026-06-25T16:34:00-04:00",
-    ends: "2026-06-25T18:39:00-04:00",
-    label: "Boston connection",
-    title: "Find the London gate first",
-    message: "At BOS, find the B6 1620 gate before food or wandering.",
-    detail: "The connection is planned at 2h5m. Stay airside unless JetBlue staff tells you otherwise.",
-    actions: [
-      ["Flight status", "#flights"],
-      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"]
+      ["RDU Map", "map:RDU Airport"],
+      ["Flights", "panel:flights"]
     ]
   },
   {
@@ -408,8 +358,8 @@ const nextMoveTimeline = [
     message: "After immigration and bags, go straight to Holiday Inn Express London - Victoria.",
     detail: "Check-in is later. Ask the front desk to store luggage, then keep passports, cards, chargers, tickets, and medicine with you.",
     actions: [
-      ["Hotel map", "map:Hotel"],
-      ["Tube route", "#tube"]
+      ["Hotel Map", "map:Hotel"],
+      ["Move Panel", "panel:move"]
     ]
   },
   {
@@ -420,8 +370,8 @@ const nextMoveTimeline = [
     message: "Easy food near the hotel, Big Bus loop, Westminster photos, London Eye, then Uber back.",
     detail: "Night 1 return is Uber or black cab, not the Tube.",
     actions: [
-      ["Day 1 plan", "#day-1"],
-      ["Hotel map", "map:Hotel"]
+      ["Open Day 1", "day:day-1"],
+      ["Hotel Map", "map:Hotel"]
     ]
   },
   {
@@ -430,10 +380,10 @@ const nextMoveTimeline = [
     label: "Day 2",
     title: "Tower Bridge, Borough Market, West End",
     message: "Tube to Tower Hill, walk Tower Bridge, Borough Market lunch, then West End exploring.",
-    detail: "If tired or it is late, use Uber/FREENOW/black cab back to the hotel.",
+    detail: "If tired or it is late, use Uber, FREENOW, or black cab back to the hotel.",
     actions: [
-      ["Day 2 plan", "#day-2"],
-      ["Tube routes", "#tube"]
+      ["Open Day 2", "day:day-2"],
+      ["Tube Routes", "panel:move"]
     ]
   },
   {
@@ -444,8 +394,8 @@ const nextMoveTimeline = [
     message: "Buckingham Palace photos, St. James's Park, Camden Market lunch, final dinner central.",
     detail: "Keep Camden as a daytime stop and return central before final dinner.",
     actions: [
-      ["Day 3 plan", "#day-3"],
-      ["Camden map", "map:Camden Market"]
+      ["Open Day 3", "day:day-3"],
+      ["Camden Map", "map:Camden Market"]
     ]
   },
   {
@@ -456,32 +406,8 @@ const nextMoveTimeline = [
     message: "Leave the hotel around 7:00-7:15 AM BST. Target Heathrow arrival is 8:55 AM.",
     detail: "Use JetBlue first. Keep passports and flight screenshots out before leaving the hotel.",
     actions: [
-      ["Heathrow map", "map:London Heathrow Airport"],
-      ["Flights", "#flights"]
-    ]
-  },
-  {
-    starts: "2026-06-29T08:55:00+01:00",
-    ends: "2026-06-29T11:55:00+01:00",
-    label: "Heathrow airport",
-    title: "Gate first, food second",
-    message: "Check in, clear security, and find the B6 20 gate before stopping for food.",
-    detail: "Use airport screens and JetBlue agents as the source of truth.",
-    actions: [
-      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"],
-      ["Flights", "#flights"]
-    ]
-  },
-  {
-    starts: "2026-06-29T15:25:00-04:00",
-    ends: "2026-06-29T18:30:00-04:00",
-    label: "JFK connection",
-    title: "Find the Raleigh gate",
-    message: "After landing at JFK, find the B6 585 gate before food.",
-    detail: "If delayed or confused, talk to a JetBlue gate agent immediately.",
-    actions: [
-      ["Flight status", "#flights"],
-      ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"]
+      ["Heathrow Map", "map:London Heathrow Airport"],
+      ["Flights", "panel:flights"]
     ]
   },
   {
@@ -492,8 +418,8 @@ const nextMoveTimeline = [
     message: "You made it back to Raleigh. Send Mom and Dad the best photos.",
     detail: "Keep passports and important documents in the same safe spot after getting home.",
     actions: [
-      ["Photo reminder", "#today"],
-      ["Tickets", "#wallet"]
+      ["Photo Reminder", "panel:overview"],
+      ["Wallet", "panel:wallet"]
     ]
   }
 ];
@@ -531,15 +457,14 @@ const recoveryPlans = [
     urgency: "Highest priority",
     steps: [
       "Stop moving and search bags, pockets, hotel safe, and the last place it was used.",
-      "Call Mom/Dad and stay with your sibling.",
+      "Call Mom or Dad and stay with your sibling.",
       "If stolen or tied to a crime, call 101 or report to police online; call 999 only for immediate danger.",
       "Contact the U.S. Embassy London for emergency passport guidance.",
       "Use Travel.State.gov before reporting the passport lost, because a reported lost passport cannot be used for travel even if found later."
     ],
     actions: [
-      ["U.S. Embassy map", "map:U.S. Embassy London"],
-      ["Travel.State.gov lost passport", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"],
-      ["Report lost/stolen passport", "https://travel.state.gov/en/passports/renew-replace/report-passport-lost-stolen.html"]
+      ["U.S. Embassy Map", "map:U.S. Embassy London"],
+      ["Travel.State.gov", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"]
     ]
   },
   {
@@ -549,39 +474,25 @@ const recoveryPlans = [
       "Do not split up to search.",
       "Use the other phone to call it, share location, and message the family group.",
       "Retrace only the last safe stop; if it is on transit, use TfL lost property.",
-      "If the phone is gone, get back to the hotel and use Wi-Fi/front desk help."
+      "If the phone is gone, get back to the hotel and use Wi-Fi or front desk help."
     ],
     actions: [
-      ["Hotel map", "map:Hotel"],
-      ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"]
+      ["Hotel Map", "map:Hotel"],
+      ["TfL Lost Property", "https://tfl.gov.uk/help-and-contact/lost-property"]
     ]
   },
   {
     title: "Lost wallet or card",
     urgency: "Freeze cards",
     steps: [
-      "Tell Mom/Dad immediately.",
+      "Tell Mom or Dad immediately.",
       "If a bank card is missing, ask a parent to freeze or cancel it.",
       "If it was stolen, call 101 or report to police online; call 999 only for immediate danger.",
-      "Keep one payment method separate from the other phone/card if possible."
+      "Keep one payment method separate from the other phone or card if possible."
     ],
     actions: [
-      ["Police non-emergency", "https://www.gov.uk/contact-police"],
-      ["Hotel map", "map:Hotel"]
-    ]
-  },
-  {
-    title: "Lost item on Tube, bus, Elizabeth line, or black cab",
-    urgency: "Report details",
-    steps: [
-      "Write down the line, station, stop, vehicle, cab, time, and description.",
-      "TfL says credit/debit cards and individual Oyster cards are not kept; contact the bank or replacement service.",
-      "Make the TfL lost property enquiry as soon as practical.",
-      "If it is not critical, keep the day moving and let parents help with the report."
-    ],
-    actions: [
-      ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"],
-      ["Tube map", "https://content.tfl.gov.uk/standard-tube-map.pdf"]
+      ["Police Advice", "https://www.gov.uk/contact-police"],
+      ["Hotel Map", "map:Hotel"]
     ]
   }
 ];
@@ -589,37 +500,26 @@ const recoveryPlans = [
 const flightScreenshot = "assets/flight_itinerary.jpg";
 const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
-let flightStatusData = null;
-let deferredInstallPrompt = null;
-
-const photoReminderDates = new Set([
-  "2026-06-26",
-  "2026-06-27",
-  "2026-06-28",
-  "2026-06-29"
-]);
 
 const todo = [
   "Order British pounds from Chase",
-  "Download TripIt",
   "Download JetBlue app",
-  "Download offline maps for London",
   "Download TfL Go",
-  "Download Uber",
-  "Download FREENOW",
+  "Download ntfy",
+  "Download offline maps for London",
+  "Download Uber and FREENOW",
   "Apply for UK ETA for Tiffany and Collin",
   "Save JetBlue confirmation KDHSOU on both phones",
   "Buy Big Bus London hop-on hop-off tickets",
   "Buy London Eye tickets",
   "Confirm hotel luggage storage for arrival morning before check-in",
-  "Save hotel address as favorite in Uber",
-  "Save hotel address in Google Maps",
+  "Save hotel address as favorite in maps and ride apps",
   "Save parent travel consent letter on both phones"
 ];
 
 const pack = [
   "Passports",
-  "International chargers / UK plug adapters",
+  "International chargers and UK plug adapters",
   "Copies of UK ETA confirmations",
   "Copy of parental travel consent letter",
   "Printed hotel confirmation",
@@ -628,7 +528,7 @@ const pack = [
   "Comfortable shoes",
   "Rain jacket or small umbrella",
   "Small amount of cash",
-  "Credit/debit card",
+  "Credit or debit card",
   "Medication, if applicable"
 ];
 
@@ -648,144 +548,104 @@ const booking = {
   guest: "Marianna",
   hotel: "Holiday Inn Express London - Victoria",
   address: "106-110 Belgrave Road, London SW1V 2BJ, United Kingdom",
-  source: "Booking.com confirmation email / app",
+  source: "Booking.com confirmation email or app",
   screenshot: "assets/booking_confirmation.jpg",
   dates: "June 26-29, 2026",
   actionItems: [
     "Save the Booking.com confirmation email on both phones.",
     "Open the Booking.com app before leaving and confirm the reservation appears there.",
     "Confirm the hotel can store bags on arrival day before check-in.",
-    "Screenshot the confirmation page, confirmation number, PIN, check-in rules, and payment details.",
-    "Add the confirmation number and PIN to the Ticket Wallet once they are copied from the email.",
-    "Use the hotel address in this guide for Uber, FREENOW, Google Maps, and emergency help."
+    "Screenshot the confirmation page, confirmation number, PIN, check-in rules, and payment details."
   ],
   fillIns: [
     "Booking confirmation number: ____________________",
     "Booking PIN: ____________________",
     "Check-in time: ____________________",
-    "Cancellation/payment note: ____________________"
+    "Cancellation or payment note: ____________________"
   ]
 };
 
-const resources = [
-  ["TfL Go", "https://tfl.gov.uk/maps"],
-  ["Official TfL Tube map", tubeMapUrl],
+const resourceGroups = [
+  ["TfL Go (iPhone)", appLinks.tflIos],
+  ["TfL Go (Android)", appLinks.tflAndroid],
+  ["JetBlue app (iPhone)", appLinks.jetBlueIos],
+  ["JetBlue app (Android)", appLinks.jetBlueAndroid],
+  ["Official Tube map", tubeMapUrl],
+  ["TfL Journey Planner", "https://tfl.gov.uk/plan-a-journey/"],
   ["Google Maps London", "https://www.google.com/maps/place/London,+UK"],
   ["Uber", "https://www.uber.com/gb/en/"],
   ["FREENOW black cabs", "https://www.free-now.com/uk/"],
   ["Booking.com", "https://www.booking.com/"],
-  ["JetBlue", "https://www.jetblue.com/"],
-  ["Heathrow check-in guidance", "https://www.heathrow.com/departures/checking-in"],
-  ["TfL Heathrow Elizabeth line", "https://rms.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line"],
-  ["UK ETA", "https://www.gov.uk/guidance/apply-for-an-electronic-travel-authorisation-eta"],
-  ["London weather", "https://www.metoffice.gov.uk/weather/forecast/gcpvj0v07"],
   ["U.S. Embassy London", "https://uk.usembassy.gov/"],
-  ["U.S. Embassy map - 33 Nine Elms Lane", mapsUrl("U.S. Embassy London")],
   ["Travel.State.gov lost passport abroad", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"],
-  ["GOV.UK emergency numbers 999/112", "https://www.gov.uk/guidance/999-and-112-the-uks-national-emergency-numbers"],
-  ["GOV.UK police non-emergency 101", "https://www.gov.uk/contact-police"],
-  ["NHS 111", "https://111.nhs.uk/"],
-  ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"],
-  ["Add daily photo reminder", "assets/photo-reminder.ics"],
-  ["ntfy phone push setup", `https://ntfy.sh/${ntfyTopic}`]
+  ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"]
 ];
 
 const tubeBasics = [
   "Use TfL Go and Google Maps before every Tube move; routes can change because of delays or closures.",
   "Each person taps in and taps out with their own card, phone, or Oyster card.",
-  "Use the same device for tap in and tap out. Do not mix phone/watch/card.",
-  "Follow the line color and direction, not just the destination. Platform signs show the next train's direction.",
+  "Use the same device for tap in and tap out. Do not mix phone, watch, and card.",
+  "Follow the line color and direction, not just the destination.",
   "If tired, late, carrying bags, or confused, use Uber, FREENOW, or an official black cab."
 ];
 
 const tubeRoutes = [
   {
     title: "Heathrow to hotel with bags",
-    tags: ["Elizabeth", "Taxi"],
     steps: [
-      "Easiest free-planning route: Heathrow Elizabeth line toward central London.",
+      "Easiest low-stress route: Heathrow Elizabeth line toward central London.",
       "Get off at Paddington.",
       "Use Uber, FREENOW, or an official black cab from Paddington to Holiday Inn Express London - Victoria.",
-      "Goal is not speed; goal is low-stress bag drop before check-in."
+      "Goal is low-stress bag drop before check-in, not speed."
     ],
     backup: "All-cab option: official black cab, Uber, or FREENOW straight from Heathrow to the hotel."
   },
   {
     title: "Hotel to Tower Hill",
-    tags: ["Victoria", "District", "Circle"],
     steps: [
       "Walk to Pimlico Station.",
       "Take Victoria line one stop to Victoria.",
       "Change to District or Circle line eastbound.",
       "Get off at Tower Hill.",
-      "Walk to Tower of London / Tower Bridge."
+      "Walk to Tower of London or Tower Bridge."
     ],
     backup: "If the change feels annoying, use Uber or black cab from hotel to Tower Hill."
   },
   {
-    title: "Borough Market to West End",
-    tags: ["Northern"],
-    steps: [
-      "Walk to London Bridge Underground Station.",
-      "Take Northern line northbound via the Charing Cross branch.",
-      "Get off at Leicester Square.",
-      "Walk Leicester Square -> Covent Garden -> Seven Dials -> Neal's Yard -> Soho -> Chinatown."
-    ],
-    backup: "If crowded, stay around Borough Market longer or use Uber to Covent Garden."
-  },
-  {
     title: "West End back to hotel",
-    tags: ["Piccadilly", "Victoria"],
     steps: [
       "From Leicester Square, take Piccadilly line westbound to Green Park.",
       "Change to Victoria line southbound.",
       "Get off at Pimlico or Victoria, whichever Google Maps says is easier.",
-      "If it is late or you are tired, skip the Tube and take Uber/FREENOW/black cab."
+      "If it is late or you are tired, skip the Tube and take Uber, FREENOW, or a black cab."
     ],
     backup: "Night 1 rule still applies: Uber or black cab directly to the hotel."
-  },
-  {
-    title: "Central London to Camden",
-    tags: ["Northern"],
-    steps: [
-      "Use Google Maps/TfL Go from your exact location.",
-      "Aim for Camden Town Station on the Northern line.",
-      "At Camden Town, follow signs for Camden Market / Camden Lock.",
-      "Keep Camden as a daytime stop and return central before final dinner."
-    ],
-    backup: "If Camden Town is crowded, use Mornington Crescent or Chalk Farm if TfL/Google suggests it."
-  },
-  {
-    title: "Hotel to Heathrow for departure",
-    tags: ["Elizabeth", "Taxi"],
-    steps: [
-      "Leave hotel around 7:00-7:15 AM.",
-      "Easiest: Uber, FREENOW, or official black cab straight to Heathrow Terminal 2.",
-      "Train/taxi option: taxi or Uber to Paddington, then Elizabeth line or Heathrow Express to Heathrow.",
-      "Target Heathrow arrival is 8:55 AM for the 11:55 AM flight."
-    ],
-    backup: "Use JetBlue app that morning to reconfirm Terminal 2 and flight status."
   }
 ];
 
+const photoReminderDates = new Set([
+  "2026-06-26",
+  "2026-06-27",
+  "2026-06-28",
+  "2026-06-29"
+]);
+
+let flightStatusData = null;
+let deferredInstallPrompt = null;
+
 function mapsUrl(name) {
-  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQueries[name] || name)}`;
+  return buildMapsUrl(mapQueries, name);
 }
 
 function directionsUrl(from, to, mode = "transit") {
-  return [
-    "https://www.google.com/maps/dir/?api=1",
-    `origin=${encodeURIComponent(mapQueries[from] || from)}`,
-    `destination=${encodeURIComponent(mapQueries[to] || to)}`,
-    `travelmode=${encodeURIComponent(mode)}`
-  ].join("&");
+  return buildDirectionsUrl(mapQueries, from, to, mode);
 }
 
 function flightTrackers(flight) {
   const googleQuery = encodeURIComponent(`B6 ${flight.number} ${flight.dateQuery} flight status`);
   return [
     ["Google Status", `https://www.google.com/search?q=${googleQuery}`],
-    ["JetBlue", `https://www.jetblue.com/flight-tracker-and-status`],
+    ["JetBlue", "https://www.jetblue.com/flight-tracker-and-status"],
     ["FlightStats", `https://www.flightstats.com/v2/flight-tracker/B6/${flight.number}`],
     ["FlightAware", `https://www.flightaware.com/live/flight/JBU${flight.number}`]
   ];
@@ -799,7 +659,7 @@ function showToast(message) {
   const toast = document.querySelector("#toast");
   toast.textContent = message;
   toast.classList.add("is-visible");
-  window.setTimeout(() => toast.classList.remove("is-visible"), 2200);
+  window.setTimeout(() => toast.classList.remove("is-visible"), 2400);
 }
 
 function formatDateTime(value) {
@@ -810,45 +670,444 @@ function formatDateTime(value) {
   }).format(new Date(value));
 }
 
-function chooseNextMove(date = new Date()) {
-  const now = date.getTime();
-  const active = nextMoveTimeline.find(item => now >= new Date(item.starts).getTime() && now <= new Date(item.ends).getTime());
-  if (active) return { ...active, state: "active" };
-  const upcoming = nextMoveTimeline.find(item => now < new Date(item.starts).getTime());
-  if (upcoming) return { ...upcoming, state: "upcoming" };
-  return { ...nextMoveTimeline[nextMoveTimeline.length - 1], state: "complete" };
-}
-
-function actionHref(action) {
+function renderActionButton(action, className = "button button--secondary") {
   const target = action[1];
-  return target.startsWith("map:") ? mapsUrl(target.slice(4)) : target;
+
+  if (target.startsWith("panel:")) {
+    return `<button class="${className}" type="button" data-target="${target.slice(6)}">${action[0]}</button>`;
+  }
+
+  if (target.startsWith("day:")) {
+    return `<button class="${className}" type="button" data-open-day="${target.slice(4)}">${action[0]}</button>`;
+  }
+
+  return `<a class="${className}" href="${resolveActionHref(mapQueries, action)}" target="_blank" rel="noopener">${action[0]}</a>`;
 }
 
-function renderNextMove(date = new Date()) {
-  const move = chooseNextMove(date);
-  const starts = formatDateTime(move.starts);
-  document.querySelector("#nextMovePanel").innerHTML = `
-    <article class="next-move-card next-move-card--${move.state}">
-      <span>${move.label}</span>
-      <strong>${move.title}</strong>
-      <p>${move.message}</p>
-      <p>${move.detail}</p>
-      <small>${move.state === "active" ? "Current window" : "Starts"}: ${starts}</small>
+function renderTodaySummary(date = new Date()) {
+  const nextMove = chooseNextMove(nextMoveTimeline, date);
+
+  document.querySelector("#todaySummary").innerHTML = `
+    <article class="hero-card hero-card--primary">
+      <span>${nextMove.label}</span>
+      <strong>${nextMove.title}</strong>
+      <p>${nextMove.message}</p>
+      <p>${nextMove.detail}</p>
       <div class="button-row">
-        ${move.actions.map(action => `<a class="button ${action[1].startsWith("#") ? "button--secondary" : ""}" href="${actionHref(action)}" ${action[1].startsWith("#") ? "" : "target=\"_blank\" rel=\"noopener\""}>${action[0]}</a>`).join("")}
+        ${nextMove.actions.map(action => renderActionButton(action, "button")).join("")}
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Hotel pocket</span>
+      <strong>Holiday Inn Express London - Victoria</strong>
+      <p>106-110 Belgrave Road, London SW1V 2BJ</p>
+      <div class="button-row">
+        <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Open hotel</a>
+        <button class="button button--secondary" type="button" data-copy-hotel>Copy address</button>
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Nearest tube</span>
+      <strong>Pimlico Station</strong>
+      <p>Use walking directions from the hotel instead of guessing the street.</p>
+      <div class="button-row">
+        <a class="button button--secondary" href="${directionsUrl("Hotel", "Pimlico Station", "walking")}" target="_blank" rel="noopener">Walk there</a>
+        <a class="button button--secondary" href="${directionsUrl("Hotel", "Victoria Station", "walking")}" target="_blank" rel="noopener">Walk to Victoria</a>
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Alerts</span>
+      <strong>Install ntfy now</strong>
+      <p>Phone push works best when ntfy is installed before travel and the topic is subscribed once.</p>
+      <div class="button-row">
+        <button class="button button--secondary" type="button" data-target="flights">Open alerts</button>
       </div>
     </article>
   `;
+}
+
+function renderItinerary() {
+  document.querySelector("#itineraryList").innerHTML = days.map((day, index) => `
+    <details class="pocket-card itinerary-pocket" id="${day.id}" ${index === 0 ? "open" : ""}>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>${day.date}</span>
+          <strong>${day.title}</strong>
+          <p>${day.area}</p>
+        </div>
+        <span class="summary-pill">Day ${index + 1}</span>
+      </summary>
+      <div class="itinerary-pocket__media">
+        <picture>
+          <source srcset="${day.imageWebp}" type="image/webp">
+          <img src="${day.image}" alt="${escapeHtml(day.title)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
+        </picture>
+      </div>
+      <div class="itinerary-pocket__body">
+        <div class="trip-facts">
+          <article><span>Main area</span><strong>${day.area}</strong></article>
+          <article><span>Transport</span><strong>${day.transport}</strong></article>
+          <article><span>Food</span><strong>${day.food}</strong></article>
+          <article><span>Night return</span><strong>${day.night}</strong></article>
+        </div>
+        <div class="button-row">
+          <a class="button" href="${directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2])}" target="_blank" rel="noopener">Launch day route</a>
+          <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
+        </div>
+        <ol class="step-list">
+          ${day.steps.map((step, stepIndex) => `
+            <li>
+              <div class="step-count">${stepIndex + 1}</div>
+              <div class="step-copy">
+                <h3>${step[0]}</h3>
+                <p>${step[1]}</p>
+                <div class="chip-row">
+                  ${step[2].map(name => `<a class="map-chip" href="${mapsUrl(name)}" target="_blank" rel="noopener">${name}</a>`).join("")}
+                </div>
+              </div>
+            </li>
+          `).join("")}
+        </ol>
+        <div class="callout-grid">
+          <article class="callout-card"><span>Photos</span><strong>Capture this</strong><p>${day.photo}</p></article>
+          <article class="callout-card"><span>If tired</span><strong>Shorten it</strong><p>${day.tired}</p></article>
+          <article class="callout-card"><span>If it rains</span><strong>Pivot cleanly</strong><p>${day.rain}</p></article>
+        </div>
+      </div>
+    </details>
+  `).join("");
+}
+
+function renderHotelActions() {
+  document.querySelector("#hotelActionPanel").innerHTML = `
+    <article class="info-card">
+      <span>Hotel to Tube</span>
+      <strong>Walk to Pimlico Station</strong>
+      <p>Use this instead of relying on memory or vague “closest station” notes.</p>
+      <div class="button-row">
+        <a class="button" href="${directionsUrl("Hotel", "Pimlico Station", "walking")}" target="_blank" rel="noopener">Walking directions</a>
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Hotel to major hub</span>
+      <strong>Walk to Victoria Station</strong>
+      <p>Best for buses, trains, and route fallbacks when the simple route changes.</p>
+      <div class="button-row">
+        <a class="button" href="${directionsUrl("Hotel", "Victoria Station", "walking")}" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Airport transfer</span>
+      <strong>Hotel to Heathrow</strong>
+      <p>Keep this one-tap route ready for departure morning.</p>
+      <div class="button-row">
+        <a class="button" href="${directionsUrl("Hotel", "London Heathrow Airport", "driving")}" target="_blank" rel="noopener">Airport route</a>
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Official map</span>
+      <strong>Tube map and planner</strong>
+      <p>When the route gets weird, use TfL’s map and journey planner instead of guessing transfers.</p>
+      <div class="button-row">
+        <a class="button" href="${tubeMapUrl}" target="_blank" rel="noopener">Tube map</a>
+        <a class="button button--secondary" href="https://tfl.gov.uk/plan-a-journey/" target="_blank" rel="noopener">Journey planner</a>
+      </div>
+    </article>
+  `;
+}
+
+function renderRouteShortcuts() {
+  document.querySelector("#routeShortcutList").innerHTML = routeShortcuts.map(route => `
+    <article class="route-pocket">
+      <div>
+        <span>${route.mode}</span>
+        <strong>${route.label}</strong>
+        <p>${route.note}</p>
+      </div>
+      <a class="button" href="${directionsUrl(route.from, route.to, route.mode)}" target="_blank" rel="noopener">Open directions</a>
+    </article>
+  `).join("");
+}
+
+function renderTubePockets() {
+  document.querySelector("#tubePocketList").innerHTML = `
+    <details class="pocket-card" open>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>Tube rules</span>
+          <strong>What to remember before tapping in</strong>
+          <p>Keep these out of the way until you need them.</p>
+        </div>
+      </summary>
+      <ul class="bullet-list">${tubeBasics.map(item => `<li>${item}</li>`).join("")}</ul>
+    </details>
+    ${tubeRoutes.map(route => `
+      <details class="pocket-card">
+        <summary class="pocket-card__summary">
+          <div>
+            <span>Route pocket</span>
+            <strong>${route.title}</strong>
+            <p>${route.backup}</p>
+          </div>
+        </summary>
+        <ol class="bullet-list">${route.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+      </details>
+    `).join("")}
+  `;
+}
+
+function renderMaps(filter = "") {
+  const query = filter.trim().toLowerCase();
+  const entries = Object.keys(mapQueries).filter(name => name.toLowerCase().includes(query));
+  document.querySelector("#mapList").innerHTML = entries.map(name => `
+    <a class="list-link" href="${mapsUrl(name)}" target="_blank" rel="noopener">
+      <strong>${name}</strong>
+      <span>Open map</span>
+    </a>
+  `).join("");
+}
+
+function renderResources() {
+  document.querySelector("#resourceList").innerHTML = resourceGroups.map(([label, url]) => `
+    <a class="list-link" href="${url}" target="_blank" rel="noopener">
+      <strong>${label}</strong>
+      <span>Open</span>
+    </a>
+  `).join("");
+}
+
+function renderChecklist(selector, items, key) {
+  const saved = JSON.parse(localStorage.getItem(key) || "{}");
+  document.querySelector(selector).innerHTML = items.map((item, index) => `
+    <label class="check-item">
+      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
+      <span>${item}</span>
+    </label>
+  `).join("");
+}
+
+function renderInlineChecklist(items, key) {
+  const saved = JSON.parse(localStorage.getItem(key) || "{}");
+  return items.map((item, index) => `
+    <label class="check-item check-item--compact">
+      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
+      <span>${item}</span>
+    </label>
+  `).join("");
+}
+
+function renderTickets() {
+  document.querySelector("#ticketList").innerHTML = tickets.map(ticket => `
+    <div class="list-link">
+      <strong>${ticket}</strong>
+      <span>Save screenshot or confirmation number</span>
+    </div>
+  `).join("");
 }
 
 function statusForFlight(flight) {
   return flightStatusData?.flights?.find(item => item.id === `b6-${flight.number}`) || null;
 }
 
+function renderFlightStatusBox(status) {
+  if (!status) {
+    return `
+      <div class="status-box status-box--unknown">
+        <strong>Status loading</strong>
+        <p>Use tracker links if this does not update.</p>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="status-box status-box--${status.statusKind || "unknown"}">
+      <strong>${status.status}</strong>
+      <p>${status.message || ""}</p>
+      <dl>
+        <dt>Last checked</dt><dd>${formatDateTime(status.lastCheckedAt)}</dd>
+        <dt>Departure</dt><dd>${status.departure?.estimated || status.departure?.scheduled || "Not available"}</dd>
+        <dt>Arrival</dt><dd>${status.arrival?.estimated || status.arrival?.scheduled || "Not available"}</dd>
+        <dt>Gate</dt><dd>${status.departure?.gate || "Not available"}</dd>
+      </dl>
+    </div>
+  `;
+}
+
+function renderFlights() {
+  document.querySelector("#flightPanel").innerHTML = flights.map(flight => `
+    <details class="pocket-card" ${flight.number === "2184" ? "open" : ""}>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>${flight.time}</span>
+          <strong>${flight.route}</strong>
+          <p>${flight.day} | ${flight.airline} | Conf. ${flight.confirmation}</p>
+        </div>
+        <span class="summary-pill">${flight.number}</span>
+      </summary>
+      <div class="flight-pocket__body">
+        <p><strong>${flight.terminal}</strong> | ${flight.arrive}</p>
+        ${renderFlightStatusBox(statusForFlight(flight))}
+        <section class="flight-pocket__checklist">
+          <strong>Before this leg</strong>
+          <div class="checklist">
+            ${renderInlineChecklist(flightReadiness[flight.number] || [], `flightReady:b6-${flight.number}`)}
+          </div>
+        </section>
+        <div class="button-row">
+          ${flightTrackers(flight).map(([label, url]) => `<a class="button button--secondary" href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
+        </div>
+      </div>
+    </details>
+  `).join("");
+}
+
+function renderDepartureGuard() {
+  document.querySelector("#departureGuardPanel").innerHTML = departureGuardrails.map(item => `
+    <article class="info-card info-card--dark">
+      <span>${item.date}</span>
+      <strong>${item.title}</strong>
+      <p>${item.anchor}</p>
+      <ul class="bullet-list">${item.bullets.map(bullet => `<li>${bullet}</li>`).join("")}</ul>
+    </article>
+  `).join("");
+}
+
+function renderPhonePush() {
+  document.querySelector("#phonePushPanel").innerHTML = `
+    <article class="hero-card">
+      <span>Push notifications</span>
+      <strong>Install ntfy on each phone</strong>
+      <p>This is the actual app needed for the free phone push backup. Install it first, then subscribe to the topic once.</p>
+      <code class="topic-code">${ntfyTopic}</code>
+      <div class="button-row">
+        <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">Download for iPhone</a>
+        <a class="button" href="${appLinks.ntfyAndroid}" target="_blank" rel="noopener">Download for Android</a>
+        <a class="button button--secondary" href="https://ntfy.sh/${ntfyTopic}" target="_blank" rel="noopener">Open topic</a>
+      </div>
+    </article>
+    <details class="pocket-card" open>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>iPhone setup</span>
+          <strong>How to get the push alerts on iPhone</strong>
+          <p>Keep this tight and practical.</p>
+        </div>
+      </summary>
+      <ol class="bullet-list">
+        <li>Install ntfy from the App Store.</li>
+        <li>Open ntfy and allow notifications.</li>
+        <li>Tap Add subscription and enter <strong>${ntfyTopic}</strong>.</li>
+        <li>Open JetBlue from the iPhone App Store too, then allow JetBlue notifications.</li>
+        <li>Save this trip site to the home screen with Safari Share -> Add to Home Screen.</li>
+      </ol>
+      <div class="button-row">
+        <a class="button button--secondary" href="${appLinks.jetBlueIos}" target="_blank" rel="noopener">JetBlue for iPhone</a>
+        <a class="button button--secondary" href="${appLinks.tflIos}" target="_blank" rel="noopener">TfL Go for iPhone</a>
+      </div>
+    </details>
+    <details class="pocket-card">
+      <summary class="pocket-card__summary">
+        <div>
+          <span>Android setup</span>
+          <strong>How to get the push alerts on Android</strong>
+          <p>Same idea, just with Google Play.</p>
+        </div>
+      </summary>
+      <ol class="bullet-list">
+        <li>Install ntfy from Google Play.</li>
+        <li>Open ntfy and allow notifications.</li>
+        <li>Add the topic <strong>${ntfyTopic}</strong>.</li>
+        <li>Install JetBlue and TfL Go from Google Play and allow notifications.</li>
+        <li>Add this trip site to the home screen from the browser menu if desired.</li>
+      </ol>
+      <div class="button-row">
+        <a class="button button--secondary" href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener">JetBlue for Android</a>
+        <a class="button button--secondary" href="${appLinks.tflAndroid}" target="_blank" rel="noopener">TfL Go for Android</a>
+      </div>
+    </details>
+    <details class="pocket-card">
+      <summary class="pocket-card__summary">
+        <div>
+          <span>Install the trip app</span>
+          <strong>Save this guide to the home screen</strong>
+          <p>Use the built-in install flow when the browser allows it.</p>
+        </div>
+      </summary>
+      <ol class="bullet-list">
+        <li>Tap the Install Trip App button when it appears.</li>
+        <li>If no install button appears, use the browser menu and add the site to the home screen manually.</li>
+        <li>Browser alerts only work while the site is open. ntfy is the better always-on backup.</li>
+      </ol>
+      <div class="button-row">
+        <button class="button button--secondary install-button" type="button" data-install-app hidden>Install Trip App</button>
+      </div>
+    </details>
+  `;
+}
+
+function renderBooking() {
+  document.querySelector("#bookingPanel").innerHTML = `
+    <details class="pocket-card" open>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>${booking.status}</span>
+          <strong>${booking.hotel}</strong>
+          <p>${booking.dates}</p>
+        </div>
+      </summary>
+      <div class="trip-facts">
+        <article><span>Guest</span><strong>${booking.guest}</strong></article>
+        <article><span>Address</span><strong>${booking.address}</strong></article>
+        <article><span>Verify in</span><strong>${booking.source}</strong></article>
+        <article><span>Map</span><strong>Keep hotel directions ready</strong></article>
+      </div>
+      <div class="button-row">
+        <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
+        <a class="button button--secondary" href="https://www.booking.com/" target="_blank" rel="noopener">Booking.com</a>
+        <a class="button button--secondary" href="${booking.screenshot}" target="_blank" rel="noopener">Open screenshot</a>
+      </div>
+      <ul class="bullet-list">${booking.actionItems.map(item => `<li>${item}</li>`).join("")}</ul>
+      <ul class="bullet-list">${booking.fillIns.map(item => `<li>${item}</li>`).join("")}</ul>
+      <a class="booking-image" href="${booking.screenshot}" target="_blank" rel="noopener">
+        <img src="${booking.screenshot}" alt="Booking.com hotel confirmation screenshot" loading="lazy" decoding="async">
+      </a>
+    </details>
+  `;
+}
+
+function renderEmergencyContacts() {
+  document.querySelector("#emergencyPanel").innerHTML = emergencyContacts.map(contact => `
+    <a class="info-card emergency-card" href="${contact.href}">
+      <span>${contact.label}</span>
+      <strong>${contact.value}</strong>
+      <p>${contact.note}</p>
+    </a>
+  `).join("");
+}
+
+function renderRecovery() {
+  document.querySelector("#recoveryPanel").innerHTML = recoveryPlans.map((plan, index) => `
+    <details class="pocket-card" ${index === 0 ? "open" : ""}>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>${plan.urgency}</span>
+          <strong>${plan.title}</strong>
+          <p>Open only when needed.</p>
+        </div>
+      </summary>
+      <ol class="bullet-list">${plan.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+      <div class="button-row">
+        ${plan.actions.map(action => renderActionButton(action, "button button--secondary")).join("")}
+      </div>
+    </details>
+  `).join("");
+}
+
 function maybeNotifyFlightStatus(data) {
   if (!("Notification" in window) || Notification.permission !== "granted") return;
   const previous = JSON.parse(localStorage.getItem("flightStatusSnapshot") || "{}");
   const next = {};
+
   for (const flight of data.flights || []) {
     next[flight.id] = `${flight.statusKind}:${flight.status}:${flight.lastCheckedAt || ""}`;
     if (
@@ -861,12 +1120,14 @@ function maybeNotifyFlightStatus(data) {
       });
     }
   }
+
   localStorage.setItem("flightStatusSnapshot", JSON.stringify(next));
 }
 
 async function loadFlightStatus({ force = false } = {}) {
   const summary = document.querySelector("#flightStatusSummary");
   summary.textContent = force ? "Checking latest site data..." : "Loading status...";
+
   try {
     const response = await fetch(`data/flight-status.json?ts=${Date.now()}`);
     if (!response.ok) throw new Error(`Status file ${response.status}`);
@@ -900,284 +1161,37 @@ function closePhotoReminder(markDone = false) {
   document.querySelector("#photoModal").hidden = true;
 }
 
-function renderDays() {
-  document.querySelector("#dayCards").innerHTML = days.map((day, index) => `
-    <article class="day-card" id="${day.id}">
-      <picture>
-        <source srcset="${day.imageWebp}" type="image/webp">
-        <img src="${day.image}" alt="${escapeHtml(day.title)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
-      </picture>
-      <div class="day-body">
-        <p class="eyebrow">Day ${index + 1} - ${day.date}</p>
-        <h2>${day.title}</h2>
-        <div class="day-meta">
-          <div><span>Main area</span><strong>${day.area}</strong></div>
-          <div><span>Transportation</span><strong>${day.transport}</strong></div>
-          <div><span>Food</span><strong>${day.food}</strong></div>
-          <div><span>Night return</span><strong>${day.night}</strong></div>
-        </div>
-        <ol class="steps">
-          ${day.steps.map((step, stepIndex) => `
-            <li>
-              <div class="step-num">${stepIndex + 1}</div>
-              <div>
-                <h3>${step[0]}</h3>
-                <p>${step[1]}</p>
-                <div class="map-chips">
-                  ${step[2].map(name => `<a class="map-chip" href="${mapsUrl(name)}" target="_blank" rel="noopener">${name}</a>`).join("")}
-                </div>
-              </div>
-            </li>
-          `).join("")}
-        </ol>
-        <div class="callouts">
-          <div class="callout callout--photo"><strong>Photos</strong><p>${day.photo}</p></div>
-          <div class="callout callout--tired"><strong>If tired</strong><p>${day.tired}</p></div>
-          <div class="callout callout--rain"><strong>Rain plan</strong><p>${day.rain}</p></div>
-        </div>
-      </div>
-    </article>
-  `).join("");
-}
-
-function renderChecklist(selector, items, key) {
-  const saved = JSON.parse(localStorage.getItem(key) || "{}");
-  document.querySelector(selector).innerHTML = items.map((item, index) => `
-    <label class="check-item">
-      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
-      <span>${item}</span>
-    </label>
-  `).join("");
-}
-
-function renderInlineChecklist(items, key) {
-  const saved = JSON.parse(localStorage.getItem(key) || "{}");
-  return items.map((item, index) => `
-    <label class="check-item check-item--compact">
-      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
-      <span>${item}</span>
-    </label>
-  `).join("");
-}
-
-function renderTickets() {
-  document.querySelector("#ticketList").innerHTML = tickets.map(ticket => `
-    <div class="wallet-item">
-      <div><strong>${ticket}</strong><span>Save screenshot, confirmation number, or QR code location.</span></div>
-    </div>
-  `).join("");
-}
-
-function renderFlights() {
-  document.querySelector("#flightPanel").innerHTML = `
-    <div class="button-row">
-      <a class="button" href="${flightScreenshot}" target="_blank" rel="noopener">Open Flight Screenshot</a>
-      <a class="button button--secondary" href="https://www.heathrow.com/departures/checking-in" target="_blank" rel="noopener">Heathrow Check-In</a>
-      <a class="button button--secondary" href="https://rms.tfl.gov.uk/modes/elizabeth-line/getting-to-and-from-heathrow-on-the-elizabeth-line" target="_blank" rel="noopener">TfL Heathrow</a>
-    </div>
-    <div class="flight-route">
-      ${flights.map(flight => `
-        <article class="flight-card">
-          <time>${flight.time}</time>
-          <div>
-            <strong>${flight.route}</strong>
-            <p>${flight.day} | ${flight.airline} | Conf. ${flight.confirmation}</p>
-            <p>${flight.terminal} | ${flight.arrive}</p>
-            ${renderFlightStatusBox(statusForFlight(flight))}
-            <div class="flight-readiness">
-              <strong>Before this leg</strong>
-              <div class="flight-readiness__items">
-                ${renderInlineChecklist(flightReadiness[flight.number] || [], `flightReady:b6-${flight.number}`)}
-              </div>
-            </div>
-            <div class="tracker-links">
-              ${flightTrackers(flight).map(([label, url]) => `<a href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
-            </div>
-          </div>
-        </article>
-      `).join("")}
-    </div>
-    <div class="airport-plan">
-      ${airportPlans.map(plan => `
-        <article>
-          <h3>${plan.title}</h3>
-          <ul>${plan.bullets.map(item => `<li>${item}</li>`).join("")}</ul>
-        </article>
-      `).join("")}
-    </div>
-  `;
-}
-
-function renderDepartureGuard() {
-  document.querySelector("#departureGuardPanel").innerHTML = departureGuardrails.map(item => `
-    <article class="departure-card">
-      <span>${item.date}</span>
-      <strong>${item.title}</strong>
-      <p>${item.anchor}</p>
-      <ul>${item.bullets.map(bullet => `<li>${bullet}</li>`).join("")}</ul>
-    </article>
-  `).join("");
-}
-
-function renderPhonePush() {
-  document.querySelector("#phonePushPanel").innerHTML = `
-    <article class="push-card">
-      <strong>Subscribe on each phone</strong>
-      <p>Install the free ntfy app, then subscribe to this topic:</p>
-      <code class="topic-code">${ntfyTopic}</code>
-      <div class="button-row">
-        <a class="button" href="https://ntfy.sh/${ntfyTopic}" target="_blank" rel="noopener">Open Topic</a>
-        <a class="button button--secondary" href="https://ntfy.sh/app" target="_blank" rel="noopener">Open ntfy Web</a>
-      </div>
-    </article>
-    <article class="push-card">
-      <strong>How alerts work</strong>
-      <ol>
-        <li>Download ntfy from the App Store or Google Play.</li>
-        <li>Add the topic above.</li>
-        <li>Keep notifications allowed for ntfy.</li>
-        <li>Flight status checks run every 30 minutes inside each flight's monitoring window.</li>
-        <li>If the first active check or a status change happens, GitHub sends a phone push to this topic.</li>
-      </ol>
-      <p>JetBlue app alerts are still the source of truth; this is the free backup notifier.</p>
-    </article>
-  `;
-}
-
-function renderRecovery() {
-  document.querySelector("#recoveryPanel").innerHTML = `
-    <div class="emergency-strip">
-      ${emergencyContacts.map(contact => `
-        <a href="${contact.href}">
-          <span>${contact.label}</span>
-          <strong>${contact.value}</strong>
-          <small>${contact.note}</small>
-        </a>
-      `).join("")}
-    </div>
-    ${recoveryPlans.map(plan => `
-      <article class="recovery-card">
-        <span>${plan.urgency}</span>
-        <strong>${plan.title}</strong>
-        <ol>${plan.steps.map(step => `<li>${step}</li>`).join("")}</ol>
-        <div class="button-row">
-          ${plan.actions.map(action => `<a class="button ${action[1].startsWith("map:") ? "" : "button--secondary"}" href="${actionHref(action)}" target="_blank" rel="noopener">${action[0]}</a>`).join("")}
-        </div>
-      </article>
-    `).join("")}
-  `;
-}
-
-function routeClass(tag) {
-  return `route-pill route-pill--${tag.toLowerCase().replace(/[^a-z]+/g, "")}`;
-}
-
-function renderTube() {
-  document.querySelector("#tubePanel").innerHTML = `
-    <article class="tube-card">
-      <strong>Official Tube map</strong>
-      <p>Use the official TfL Tube map and always check TfL Go before moving.</p>
-      <div class="button-row">
-        <a class="button" href="${tubeMapUrl}" target="_blank" rel="noopener">Open TfL Tube Map</a>
-        <a class="button button--secondary" href="https://tfl.gov.uk/plan-a-journey/" target="_blank" rel="noopener">TfL Journey Planner</a>
-      </div>
-      <iframe class="tube-map-frame" src="${tubeMapUrl}" title="Official TfL Tube map"></iframe>
-    </article>
-    <article class="tube-card">
-      <strong>Tube rules</strong>
-      <ul>${tubeBasics.map(item => `<li>${item}</li>`).join("")}</ul>
-    </article>
-    <div class="tube-routes">
-      ${tubeRoutes.map(route => `
-        <article class="tube-card">
-          <strong>${route.title}</strong>
-          <div>${route.tags.map(tag => `<span class="${routeClass(tag)}">${tag}</span>`).join("")}</div>
-          <ol>${route.steps.map(step => `<li>${step}</li>`).join("")}</ol>
-          <p><b>Backup:</b> ${route.backup}</p>
-        </article>
-      `).join("")}
-    </div>
-  `;
-}
-
-function renderFlightStatusBox(status) {
-  if (!status) {
-    return `
-      <div class="status-box status-box--unknown">
-        <strong>Status loading</strong>
-        <p>Use tracker links if this does not update.</p>
-      </div>
-    `;
+// Keep the app as a true compartment interface instead of an infinite scroll page.
+function setActivePanel(panelId, { pushHash = true } = {}) {
+  for (const panel of document.querySelectorAll("[data-panel]")) {
+    const isActive = panel.id === panelId;
+    panel.hidden = !isActive;
+    panel.classList.toggle("is-active", isActive);
   }
-  return `
-    <div class="status-box status-box--${status.statusKind || "unknown"}">
-      <strong>${status.status}</strong>
-      <p>${status.message || ""}</p>
-      <dl>
-        <dt>Last checked</dt><dd>${formatDateTime(status.lastCheckedAt)}</dd>
-        <dt>Departure</dt><dd>${status.departure?.estimated || status.departure?.scheduled || "Not available"}</dd>
-        <dt>Arrival</dt><dd>${status.arrival?.estimated || status.arrival?.scheduled || "Not available"}</dd>
-        <dt>Gate</dt><dd>${status.departure?.gate || "Not available"}</dd>
-      </dl>
-    </div>
-  `;
+
+  for (const button of document.querySelectorAll(".tab-button")) {
+    const isActive = button.dataset.target === panelId;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  }
+
+  if (pushHash) history.replaceState(null, "", `#${panelId}`);
 }
 
-function renderBooking() {
-  document.querySelector("#bookingPanel").innerHTML = `
-    <article class="booking-card">
-      <strong>${booking.status}</strong>
-      <p><b>Guest:</b> ${booking.guest}</p>
-      <p><b>Hotel:</b> ${booking.hotel}</p>
-      <p><b>Dates:</b> ${booking.dates}</p>
-      <p><b>Address:</b> ${booking.address}</p>
-      <p><b>Where to verify:</b> ${booking.source}</p>
-      <div class="button-row">
-        <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Open Hotel Map</a>
-        <a class="button button--secondary" href="https://www.booking.com/" target="_blank" rel="noopener">Open Booking.com</a>
-        <a class="button button--secondary" href="${booking.screenshot}" target="_blank" rel="noopener">Open Screenshot</a>
-      </div>
-    </article>
-    <article class="booking-card">
-      <strong>Before travel</strong>
-      <ul>${booking.actionItems.map(item => `<li>${item}</li>`).join("")}</ul>
-      <ul>${booking.fillIns.map(item => `<li>${item}</li>`).join("")}</ul>
-    </article>
-    <article class="booking-card booking-card--image">
-      <strong>Confirmation screenshot</strong>
-      <a href="${booking.screenshot}" target="_blank" rel="noopener">
-        <img src="${booking.screenshot}" alt="Booking.com hotel confirmation screenshot" loading="lazy" decoding="async">
-      </a>
-    </article>
-  `;
+function openDayPocket(dayId) {
+  setActivePanel("overview");
+  const pocket = document.getElementById(dayId);
+  if (!pocket) return;
+  pocket.open = true;
+  pocket.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function renderResources() {
-  document.querySelector("#resourceList").innerHTML = resources.map(([label, url]) => `
-    <a href="${url}" target="_blank" rel="noopener">${label}</a>
-  `).join("");
-}
-
-function renderRouteShortcuts() {
-  document.querySelector("#routeShortcutList").innerHTML = routeShortcuts.map(route => `
-    <article class="route-shortcut">
-      <div>
-        <span>${route.mode}</span>
-        <strong>${route.label}</strong>
-        <p>${route.from} -> ${route.to}</p>
-        <p>${route.note}</p>
-      </div>
-      <a class="button" href="${directionsUrl(route.from, route.to, route.mode)}" target="_blank" rel="noopener">Directions</a>
-    </article>
-  `).join("");
-}
-
-function renderMaps(filter = "") {
-  const query = filter.trim().toLowerCase();
-  const entries = Object.keys(mapQueries).filter(name => name.toLowerCase().includes(query));
-  document.querySelector("#mapList").innerHTML = entries.map(name => `
-    <a href="${mapsUrl(name)}" target="_blank" rel="noopener"><strong>${name}</strong></a>
-  `).join("");
+function syncPanelFromLocation() {
+  const panelFromQuery = new URLSearchParams(window.location.search).get("panel");
+  const panelId = panelIds.includes(panelFromQuery)
+    ? panelFromQuery
+    : resolvePanelFromHash(window.location.hash, panelIds, "overview");
+  setActivePanel(panelId, { pushHash: false });
 }
 
 function wireEvents() {
@@ -1185,28 +1199,58 @@ function wireEvents() {
     link.href = mapsUrl(link.dataset.map);
   });
 
-  document.querySelectorAll("[data-copy-hotel]").forEach(button => {
-    button.addEventListener("click", async () => {
+  document.querySelector("#heroTubeDirections").href = directionsUrl("Hotel", "Pimlico Station", "walking");
+
+  document.addEventListener("click", async event => {
+    const targetButton = event.target.closest("[data-target]");
+    if (targetButton) {
+      setActivePanel(targetButton.dataset.target);
+      return;
+    }
+
+    const dayButton = event.target.closest("[data-open-day]");
+    if (dayButton) {
+      openDayPocket(dayButton.dataset.openDay);
+      return;
+    }
+
+    const copyButton = event.target.closest("[data-copy-hotel]");
+    if (copyButton) {
       await navigator.clipboard.writeText(hotelAddress);
       showToast("Hotel address copied");
-    });
+      return;
+    }
+
+    const closeButton = event.target.closest("[data-photo-close]");
+    if (closeButton) {
+      closePhotoReminder(false);
+      return;
+    }
   });
 
   window.addEventListener("beforeinstallprompt", event => {
     event.preventDefault();
     deferredInstallPrompt = event;
-    document.querySelector("[data-install-app]").hidden = false;
+    document.querySelectorAll("[data-install-app]").forEach(button => {
+      button.hidden = false;
+    });
   });
 
-  document.querySelector("[data-install-app]").addEventListener("click", async () => {
+  document.addEventListener("click", async event => {
+    const installButton = event.target.closest("[data-install-app]");
+    if (!installButton) return;
+
     if (!deferredInstallPrompt) {
       showToast("Use your browser menu to add this guide to the home screen");
       return;
     }
+
     deferredInstallPrompt.prompt();
     await deferredInstallPrompt.userChoice;
     deferredInstallPrompt = null;
-    document.querySelector("[data-install-app]").hidden = true;
+    document.querySelectorAll("[data-install-app]").forEach(button => {
+      button.hidden = true;
+    });
   });
 
   document.addEventListener("change", event => {
@@ -1218,47 +1262,50 @@ function wireEvents() {
     localStorage.setItem(key, JSON.stringify(saved));
   });
 
-  document.querySelector("#mapSearch").addEventListener("input", event => renderMaps(event.target.value));
+  document.querySelector("#mapSearch").addEventListener("input", event => {
+    renderMaps(event.target.value);
+  });
 
   document.querySelector("[data-refresh-flight-status]").addEventListener("click", async () => {
     await loadFlightStatus({ force: true });
   });
+
   document.querySelector("[data-enable-flight-alerts]").addEventListener("click", async () => {
     if (!("Notification" in window)) {
       showToast("Browser notifications are not supported here");
       return;
     }
+
     const permission = await Notification.requestPermission();
-    showToast(permission === "granted" ? "Flight alerts enabled while this site is open" : "Flight alerts were not enabled");
+    showToast(permission === "granted" ? "Browser alerts enabled while this site is open" : "Browser alerts were not enabled");
   });
 
-  document.querySelectorAll("[data-photo-reminder]").forEach(button => {
-    button.addEventListener("click", () => openPhotoReminder(true));
-  });
-  document.querySelectorAll("[data-photo-close]").forEach(button => {
-    button.addEventListener("click", () => closePhotoReminder(false));
-  });
   document.querySelector("[data-photo-done]").addEventListener("click", () => {
     closePhotoReminder(true);
     showToast("Photo mission checked off for today");
   });
+
+  window.addEventListener("hashchange", syncPanelFromLocation);
 }
 
-renderDays();
+renderTodaySummary();
+renderItinerary();
+renderHotelActions();
+renderRouteShortcuts();
+renderTubePockets();
+renderMaps();
+renderResources();
+renderTickets();
 renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
-renderTickets();
-renderNextMove();
-renderFlights();
+renderBooking();
+renderEmergencyContacts();
+renderRecovery();
 renderDepartureGuard();
 renderPhonePush();
-renderRecovery();
-renderTube();
-renderBooking();
-renderResources();
-renderRouteShortcuts();
-renderMaps();
+renderFlights();
 wireEvents();
+syncPanelFromLocation();
 loadFlightStatus();
 window.setTimeout(() => openPhotoReminder(false), 900);
 

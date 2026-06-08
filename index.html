@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173f3d">
-  <meta name="description" content="Mobile-first London birthday trip guide for Tiffany and Collin.">
+  <meta name="description" content="Fast, compartmentalized London birthday trip guide for Tiffany and Collin.">
   <title>London Birthday Trip</title>
   <link rel="manifest" href="site.webmanifest">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
@@ -13,248 +13,174 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="hero" id="top">
-    <div class="hero__shade"></div>
-    <div class="hero__content">
-      <p class="eyebrow">June 26-29, 2026</p>
-      <h1>London Birthday Trip</h1>
-      <p class="lede">A pocket guide for Tiffany and Collin: where to go, how to get there, what to save, and what to do when plans need to flex.</p>
-      <div class="hero__actions">
-        <a class="button button--light" href="#today">Start Here</a>
-        <a class="button button--ghost" href="#maps">Map Links</a>
-        <button class="button button--ghost install-button" data-install-app hidden>Install</button>
-      </div>
-    </div>
-  </header>
-
-  <nav class="dock" aria-label="Primary">
-    <a href="#next">Now</a>
-    <a href="#today">Today</a>
-    <a href="#flights">Flights</a>
-    <a href="#tube">Tube</a>
-    <a href="#days">Days</a>
-    <a href="#wallet">Wallet</a>
-    <a href="#maps">Maps</a>
-  </nav>
-
-  <main>
-    <section class="panel quick-panel" id="today">
-      <div>
-        <p class="eyebrow">Quick Reference</p>
-        <h2>Keep this handy</h2>
-      </div>
-      <div class="quick-grid">
-        <article>
-          <span>Hotel</span>
-          <strong>Holiday Inn Express London - Victoria</strong>
-          <p>106-110 Belgrave Road, London SW1V 2BJ</p>
-          <div class="button-row">
-            <a class="button" data-map="Hotel" target="_blank" rel="noopener">Open Map</a>
-            <button class="button button--secondary" data-copy-hotel>Copy Address</button>
-          </div>
-        </article>
-        <article>
-          <span>Transit</span>
-          <strong>Nearest Tube: Pimlico</strong>
-          <p>Main nearby hub: Victoria Station. Use TfL Go and Google Maps before each move.</p>
-        </article>
-        <article>
-          <span>Emergency</span>
-          <strong>999</strong>
-          <p>For police, ambulance, or fire. Use the hotel address if you need help getting back.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section panel next-panel" id="next">
-      <div class="section-heading">
-        <p class="eyebrow">Next Best Move</p>
-        <h2>What to do now</h2>
-      </div>
-      <div id="nextMovePanel" class="next-move"></div>
-    </section>
-
-    <section class="section-strip">
-      <div class="mini-card">
-        <span class="mini-card__icon">1</span>
-        <strong>Stay together</strong>
-        <p>Main streets, main routes, phones zipped away when not in use.</p>
-      </div>
-      <div class="mini-card">
-        <span class="mini-card__icon">2</span>
-        <strong>Keep battery</strong>
-        <p>Charge before leaving, carry the portable charger, save offline maps.</p>
-      </div>
-      <div class="mini-card">
-        <span class="mini-card__icon">3</span>
-        <strong>Use official rides</strong>
-        <p>Uber, FREENOW, or official black cabs only. No street ride offers.</p>
-      </div>
-      <div class="mini-card">
-        <span class="mini-card__icon">4</span>
-        <strong>Photo mission</strong>
-        <p>Take a few pictures every day for Mom and Dad.</p>
-        <button class="button button--secondary" data-photo-reminder>Show Reminder</button>
-      </div>
-    </section>
-
-    <section class="section panel safety-panel" id="safety">
-      <div class="section-heading">
-        <p class="eyebrow">Safety Command Center</p>
-        <h2>If plans wobble, do this</h2>
-      </div>
-      <div class="safety-grid">
-        <article>
-          <strong>Get back to hotel</strong>
-          <p>Use this when tired, lost, separated, or done for the day.</p>
-          <div class="button-row">
-            <a class="button" data-map="Hotel" target="_blank" rel="noopener">Open Hotel Map</a>
-            <button class="button button--secondary" data-copy-hotel>Copy Address</button>
-          </div>
-        </article>
-        <article>
-          <strong>Emergency help</strong>
-          <p>Call 999 for police, ambulance, or fire. The hotel address is 106-110 Belgrave Road, SW1V 2BJ.</p>
-          <div class="button-row">
-            <a class="button button--secondary" href="tel:999">Call 999</a>
-            <a class="button button--secondary" data-map="U.S. Embassy London" target="_blank" rel="noopener">U.S. Embassy</a>
-          </div>
-        </article>
-        <article>
-          <strong>When separated</strong>
-          <p>Stop walking, call each other, share location, and meet at the last agreed major landmark or the hotel.</p>
-          <div class="button-row">
-            <a class="button button--secondary" href="#recovery">Lost Item Plan</a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section panel recovery-panel" id="recovery">
-      <div class="section-heading">
-        <p class="eyebrow">Recovery Plan</p>
-        <h2>If something important is lost</h2>
-      </div>
-      <div id="recoveryPanel" class="recovery-grid"></div>
-    </section>
-
-    <section class="section panel" id="flights">
-      <div class="section-heading">
-        <p class="eyebrow">Flights + Airport</p>
-        <h2>Travel timing</h2>
-      </div>
-      <div class="status-toolbar">
-        <div>
-          <strong>Automated tracker</strong>
-          <span id="flightStatusSummary">Loading status...</span>
+  <div class="app-shell">
+    <header class="masthead" id="top">
+      <div class="masthead__backdrop"></div>
+      <div class="masthead__content">
+        <p class="eyebrow">June 26-29, 2026</p>
+        <h1>London Birthday Trip</h1>
+        <p class="lede">Open the right pocket, tap the next action, keep moving. This guide now starts with the itinerary instead of making everyone scroll forever.</p>
+        <div class="hero-chip-row">
+          <span class="hero-chip">Hotel: Victoria</span>
+          <span class="hero-chip">Nearest Tube: Pimlico</span>
+          <span class="hero-chip">Flight alerts ready</span>
         </div>
-        <div class="button-row">
-          <button class="button" data-refresh-flight-status>Update Now</button>
-          <button class="button button--secondary" data-enable-flight-alerts>Enable Alerts</button>
+        <div class="hero-actions">
+          <button class="button button--light" type="button" data-target="overview">Open Itinerary</button>
+          <a class="button button--ghost" data-map="Hotel" target="_blank" rel="noopener">Hotel Map</a>
+          <a class="button button--ghost" id="heroTubeDirections" target="_blank" rel="noopener">Walk to Tube</a>
+          <button class="button button--ghost install-button" data-install-app hidden>Install Trip App</button>
         </div>
       </div>
-      <div id="flightPanel" class="flight-grid"></div>
-      <div id="departureGuardPanel" class="departure-grid"></div>
-    </section>
+    </header>
 
-    <section class="section panel" id="phone-push">
-      <div class="section-heading">
-        <p class="eyebrow">Phone Alerts</p>
-        <h2>Flight push notifications</h2>
-      </div>
-      <div id="phonePushPanel" class="push-grid"></div>
-    </section>
+    <nav class="tab-bar" aria-label="Trip sections">
+      <button class="tab-button is-active" type="button" data-target="overview">Itinerary</button>
+      <button class="tab-button" type="button" data-target="move">Move</button>
+      <button class="tab-button" type="button" data-target="flights">Flights</button>
+      <button class="tab-button" type="button" data-target="wallet">Wallet</button>
+      <button class="tab-button" type="button" data-target="safety">Safety</button>
+    </nav>
 
-    <section class="section panel" id="tube">
-      <div class="section-heading">
-        <p class="eyebrow">Tube + Directions</p>
-        <h2>How to get around</h2>
-      </div>
-      <div id="tubePanel" class="tube-grid"></div>
-    </section>
+    <main class="app-main">
+      <section class="panel-view is-active" id="overview" data-panel>
+        <div class="section-heading">
+          <p class="eyebrow">Start Here</p>
+          <h2>The trip at a glance</h2>
+        </div>
+        <div id="todaySummary" class="overview-grid"></div>
+        <div class="section-heading section-heading--tight">
+          <p class="eyebrow">Day By Day</p>
+          <h2>Itinerary pockets</h2>
+        </div>
+        <div id="itineraryList" class="pocket-stack"></div>
+      </section>
 
-    <section id="days" class="section">
-      <div class="section-heading">
-        <p class="eyebrow">Itinerary</p>
-        <h2>Day by day</h2>
-      </div>
-      <div id="dayCards" class="day-list"></div>
-    </section>
+      <section class="panel-view" id="move" data-panel hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Get Around</p>
+          <h2>Directions without guesswork</h2>
+        </div>
+        <div id="hotelActionPanel" class="overview-grid"></div>
+        <div class="section-heading section-heading--tight">
+          <p class="eyebrow">One Tap Routes</p>
+          <h2>Open the exact move you need</h2>
+        </div>
+        <div id="routeShortcutList" class="pocket-stack"></div>
+        <div class="section-heading section-heading--tight">
+          <p class="eyebrow">Tube Basics</p>
+          <h2>Keep the transit rules tucked away</h2>
+        </div>
+        <div id="tubePocketList" class="pocket-stack"></div>
+        <section class="panel-card">
+          <label class="search">
+            <span>Find a stop or landmark</span>
+            <input id="mapSearch" type="search" placeholder="Try hotel, Pimlico, Camden, Borough...">
+          </label>
+          <div id="mapList" class="action-list"></div>
+        </section>
+        <section class="panel-card">
+          <div class="section-heading section-heading--tight">
+            <p class="eyebrow">Helpful Downloads</p>
+            <h2>Apps and official links</h2>
+          </div>
+          <div id="resourceList" class="action-list"></div>
+        </section>
+      </section>
 
-    <section class="section split" id="wallet">
-      <div class="panel">
-        <p class="eyebrow">Before You Go</p>
-        <h2>Checklist</h2>
-        <div id="todoList" class="checklist"></div>
-      </div>
-      <div class="panel">
-        <p class="eyebrow">Ticket Wallet</p>
-        <h2>Save these on both phones</h2>
-        <div id="ticketList" class="wallet-grid"></div>
-      </div>
-    </section>
+      <section class="panel-view" id="flights" data-panel hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Flights + Alerts</p>
+          <h2>Travel timing and push setup</h2>
+        </div>
+        <section class="status-bar">
+          <div>
+            <strong>Automated flight tracker</strong>
+            <span id="flightStatusSummary">Loading status...</span>
+          </div>
+          <div class="button-row">
+            <button class="button" type="button" data-refresh-flight-status>Refresh Status</button>
+            <button class="button button--secondary" type="button" data-enable-flight-alerts>Browser Alerts</button>
+          </div>
+        </section>
+        <div id="flightPanel" class="pocket-stack"></div>
+        <div id="departureGuardPanel" class="overview-grid"></div>
+        <div id="phonePushPanel" class="pocket-stack"></div>
+      </section>
 
-    <section class="section panel" id="booking">
-      <div class="section-heading">
-        <p class="eyebrow">Booking.com</p>
-        <h2>Hotel booking confirmation</h2>
-      </div>
-      <div id="bookingPanel" class="booking-grid"></div>
-    </section>
+      <section class="panel-view" id="wallet" data-panel hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Wallet + Prep</p>
+          <h2>Documents, checklists, and booking proof</h2>
+        </div>
+        <div class="split-grid">
+          <section class="panel-card">
+            <p class="eyebrow">Ticket Wallet</p>
+            <h2>Save these on both phones</h2>
+            <div id="ticketList" class="action-list"></div>
+          </section>
+          <section class="panel-card">
+            <p class="eyebrow">Before Leaving</p>
+            <h2>Prep checklist</h2>
+            <div id="todoList" class="checklist"></div>
+          </section>
+        </div>
+        <div class="split-grid">
+          <section class="panel-card">
+            <p class="eyebrow">Pack</p>
+            <h2>What to bring</h2>
+            <div id="packList" class="checklist"></div>
+          </section>
+          <section class="panel-card">
+            <p class="eyebrow">Booking Proof</p>
+            <h2>Hotel confirmation pocket</h2>
+            <div id="bookingPanel" class="pocket-stack"></div>
+          </section>
+        </div>
+      </section>
 
-    <section class="section split">
-      <div class="panel">
-        <p class="eyebrow">Pack</p>
-        <h2>Bring this</h2>
-        <div id="packList" class="checklist"></div>
-      </div>
-      <div class="panel resource-panel">
-        <p class="eyebrow">Resources</p>
-        <h2>Apps and links</h2>
-        <div id="resourceList" class="resource-list"></div>
-      </div>
-    </section>
+      <section class="panel-view" id="safety" data-panel hidden>
+        <div class="section-heading">
+          <p class="eyebrow">Safety Locker</p>
+          <h2>Keep the backup plans tucked away here</h2>
+        </div>
+        <div id="emergencyPanel" class="overview-grid"></div>
+        <div id="recoveryPanel" class="pocket-stack"></div>
+        <section class="panel-card">
+          <div class="section-heading section-heading--tight">
+            <p class="eyebrow">Simple Rules</p>
+            <h2>What to do when the day goes sideways</h2>
+          </div>
+          <div class="overview-grid overview-grid--compact">
+            <article class="info-card">
+              <span>If tired</span>
+              <strong>Shorten the day</strong>
+              <p>Eat nearby and use Uber, FREENOW, or an official black cab back to the hotel.</p>
+            </article>
+            <article class="info-card">
+              <span>If it rains</span>
+              <strong>Move indoors</strong>
+              <p>Shift toward markets, cafes, covered areas, and indoor stops without guilt.</p>
+            </article>
+            <article class="info-card">
+              <span>If separated</span>
+              <strong>Stop and reconnect</strong>
+              <p>Stop moving, call each other, share location, and meet at the last agreed landmark or hotel.</p>
+            </article>
+            <article class="info-card">
+              <span>If lost</span>
+              <strong>Use the hotel as home base</strong>
+              <p>Open the hotel map, ask staff inside a station/shop/hotel, and head back to Victoria if unsure.</p>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
 
-    <section class="section panel" id="maps">
-      <div class="section-heading">
-        <p class="eyebrow">Maps</p>
-        <h2>Open any stop fast</h2>
-      </div>
-      <label class="search">
-        <span>Search stops</span>
-        <input id="mapSearch" type="search" placeholder="Try Borough, hotel, Camden...">
-      </label>
-      <div id="routeShortcutList" class="route-shortcuts"></div>
-      <div id="mapList" class="map-list"></div>
-    </section>
-
-    <section class="section panel" id="help">
-      <p class="eyebrow">When Things Change</p>
-      <h2>Simple fallback rules</h2>
-      <div class="rules-grid">
-        <article>
-          <strong>If tired</strong>
-          <p>Shorten the walk, eat nearby, and use Uber or a black cab back to the hotel.</p>
-        </article>
-        <article>
-          <strong>If it rains</strong>
-          <p>Shift toward markets, cafes, shops, covered areas, and indoor stops. Keep the day easy.</p>
-        </article>
-        <article>
-          <strong>If separated</strong>
-          <p>Stop moving, call each other, share location, and meet at the last agreed major landmark.</p>
-        </article>
-        <article>
-          <strong>If lost</strong>
-          <p>Open the hotel map, use TfL Go, or ask staff inside a shop, station, hotel, or restaurant.</p>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <p>Built for on-the-go reference. Last updated from the trip site source files.</p>
-  </footer>
+    <footer class="site-footer">
+      <p>Built for fast taps, low stress, and weak signal. Keep GitHub as the source of truth and this app as the family control panel.</p>
+    </footer>
+  </div>
 
   <div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-labelledby="photoModalTitle" hidden>
     <div class="modal__backdrop" data-photo-close></div>
@@ -268,14 +194,14 @@
         <li>One food, market, or funny moment.</li>
       </ul>
       <div class="button-row">
-        <button class="button" data-photo-done>Done for Today</button>
+        <button class="button" type="button" data-photo-done>Done for Today</button>
         <a class="button button--secondary" href="assets/photo-reminder.ics">Add Calendar Reminder</a>
-        <button class="button button--secondary" data-photo-close>Close</button>
+        <button class="button button--secondary" type="button" data-photo-close>Close</button>
       </div>
     </section>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -2,6 +2,14 @@
 
 Mobile-first web guide for Tiffany and Collin's London birthday trip, June 26-29, 2026.
 
+The site is now organized as a compact app shell with pockets instead of one long infinite scroll:
+
+- `Itinerary` starts first and opens day pockets.
+- `Move` holds route shortcuts, Tube rules, walking directions, and app links.
+- `Flights` holds status, departure guardrails, and push-alert setup.
+- `Wallet` holds confirmations and prep checklists.
+- `Safety` tucks all emergency and recovery guidance into its own compartment.
+
 ## Live Site
 
 The public GitHub Pages URL is:
@@ -31,14 +39,14 @@ Most trip changes happen in `app.js`.
 - Update pre-travel tasks in `todo`.
 - Update packing items in `pack`.
 - Update ticket reminders in `tickets`.
-- Update app and safety links in `resources`.
+- Update app and safety links in `resourceGroups`.
 - Update emergency and lost-item recovery guidance in `emergencyContacts` and `recoveryPlans`.
 - Update flight departure rules in `departureGuardrails`.
 - Update per-leg saved flight readiness checklists in `flightReadiness`.
 - Update date-aware next-step guidance in `nextMoveTimeline`.
 - Keep day/hero WebP image variants paired with JPG fallbacks for fast mobile loading.
 
-Design changes happen in `styles.css`. The site intentionally has no build dependency, so small edits are easy and fast.
+Design changes happen in `styles.css`. Shared pure helpers live in `site-logic.js` so panel routing and map URL generation can be unit-tested.
 
 ## Publishing Workflow
 
@@ -86,6 +94,12 @@ For the site resilience checks, run:
 
 ```powershell
 npm run site:qa
+```
+
+For the unit tests, run:
+
+```powershell
+npm run test:unit
 ```
 
 For optimized image checks, run:
