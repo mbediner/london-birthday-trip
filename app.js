@@ -726,7 +726,7 @@ function renderTodaySummary(date = new Date()) {
 
 function renderItinerary() {
   document.querySelector("#itineraryList").innerHTML = days.map((day, index) => `
-    <details class="pocket-card itinerary-pocket" id="${day.id}" ${index === 0 ? "open" : ""}>
+    <details class="pocket-card itinerary-pocket" id="${day.id}">
       <summary class="pocket-card__summary">
         <div>
           <span>${day.date}</span>
@@ -742,35 +742,53 @@ function renderItinerary() {
         </picture>
       </div>
       <div class="itinerary-pocket__body">
+        <section class="day-command-card">
+          <div>
+            <span>Best next tap</span>
+            <strong>Start with directions, not reading</strong>
+            <p>${day.transport}</p>
+          </div>
+          <div class="button-row">
+            <a class="button" href="${directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2])}" target="_blank" rel="noopener">Launch day route</a>
+            <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
+          </div>
+        </section>
         <div class="trip-facts">
           <article><span>Main area</span><strong>${day.area}</strong></article>
-          <article><span>Transport</span><strong>${day.transport}</strong></article>
           <article><span>Food</span><strong>${day.food}</strong></article>
           <article><span>Night return</span><strong>${day.night}</strong></article>
         </div>
-        <div class="button-row">
-          <a class="button" href="${directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2])}" target="_blank" rel="noopener">Launch day route</a>
-          <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
-        </div>
-        <ol class="step-list">
-          ${day.steps.map((step, stepIndex) => `
-            <li>
-              <div class="step-count">${stepIndex + 1}</div>
-              <div class="step-copy">
-                <h3>${step[0]}</h3>
-                <p>${step[1]}</p>
-                <div class="chip-row">
-                  ${step[2].map(name => `<a class="map-chip" href="${mapsUrl(name)}" target="_blank" rel="noopener">${name}</a>`).join("")}
+        <details class="sub-pocket">
+          <summary class="sub-pocket__summary">
+            <strong>Step-by-step route</strong>
+            <span>${day.steps.length} stops</span>
+          </summary>
+          <ol class="step-list">
+            ${day.steps.map((step, stepIndex) => `
+              <li>
+                <div class="step-count">${stepIndex + 1}</div>
+                <div class="step-copy">
+                  <h3>${step[0]}</h3>
+                  <p>${step[1]}</p>
+                  <div class="chip-row">
+                    ${step[2].map(name => `<a class="map-chip" href="${mapsUrl(name)}" target="_blank" rel="noopener">${name}</a>`).join("")}
+                  </div>
                 </div>
-              </div>
-            </li>
-          `).join("")}
-        </ol>
-        <div class="callout-grid">
-          <article class="callout-card"><span>Photos</span><strong>Capture this</strong><p>${day.photo}</p></article>
-          <article class="callout-card"><span>If tired</span><strong>Shorten it</strong><p>${day.tired}</p></article>
-          <article class="callout-card"><span>If it rains</span><strong>Pivot cleanly</strong><p>${day.rain}</p></article>
-        </div>
+              </li>
+            `).join("")}
+          </ol>
+        </details>
+        <details class="sub-pocket">
+          <summary class="sub-pocket__summary">
+            <strong>Photos and fallbacks</strong>
+            <span>Open only when useful</span>
+          </summary>
+          <div class="callout-grid">
+            <article class="callout-card"><span>Photos</span><strong>Capture this</strong><p>${day.photo}</p></article>
+            <article class="callout-card"><span>If tired</span><strong>Shorten it</strong><p>${day.tired}</p></article>
+            <article class="callout-card"><span>If it rains</span><strong>Pivot cleanly</strong><p>${day.rain}</p></article>
+          </div>
+        </details>
       </div>
     </details>
   `).join("");
@@ -1181,6 +1199,9 @@ function openDayPocket(dayId) {
   setActivePanel("overview");
   const pocket = document.getElementById(dayId);
   if (!pocket) return;
+  document.querySelectorAll(".itinerary-pocket").forEach(dayPocket => {
+    if (dayPocket !== pocket) dayPocket.open = false;
+  });
   pocket.open = true;
   pocket.scrollIntoView({ behavior: "smooth", block: "start" });
 }

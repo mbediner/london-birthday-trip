@@ -397,6 +397,78 @@ summary:hover {
   padding: 0 18px 18px;
 }
 
+.day-command-card {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 14px;
+  padding: 16px;
+  border: 1px solid rgba(23, 63, 61, 0.12);
+  border-radius: 22px;
+  color: white;
+  background:
+    radial-gradient(circle at top right, rgba(255, 226, 160, 0.28), transparent 34%),
+    linear-gradient(145deg, var(--forest), var(--forest-soft));
+}
+
+.day-command-card span,
+.sub-pocket__summary span {
+  color: #ffe2a0;
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.day-command-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.18rem;
+}
+
+.day-command-card p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.sub-pocket {
+  margin-top: 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.72);
+  overflow: hidden;
+}
+
+.sub-pocket__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  list-style: none;
+  cursor: pointer;
+}
+
+.sub-pocket__summary::-webkit-details-marker {
+  display: none;
+}
+
+.sub-pocket__summary strong {
+  margin: 0;
+}
+
+.sub-pocket__summary span {
+  color: var(--coral);
+}
+
+.sub-pocket[open] {
+  background: white;
+}
+
+.sub-pocket .step-list,
+.sub-pocket .callout-grid {
+  margin: 0;
+  padding: 0 16px 16px;
+}
+
 .step-list,
 .bullet-list {
   display: grid;
@@ -728,31 +800,30 @@ summary:hover {
 @media (max-width: 760px) {
   .masthead {
     min-height: auto;
-    padding: 14px 14px 10px;
+    padding: 10px 14px 12px;
     background-image: none;
     background-color: var(--forest);
   }
 
   .tab-bar {
     position: static;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-    overflow-x: auto;
     margin-top: 0;
-    padding: 8px 14px 0;
+    padding: 8px 14px 4px;
   }
 
   .tab-button {
-    flex: 0 0 auto;
-    min-height: 40px;
-    padding: 8px 14px;
-    border-radius: 999px;
-    font-size: 0.88rem;
+    min-height: 38px;
+    padding: 7px 8px;
+    border-radius: 14px;
+    font-size: 0.8rem;
     box-shadow: none;
   }
 
   .app-main {
-    padding-top: 12px;
+    padding-top: 10px;
   }
 
   .overview-grid {
@@ -764,11 +835,13 @@ summary:hover {
   }
 
   .pocket-card__summary {
-    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
   }
 
   .itinerary-pocket__media img {
-    height: 190px;
+    height: 132px;
   }
 
   .map-chip,
@@ -778,43 +851,88 @@ summary:hover {
   }
 
   .hero-chip-row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 
   .hero-chip {
-    min-height: 30px;
-    padding: 6px 10px;
-    font-size: 0.78rem;
+    min-height: 28px;
+    padding: 6px 8px;
+    font-size: 0.7rem;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.14);
   }
 
   .lede {
-    margin-top: 8px;
-    font-size: 0.9rem;
+    display: none;
   }
 
   .hero-actions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
-    margin-top: 12px;
+    margin-top: 10px;
   }
 
   .hero-actions .button {
-    min-height: 42px;
-    padding: 10px 12px;
+    min-height: 38px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+  }
+
+  .hero-card,
+  .info-card,
+  .panel-card {
+    padding: 14px;
+    border-radius: 22px;
+  }
+
+  .hero-card strong,
+  .info-card strong,
+  .pocket-card strong,
+  .route-pocket strong,
+  .trip-facts strong {
+    font-size: 1rem;
+  }
+
+  .hero-card p,
+  .info-card p,
+  .pocket-card p,
+  .route-pocket p {
+    margin-block: 6px;
     font-size: 0.9rem;
+  }
+
+  .button-row {
+    gap: 8px;
+  }
+
+  .button-row .button {
+    min-height: 40px;
+    padding: 9px 12px;
+    font-size: 0.86rem;
+  }
+
+  .day-command-card {
+    padding: 14px;
+  }
+
+  .sub-pocket__summary {
+    align-items: start;
+    flex-direction: column;
   }
 }
 
 @media (max-width: 520px) {
   h1 {
-    font-size: 2.15rem;
+    font-size: 1.48rem;
     letter-spacing: -0.04em;
+  }
+
+  h2 {
+    font-size: 1.45rem;
   }
 
   .tab-bar {
@@ -834,7 +952,7 @@ summary:hover {
   }
 
   .hero-actions {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .hero-actions .button--ghost {

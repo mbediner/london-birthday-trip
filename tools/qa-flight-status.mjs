@@ -53,6 +53,11 @@ assert.ok(outboundDomestic.lastCheckedAt, "active RDU -> BOS should be checked")
 assert.ok(outboundInternational.lastCheckedAt, "active BOS -> LHR should be checked");
 assert.equal(returnInternational.statusKind, "inactive", "return flight should remain inactive during outbound window");
 assert.ok(firstTravelWindowRun.notifications.notifications.length >= 1, "entering an active window should generate at least one phone notification");
+assert.equal(
+  firstTravelWindowRun.notifications.notifications.every(notification => notification.title.startsWith("Mom and Dad")),
+  true,
+  "phone notification titles should clearly say they are from Mom and Dad"
+);
 
 const duplicateOutboundRun = await runAt("2026-06-25T19:00:00Z");
 assert.equal(duplicateOutboundRun.notifications.notifications.length, 0, "unchanged status should not repeat phone notifications");

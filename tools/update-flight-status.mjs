@@ -219,7 +219,7 @@ function buildNotifications(previousFlights, nextFlights) {
 
     notifications.push({
       id: next.id,
-      title: alert ? `Flight alert: B6 ${next.number}` : `Flight check: B6 ${next.number}`,
+      title: alert ? `Mom and Dad alert: B6 ${next.number}` : `Mom and Dad check: B6 ${next.number}`,
       message: [
         `${next.route}: ${next.status}.`,
         `Departure: ${next.departure?.estimated || next.departure?.scheduled || "not available"}.`,
