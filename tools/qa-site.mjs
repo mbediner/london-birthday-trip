@@ -7,6 +7,7 @@ const styles = await fs.readFile("styles.css", "utf8");
 const worker = await fs.readFile("sw.js", "utf8");
 const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
 const manifest = JSON.parse(await fs.readFile("site.webmanifest", "utf8"));
+const tripPushWorkflow = await fs.readFile(".github/workflows/trip-push-reminders.yml", "utf8");
 
 assert.match(index, /<link rel="manifest" href="site\.webmanifest">/, "index should expose the PWA manifest");
 assert.match(index, /assets\/london_eye\.webp/, "index should preload the optimized hero image");
@@ -24,6 +25,10 @@ assert.match(app, /setActivePanel/, "app should switch between compartment panel
 assert.match(app, /renderPhonePush/, "app should render push notification setup guidance");
 assert.match(app, /Download for iPhone/, "app should provide iPhone install guidance");
 assert.match(app, /Download for Android/, "app should provide Android install guidance");
+assert.doesNotMatch(index, /data-enable-flight-alerts|Browser Alerts|photoModal|photo-reminder\.ics/, "site should not expose browser or calendar reminder controls");
+assert.doesNotMatch(app, /Notification\.requestPermission|new Notification|maybeNotifyFlightStatus|openPhotoReminder|photoMission/, "app should not use browser notification reminders");
+assert.match(tripPushWorkflow, /ntfy\.sh\/\$NTFY_TOPIC/, "trip reminders should send through ntfy phone push");
+assert.match(tripPushWorkflow, /update-trip-push-reminders\.mjs/, "trip reminder workflow should generate due push reminders");
 assert.match(app, /Walk hotel to Pimlico Station/, "app should expose direct hotel-to-tube walking guidance");
 assert.match(app, /nextMoveTimeline/, "app should define date-aware next-step guidance");
 assert.match(app, /routeShortcuts/, "app should define one-tap direction shortcuts");

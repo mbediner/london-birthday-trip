@@ -5,14 +5,16 @@
   "type": "module",
   "description": "Mobile-first London birthday trip guide for Tiffany and Collin.",
   "scripts": {
-    "check": "node --check app.js && node --check sw.js && node --check tools/preview-site.mjs && node --check tools/qa-site.mjs && node --check tools/qa-image-assets.mjs",
+    "check": "node --check app.js && node --check sw.js && node --check tools/preview-site.mjs && node --check tools/qa-site.mjs && node --check tools/qa-image-assets.mjs && node --check tools/qa-trip-push-reminders.mjs && node --check tools/update-trip-push-reminders.mjs",
     "test:unit": "node --test tests/*.test.mjs",
     "drive:preflight": "powershell -ExecutionPolicy Bypass -File tools/drive-preflight.ps1",
-    "release:prepare": "node tools/bust-cache.mjs && npm run check && npm run test:unit && npm run site:qa",
+    "release:prepare": "node tools/bust-cache.mjs && npm run check && npm run test:unit && npm run site:qa && npm run reminder:qa",
     "site:qa": "node tools/qa-site.mjs",
     "image:qa": "node tools/qa-image-assets.mjs",
     "flight:update": "node tools/update-flight-status.mjs",
     "flight:qa": "node tools/qa-flight-status.mjs",
+    "reminder:qa": "node tools/qa-trip-push-reminders.mjs",
+    "reminder:update": "node tools/update-trip-push-reminders.mjs",
     "preview": "node tools/preview-site.mjs"
   },
   "devDependencies": {}

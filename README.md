@@ -137,8 +137,8 @@ The public site includes a no-paid flight status system:
 - The script writes `data/flight-status.json`.
 - The site reads that JSON and shows each flight's status, last checked time, estimated departure/arrival, and gate when available.
 - The `Update Now` button refreshes the latest status data already published to the site.
-- Browser alerts can notify about status changes while the site is open and notification permission is granted.
 - Real phone push notifications use ntfy.sh. Install the ntfy app and subscribe to the topic shown in the site.
+- Do not add browser notification prompts back to the website. Flight alerts and trip reminders should go through ntfy phone push.
 - Google Status search for the free Google flight-status card.
 - JetBlue flight tracker and app for the source of truth.
 - FlightStats for public flight status pages.
@@ -154,6 +154,8 @@ The site uses ntfy for no-paid phone push alerts:
 - App/web topic URL: `https://ntfy.sh/london-birthday-trip-2026-a9x4m2q7`
 - Alerts are sent by the GitHub Actions flight-status workflow.
 - Alerts are sent on the first active check for a flight and when meaningful flight status details change.
+- Trip reminders are sent by the GitHub Actions trip-push-reminders workflow.
+- Reminder send state is stored in `data/trip-push-state.json` so scheduled reminders do not repeat.
 
 The ntfy topic is public but intentionally hard to guess. Anyone who knows the topic URL could subscribe or send messages, so this should be treated as a practical travel notifier, not a private medical/banking channel.
 

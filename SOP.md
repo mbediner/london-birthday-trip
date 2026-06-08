@@ -144,10 +144,12 @@ Send a release email after every successful feature deployment.
 - The site reads `data/flight-status.json` and shows last updated / last checked times.
 - `Update Now` refreshes the latest published JSON in the browser. It cannot secretly start a GitHub Actions run without a private token.
 - For immediate human confirmation, use the Google Status and JetBlue buttons.
-- Browser notifications work while the site is open and notification permission is granted. Closed-phone push requires a real push service or airline app notifications.
-- Closed-phone flight push uses ntfy.sh topic `london-birthday-trip-2026-a9x4m2q7`.
+- Do not use browser notification prompts for this trip site.
+- Flight alerts and trip reminders use ntfy.sh topic `london-birthday-trip-2026-a9x4m2q7`.
+- Trip reminder send state lives in `data/trip-push-state.json`; do not manually mark reminders sent unless a push actually went out.
 - Keep the ntfy topic hard to guess. It is public if someone has the topic name.
 - Run `npm run flight:qa` after changing flight tracking logic.
+- Run `npm run reminder:qa` after changing trip reminder logic.
 - Run `npm run flight:update` outside the monitoring windows and confirm it does not create a `data/flight-status.json` diff.
 
 ## Installable / Offline App

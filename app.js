@@ -418,7 +418,7 @@ const nextMoveTimeline = [
     message: "You made it back to Raleigh. Send Mom and Dad the best photos.",
     detail: "Keep passports and important documents in the same safe spot after getting home.",
     actions: [
-      ["Photo Reminder", "panel:overview"],
+      ["Photo Mission", "panel:overview"],
       ["Wallet", "panel:wallet"]
     ]
   }
@@ -622,13 +622,6 @@ const tubeRoutes = [
     backup: "Night 1 rule still applies: Uber or black cab directly to the hotel."
   }
 ];
-
-const photoReminderDates = new Set([
-  "2026-06-26",
-  "2026-06-27",
-  "2026-06-28",
-  "2026-06-29"
-]);
 
 let flightStatusData = null;
 let deferredInstallPrompt = null;
@@ -1053,7 +1046,7 @@ function renderPhonePush() {
       <ol class="bullet-list">
         <li>Tap the Install Trip App button when it appears.</li>
         <li>If no install button appears, use the browser menu and add the site to the home screen manually.</li>
-        <li>Browser alerts only work while the site is open. ntfy is the better always-on backup.</li>
+        <li>All trip reminders and flight alerts use ntfy phone push. The website no longer asks for browser notification permission.</li>
       </ol>
       <div class="button-row">
         <button class="button button--secondary install-button" type="button" data-install-app hidden>Install Trip App</button>
@@ -1120,27 +1113,6 @@ function renderRecovery() {
   `).join("");
 }
 
-function maybeNotifyFlightStatus(data) {
-  if (!("Notification" in window) || Notification.permission !== "granted") return;
-  const previous = JSON.parse(localStorage.getItem("flightStatusSnapshot") || "{}");
-  const next = {};
-
-  for (const flight of data.flights || []) {
-    next[flight.id] = `${flight.statusKind}:${flight.status}:${flight.lastCheckedAt || ""}`;
-    if (
-      previous[flight.id] &&
-      previous[flight.id] !== next[flight.id] &&
-      ["delayed", "cancelled", "alert"].includes(flight.statusKind)
-    ) {
-      new Notification(`Flight ${flight.number}: ${flight.status}`, {
-        body: flight.message || "Check JetBlue and airport screens before acting."
-      });
-    }
-  }
-
-  localStorage.setItem("flightStatusSnapshot", JSON.stringify(next));
-}
-
 async function loadFlightStatus({ force = false } = {}) {
   const summary = document.querySelector("#flightStatusSummary");
   summary.textContent = force ? "Checking latest site data..." : "Loading status...";
@@ -1150,32 +1122,12 @@ async function loadFlightStatus({ force = false } = {}) {
     if (!response.ok) throw new Error(`Status file ${response.status}`);
     flightStatusData = await response.json();
     summary.textContent = `Last updated: ${formatDateTime(flightStatusData.updatedAt)}`;
-    maybeNotifyFlightStatus(flightStatusData);
     renderFlights();
     if (force) showToast("Flight status refreshed from latest site data");
   } catch (error) {
     summary.textContent = "Status cache unavailable. Use tracker links.";
     if (force) showToast("Could not refresh cached status");
   }
-}
-
-function localDateKey(date = new Date()) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
-}
-
-function openPhotoReminder(force = false) {
-  const today = localDateKey();
-  const storageKey = `photoMission:${today}`;
-  if (!force && (!photoReminderDates.has(today) || localStorage.getItem(storageKey))) return;
-  document.querySelector("#photoModal").hidden = false;
-}
-
-function closePhotoReminder(markDone = false) {
-  if (markDone) localStorage.setItem(`photoMission:${localDateKey()}`, "done");
-  document.querySelector("#photoModal").hidden = true;
 }
 
 // Keep the app as a true compartment interface instead of an infinite scroll page.
@@ -1241,11 +1193,6 @@ function wireEvents() {
       return;
     }
 
-    const closeButton = event.target.closest("[data-photo-close]");
-    if (closeButton) {
-      closePhotoReminder(false);
-      return;
-    }
   });
 
   window.addEventListener("beforeinstallprompt", event => {
@@ -1290,21 +1237,6 @@ function wireEvents() {
     await loadFlightStatus({ force: true });
   });
 
-  document.querySelector("[data-enable-flight-alerts]").addEventListener("click", async () => {
-    if (!("Notification" in window)) {
-      showToast("Browser notifications are not supported here");
-      return;
-    }
-
-    const permission = await Notification.requestPermission();
-    showToast(permission === "granted" ? "Browser alerts enabled while this site is open" : "Browser alerts were not enabled");
-  });
-
-  document.querySelector("[data-photo-done]").addEventListener("click", () => {
-    closePhotoReminder(true);
-    showToast("Photo mission checked off for today");
-  });
-
   window.addEventListener("hashchange", syncPanelFromLocation);
 }
 
@@ -1327,7 +1259,6 @@ renderFlights();
 wireEvents();
 syncPanelFromLocation();
 loadFlightStatus();
-window.setTimeout(() => openPhotoReminder(false), 900);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {

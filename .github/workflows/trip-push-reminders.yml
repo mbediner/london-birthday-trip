@@ -1,0 +1,73 @@
+name: Trip Push Reminders
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: trip-push-reminders
+  cancel-in-progress: true
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+  NTFY_TOPIC: london-birthday-trip-2026-a9x4m2q7
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Generate due trip reminders
+        run: node tools/update-trip-push-reminders.mjs
+
+      - name: Send phone push reminders
+        shell: bash
+        run: |
+          count=$(node -e "console.log(require('./data/trip-push-notifications.json').notifications.length)")
+          if [ "$count" = "0" ]; then
+            echo "No trip push reminders to send."
+            exit 0
+          fi
+          node <<'NODE'
+          const fs = require('fs');
+          const data = JSON.parse(fs.readFileSync('data/trip-push-notifications.json', 'utf8'));
+          for (const [index, item] of data.notifications.entries()) {
+            fs.writeFileSync(`trip-reminder-${index}.txt`, item.message);
+            console.log(JSON.stringify(item));
+          }
+          NODE
+          for i in $(seq 0 $((count - 1))); do
+            title=$(node -e "console.log(require('./data/trip-push-notifications.json').notifications[$i].title)")
+            priority=$(node -e "console.log(require('./data/trip-push-notifications.json').notifications[$i].priority)")
+            tags=$(node -e "console.log(require('./data/trip-push-notifications.json').notifications[$i].tags)")
+            curl -sS \
+              -H "Title: $title" \
+              -H "Priority: $priority" \
+              -H "Tags: $tags" \
+              --data-binary "@trip-reminder-$i.txt" \
+              "https://ntfy.sh/$NTFY_TOPIC"
+          done
+
+      - name: Commit reminder state
+        run: |
+          rm -f data/trip-push-notifications.json trip-reminder-*.txt
+          if git diff --quiet -- data/trip-push-state.json; then
+            echo "No reminder state changes."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/trip-push-state.json
+            git commit -m "Update trip push reminder state"
+            git push
+          fi
