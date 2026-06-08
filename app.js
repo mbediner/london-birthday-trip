@@ -129,6 +129,8 @@ const routeShortcuts = [
 ];
 
 const days = [
+  // Marianna still needs to add one more Sunday guide pocket when the extra plan is finalized.
+  // Keep new day entries in this same shape so itinerary cards, map buttons, and QA stay predictable.
   {
     id: "day-1",
     date: "Friday, June 26",
@@ -707,11 +709,11 @@ function renderTodaySummary(date = new Date()) {
       </div>
     </article>
     <article class="info-card">
-      <span>Alerts</span>
-      <strong>Install ntfy now</strong>
-      <p>Phone push works best when ntfy is installed before travel and the topic is subscribed once.</p>
+      <span>Guide setup</span>
+      <strong>Install ntfy before travel</strong>
+      <p>Trip reminders and flight alerts use phone push, so set it up before anyone is tired or on airport Wi-Fi.</p>
       <div class="button-row">
-        <button class="button button--secondary" type="button" data-target="flights">Open alerts</button>
+        <button class="button button--secondary" type="button" data-target="flights">Open setup</button>
       </div>
     </article>
   `;
@@ -985,9 +987,9 @@ function renderDepartureGuard() {
 function renderPhonePush() {
   document.querySelector("#phonePushPanel").innerHTML = `
     <article class="hero-card">
-      <span>Push notifications</span>
+      <span>Guide reminders</span>
       <strong>Install ntfy on each phone</strong>
-      <p>This is the actual app needed for the free phone push backup. Install it first, then subscribe to the topic once.</p>
+      <p>This is the phone push app for trip reminders, photo missions, departure nudges, and flight alerts. Install it first, then subscribe once.</p>
       <code class="topic-code">${ntfyTopic}</code>
       <div class="button-row">
         <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">Download for iPhone</a>
@@ -999,7 +1001,7 @@ function renderPhonePush() {
       <summary class="pocket-card__summary">
         <div>
           <span>iPhone setup</span>
-          <strong>How to get the push alerts on iPhone</strong>
+          <strong>How to get guide reminders on iPhone</strong>
           <p>Keep this tight and practical.</p>
         </div>
       </summary>
@@ -1019,7 +1021,7 @@ function renderPhonePush() {
       <summary class="pocket-card__summary">
         <div>
           <span>Android setup</span>
-          <strong>How to get the push alerts on Android</strong>
+          <strong>How to get guide reminders on Android</strong>
           <p>Same idea, just with Google Play.</p>
         </div>
       </summary>

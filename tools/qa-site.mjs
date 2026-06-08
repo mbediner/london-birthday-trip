@@ -15,6 +15,9 @@ assert.match(index, /data-install-app/, "index should include install controls")
 assert.match(index, /styles\.css\?v=\d+/, "index should include a cache-busted stylesheet URL");
 assert.match(index, /app\.js\?v=\d+/, "index should include a cache-busted app URL");
 assert.match(index, /data-target="overview"/, "index should start from the itinerary panel");
+assert.match(index, /London Travel Guide/, "site should present itself as a travel guide");
+assert.match(index, />Guide<\/button>/, "primary tab should be the guide");
+assert.match(index, /Itinerary first/, "guide should keep itinerary first");
 assert.match(index, /id="phonePushPanel"/, "index should include the phone push panel");
 assert.match(index, /id="hotelActionPanel"/, "index should include the move panel hotel actions");
 assert.match(index, /class="tab-button is-active"/, "index should include a default active tab button");

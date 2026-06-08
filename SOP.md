@@ -137,6 +137,12 @@ Send a release email after every successful feature deployment.
 - Link the screenshot from the relevant itinerary section so it is easy to open on a phone.
 - If exact confirmation numbers or PINs are not clearly legible, add fill-in fields instead of guessing.
 
+## Pending Content
+
+- Marianna still needs to add one more Sunday guide/itinerary pocket.
+- Add that content as a real `days` array entry in `app.js`, with practical route buttons, food notes, photo notes, tired fallback, and rain fallback.
+- Do not bury the extra Sunday material in safety, wallet, or loose notes; it belongs in the travel guide/itinerary flow.
+
 ## Flight Status Automation
 
 - Flight status checks run from GitHub Actions every 30 minutes.

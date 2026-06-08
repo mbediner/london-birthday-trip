@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173f3d">
-  <meta name="description" content="Fast, compartmentalized London birthday trip guide for Tiffany and Collin.">
+  <meta name="description" content="Practical London travel guide and itinerary for Tiffany and Collin.">
   <title>London Birthday Trip</title>
   <link rel="manifest" href="site.webmanifest">
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606082240">
+  <link rel="stylesheet" href="styles.css?v=202606082247">
 </head>
 <body>
   <div class="app-shell">
@@ -18,15 +18,15 @@
       <div class="masthead__backdrop"></div>
       <div class="masthead__content">
         <p class="eyebrow">June 26-29, 2026</p>
-        <h1>London Birthday Trip</h1>
-        <p class="lede">Open the right pocket, tap the next action, keep moving. This guide now starts with the itinerary instead of making everyone scroll forever.</p>
+        <h1>London Travel Guide</h1>
+        <p class="lede">A practical London guide with the itinerary first, then directions, tickets, flights, and safety backups tucked into easy pockets.</p>
         <div class="hero-chip-row">
           <span class="hero-chip">Hotel: Victoria</span>
           <span class="hero-chip">Nearest Tube: Pimlico</span>
-          <span class="hero-chip">Flight alerts ready</span>
+          <span class="hero-chip">June 26-29 Birthday Trip</span>
         </div>
         <div class="hero-actions">
-          <button class="button button--light" type="button" data-target="overview">Open Itinerary</button>
+          <button class="button button--light" type="button" data-target="overview">Open Guide</button>
           <a class="button button--ghost" data-map="Hotel" target="_blank" rel="noopener">Hotel Map</a>
           <a class="button button--ghost" id="heroTubeDirections" target="_blank" rel="noopener">Walk to Tube</a>
           <button class="button button--ghost install-button" data-install-app hidden>Install Trip App</button>
@@ -35,9 +35,9 @@
     </header>
 
     <nav class="tab-bar" aria-label="Trip sections">
-      <button class="tab-button is-active" type="button" data-target="overview">Itinerary</button>
-      <button class="tab-button" type="button" data-target="move">Move</button>
-      <button class="tab-button" type="button" data-target="flights">Flights</button>
+      <button class="tab-button is-active" type="button" data-target="overview">Guide</button>
+      <button class="tab-button" type="button" data-target="move">Directions</button>
+      <button class="tab-button" type="button" data-target="flights">Alerts</button>
       <button class="tab-button" type="button" data-target="wallet">Wallet</button>
       <button class="tab-button" type="button" data-target="safety">Safety</button>
     </nav>
@@ -46,19 +46,19 @@
       <section class="panel-view is-active" id="overview" data-panel>
         <div class="section-heading">
           <p class="eyebrow">Start Here</p>
-          <h2>Itinerary pockets</h2>
+          <h2>Itinerary first</h2>
         </div>
         <div id="itineraryList" class="pocket-stack"></div>
         <div class="section-heading section-heading--tight">
-          <p class="eyebrow">Trip Control</p>
-          <h2>The trip at a glance</h2>
+          <p class="eyebrow">Guide Essentials</p>
+          <h2>Hotel, tube, and setup</h2>
         </div>
         <div id="todaySummary" class="overview-grid"></div>
       </section>
 
       <section class="panel-view" id="move" data-panel hidden>
         <div class="section-heading">
-          <p class="eyebrow">Get Around</p>
+          <p class="eyebrow">London Movement</p>
           <h2>Directions without guesswork</h2>
         </div>
         <div id="hotelActionPanel" class="overview-grid"></div>
@@ -90,8 +90,8 @@
 
       <section class="panel-view" id="flights" data-panel hidden>
         <div class="section-heading">
-          <p class="eyebrow">Flights + Alerts</p>
-          <h2>Travel timing and push setup</h2>
+          <p class="eyebrow">Flights + Push</p>
+          <h2>Travel alerts and setup</h2>
         </div>
         <section class="status-bar">
           <div>
@@ -178,11 +178,11 @@
     </main>
 
     <footer class="site-footer">
-      <p>Built for fast taps, low stress, and weak signal. Keep GitHub as the source of truth and this app as the family control panel.</p>
+      <p>Built as a fast London travel guide for weak signal, quick decisions, and low-stress family navigation.</p>
     </footer>
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606082240"></script>
+  <script type="module" src="app.js?v=202606082247"></script>
 </body>
 </html>

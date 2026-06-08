@@ -1,12 +1,12 @@
 # London Birthday Trip Site
 
-Mobile-first web guide for Tiffany and Collin's London birthday trip, June 26-29, 2026.
+Mobile-first London travel guide and itinerary for Tiffany and Collin's birthday trip, June 26-29, 2026.
 
 The site is now organized as a compact app shell with pockets instead of one long infinite scroll:
 
-- `Itinerary` starts first and opens day pockets.
-- `Move` holds route shortcuts, Tube rules, walking directions, and app links.
-- `Flights` holds status, departure guardrails, and push-alert setup.
+- `Guide` starts first with the itinerary as the lead content.
+- `Directions` holds route shortcuts, Tube rules, walking directions, and app links.
+- `Alerts` holds flight status, departure guardrails, and ntfy phone-push setup.
 - `Wallet` holds confirmations and prep checklists.
 - `Safety` tucks all emergency and recovery guidance into its own compartment.
 
@@ -45,6 +45,7 @@ Most trip changes happen in `app.js`.
 - Update per-leg saved flight readiness checklists in `flightReadiness`.
 - Update date-aware next-step guidance in `nextMoveTimeline`.
 - Keep day/hero WebP image variants paired with JPG fallbacks for fast mobile loading.
+- Marianna still needs to add one more Sunday guide/itinerary pocket when the extra Sunday plan is finalized. Add it to the `days` array with real routes, food, photo, tired, and rain notes instead of leaving loose text elsewhere.
 
 Design changes happen in `styles.css`. Shared pure helpers live in `site-logic.js` so panel routing and map URL generation can be unit-tested.
 
