@@ -644,6 +644,10 @@ function flightTrackers(flight) {
   ];
 }
 
+function sameTabTravelLink(href, label, className = "button") {
+  return `<a class="${className}" href="${href}">${label}</a>`;
+}
+
 function escapeHtml(value) {
   return value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
 }
@@ -744,7 +748,7 @@ function renderItinerary() {
             <p>${day.transport}</p>
           </div>
           <div class="button-row">
-            <a class="button" href="${directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2])}" target="_blank" rel="noopener">Launch day route</a>
+            ${sameTabTravelLink(directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2]), "Launch day route")}
             <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
           </div>
         </section>
@@ -835,7 +839,7 @@ function renderRouteShortcuts() {
         <strong>${route.label}</strong>
         <p>${route.note}</p>
       </div>
-      <a class="button" href="${directionsUrl(route.from, route.to, route.mode)}" target="_blank" rel="noopener">Open directions</a>
+      ${sameTabTravelLink(directionsUrl(route.from, route.to, route.mode), "Open directions")}
     </article>
   `).join("");
 }

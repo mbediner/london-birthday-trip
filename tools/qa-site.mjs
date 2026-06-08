@@ -36,6 +36,9 @@ assert.match(app, /Walk hotel to Pimlico Station/, "app should expose direct hot
 assert.match(app, /nextMoveTimeline/, "app should define date-aware next-step guidance");
 assert.match(app, /routeShortcuts/, "app should define one-tap direction shortcuts");
 assert.match(app, /buildDirectionsUrl/, "app should build Google Maps direction URLs through shared helpers");
+assert.match(app, /sameTabTravelLink\(directionsUrl\(day\.launchRoute/, "primary itinerary route launches should not use popup/new-tab behavior");
+assert.match(app, /sameTabTravelLink\(directionsUrl\(route\.from/, "route shortcut launches should not use popup/new-tab behavior");
+assert.doesNotMatch(app, /Launch day route<\/a>[\s\S]{0,80}target="_blank"/, "Launch day route should stay in the same browser context");
 assert.match(app, /emergencyContacts/, "app should define emergency contact cards");
 assert.match(app, /recoveryPlans/, "app should define lost-item recovery plans");
 assert.match(app, /resolvePanelFromHash/, "app should resolve panel routing from the hash");
