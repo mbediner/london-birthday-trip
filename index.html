@@ -10,7 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606091349">
+  <link rel="stylesheet" href="styles.css?v=202606091429">
 </head>
 <body>
   <div class="app-shell">
@@ -87,13 +87,16 @@
 
       <!-- Flights -->
       <section class="panel-view" id="flights" data-panel hidden>
-        <div class="section-heading">
+        <!-- Push alerts setup — at top so "Set up alerts" button lands here -->
+        <div id="phonePushPanel" class="pocket-stack"></div>
+
+        <div class="section-heading section-heading--tight">
           <p class="eyebrow">All Flights</p>
           <h2>Status at a glance</h2>
         </div>
         <!-- Flight status overview rendered by JS into #flightStatusOverview -->
         <div id="flightStatusOverview"></div>
-        <!-- status-bar kept as a simple refresh row -->
+        <!-- status-bar: simple refresh row -->
         <div class="status-bar">
           <div>
             <strong>Live tracker</strong>
@@ -105,7 +108,6 @@
         </div>
         <div id="flightPanel" class="pocket-stack"></div>
         <div id="departureGuardPanel" class="overview-grid"></div>
-        <div id="phonePushPanel" class="pocket-stack"></div>
       </section>
 
       <!-- Documents / Wallet -->
@@ -234,6 +236,6 @@
   </div><!-- /app-shell -->
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606091349"></script>
+  <script type="module" src="app.js?v=202606091429"></script>
 </body>
 </html>

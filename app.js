@@ -672,6 +672,16 @@ function sameTabTravelLink(href, label, className = "button") {
   return `<a class="${className}" href="${href}">${label}</a>`;
 }
 
+// "Friday, June 26" → { abbr: "FRI", short: "Jun 26" }
+function parseDayBadge(dateStr) {
+  const comma = dateStr.indexOf(",");
+  const abbr = dateStr.substring(0, 3).toUpperCase();
+  const rest = dateStr.substring(comma + 2); // "June 26"
+  const spaceIdx = rest.indexOf(" ");
+  const short = rest.substring(0, 3) + " " + rest.substring(spaceIdx + 1);
+  return { abbr, short };
+}
+
 function escapeHtml(value) {
   return value.replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]));
 }
@@ -737,11 +747,11 @@ function renderTodaySummary(date = new Date()) {
       </div>
     </article>
     <article class="info-card">
-      <span>Guide setup</span>
+      <span>Push alerts</span>
       <strong>Install ntfy before travel</strong>
-      <p>Trip reminders and flight alerts use phone push, so set it up before anyone is tired or on airport Wi-Fi.</p>
+      <p>Trip reminders and flight alerts use phone push. Set it up before anyone is on airport Wi-Fi.</p>
       <div class="button-row">
-        <button class="button button--secondary" type="button" data-target="flights">Open setup</button>
+        <button class="button button--secondary" type="button" data-open-push-setup>Set up alerts →</button>
       </div>
     </article>
   `;
@@ -752,8 +762,8 @@ function renderItinerary() {
     <details class="pocket-card itinerary-pocket" id="${day.id}" data-day="${index + 1}">
       <summary class="pocket-card__summary itinerary-summary">
         <div class="day-badge day-badge--${index + 1}">
-          <span class="day-badge__num">${index + 1}</span>
-          <span class="day-badge__label">Day</span>
+          <span class="day-badge__num">${parseDayBadge(day.date).abbr}</span>
+          <span class="day-badge__label">${parseDayBadge(day.date).short}</span>
         </div>
         <div class="itinerary-summary__text">
           <span class="itinerary-summary__date">${day.date}</span>
@@ -1138,71 +1148,50 @@ function renderDepartureGuard() {
 function renderPhonePush() {
   document.querySelector("#phonePushPanel").innerHTML = `
     <article class="hero-card">
-      <span>Guide reminders</span>
+      <span>Push Alerts — Do this before the trip</span>
       <strong>Install ntfy on each phone</strong>
-      <p>This is the phone push app for trip reminders, photo missions, departure nudges, and flight alerts. Install it first, then subscribe once.</p>
-      <code class="topic-code">${ntfyTopic}</code>
-      <div class="button-row">
-        <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">Download for iPhone</a>
-        <a class="button" href="${appLinks.ntfyAndroid}" target="_blank" rel="noopener">Download for Android</a>
-        <a class="button button--secondary" href="https://ntfy.sh/${ntfyTopic}" target="_blank" rel="noopener">Open topic</a>
+      <p>Trip reminders, departure nudges, and flight alerts all come through ntfy. Install it, subscribe to the topic below, done.</p>
+
+      <div class="topic-row">
+        <code class="topic-code">${ntfyTopic}</code>
+        <button class="copy-btn" type="button" data-copy-topic aria-label="Copy topic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
       </div>
+
+      <div class="button-row">
+        <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">📱 App Store — iPhone</a>
+        <a class="button" href="${appLinks.ntfyAndroid}" target="_blank" rel="noopener">📱 Google Play — Android</a>
+        <a class="button button--secondary" href="https://ntfy.sh/${ntfyTopic}" target="_blank" rel="noopener">Open topic on web</a>
+      </div>
+
+      <ol class="bullet-list" style="margin-top:14px">
+        <li>Download ntfy using the links above</li>
+        <li>Open ntfy → tap <strong>＋ Add topic</strong> → paste the topic above → Save</li>
+        <li>Allow notifications when prompted</li>
+        <li>Also install <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (Android)</a> and allow its notifications too</li>
+      </ol>
     </article>
-    <details class="pocket-card" open>
-      <summary class="pocket-card__summary">
-        <div>
-          <span>iPhone setup</span>
-          <strong>How to get guide reminders on iPhone</strong>
-          <p>Keep this tight and practical.</p>
-        </div>
-      </summary>
-      <ol class="bullet-list">
-        <li>Install ntfy from the App Store.</li>
-        <li>Open ntfy and allow notifications.</li>
-        <li>Tap Add subscription and enter <code class="topic-code" style="display:inline;padding:2px 8px;font-size:0.85em">${ntfyTopic}</code></li>
-        <li>Open JetBlue from the iPhone App Store too, then allow JetBlue notifications.</li>
-        <li>Save this trip site to the home screen with Safari Share -> Add to Home Screen.</li>
-      </ol>
-      <div class="button-row">
-        <a class="button button--secondary" href="${appLinks.jetBlueIos}" target="_blank" rel="noopener">JetBlue for iPhone</a>
-        <a class="button button--secondary" href="${appLinks.tflIos}" target="_blank" rel="noopener">TfL Go for iPhone</a>
-      </div>
-    </details>
+
     <details class="pocket-card">
       <summary class="pocket-card__summary">
         <div>
-          <span>Android setup</span>
-          <strong>How to get guide reminders on Android</strong>
-          <p>Same idea, just with Google Play.</p>
+          <span>Save this guide</span>
+          <strong>Add to home screen (works offline)</strong>
+          <p>Chrome on Android and iPhone, or Safari on iPhone.</p>
         </div>
       </summary>
       <ol class="bullet-list">
-        <li>Install ntfy from Google Play.</li>
-        <li>Open ntfy and allow notifications.</li>
-        <li>Add the topic <code class="topic-code" style="display:inline;padding:2px 8px;font-size:0.85em">${ntfyTopic}</code></li>
-        <li>Install JetBlue and TfL Go from Google Play and allow notifications.</li>
-        <li>Add this trip site to the home screen from the browser menu if desired.</li>
+        <li><strong>iPhone — Chrome:</strong> Tap the share button (⊡) at the bottom → Add to Home Screen</li>
+        <li><strong>iPhone — Safari:</strong> Tap Share (□↑) → Add to Home Screen</li>
+        <li><strong>Android — Chrome:</strong> Tap ⋮ (three dots) → Add to Home Screen or Install App</li>
+        <li>The guide works offline once installed — no signal required to read routes and plans</li>
       </ol>
       <div class="button-row">
-        <a class="button button--secondary" href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener">JetBlue for Android</a>
-        <a class="button button--secondary" href="${appLinks.tflAndroid}" target="_blank" rel="noopener">TfL Go for Android</a>
-      </div>
-    </details>
-    <details class="pocket-card">
-      <summary class="pocket-card__summary">
-        <div>
-          <span>Install the trip app</span>
-          <strong>Save this guide to the home screen</strong>
-          <p>Use the built-in install flow when the browser allows it.</p>
-        </div>
-      </summary>
-      <ol class="bullet-list">
-        <li>Tap the Install Trip App button when it appears.</li>
-        <li>If no install button appears, use the browser menu and add the site to the home screen manually.</li>
-        <li>All trip reminders and flight alerts use ntfy phone push. The website no longer asks for browser notification permission.</li>
-      </ol>
-      <div class="button-row">
-        <button class="button button--secondary install-button" type="button" data-install-app hidden>Install Trip App</button>
+        <button class="button install-button" type="button" data-install-app hidden>Install App (tap here)</button>
+        <a class="button button--secondary" href="${appLinks.tflIos}" target="_blank" rel="noopener">TfL Go — iPhone</a>
+        <a class="button button--secondary" href="${appLinks.tflAndroid}" target="_blank" rel="noopener">TfL Go — Android</a>
       </div>
     </details>
   `;
@@ -1318,7 +1307,7 @@ function setActivePanel(panelId, { pushHash = true } = {}) {
     button.setAttribute("aria-pressed", String(isActive));
   }
 
-  if (pushHash) history.replaceState(null, "", `#${panelId}`);
+  if (pushHash) history.pushState(null, "", `#${panelId}`);
 }
 
 function openDayPocket(dayId) {
@@ -1360,10 +1349,27 @@ function wireEvents() {
       return;
     }
 
-    const copyButton = event.target.closest("[data-copy-hotel]");
-    if (copyButton) {
+    const copyHotelButton = event.target.closest("[data-copy-hotel]");
+    if (copyHotelButton) {
       await navigator.clipboard.writeText(hotelAddress);
       showToast("Hotel address copied");
+      return;
+    }
+
+    const copyTopicButton = event.target.closest("[data-copy-topic]");
+    if (copyTopicButton) {
+      await navigator.clipboard.writeText(ntfyTopic);
+      showToast("Topic copied — paste into ntfy");
+      return;
+    }
+
+    const pushSetupButton = event.target.closest("[data-open-push-setup]");
+    if (pushSetupButton) {
+      setActivePanel("flights");
+      // Scroll to ntfy setup after panel transition
+      setTimeout(() => {
+        document.querySelector("#phonePushPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 60);
       return;
     }
 
@@ -1411,7 +1417,8 @@ function wireEvents() {
     await loadFlightStatus({ force: true });
   });
 
-  window.addEventListener("hashchange", syncPanelFromLocation);
+  // popstate fires on browser back/forward — lets swipe-back navigate panels instead of exiting
+  window.addEventListener("popstate", syncPanelFromLocation);
 }
 
 renderTodaySummary();

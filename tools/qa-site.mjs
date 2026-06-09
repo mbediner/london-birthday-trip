@@ -25,8 +25,8 @@ assert.match(app, /appLinks/, "app should define install targets for required ap
 assert.match(app, /data-open-day/, "app should support opening itinerary pockets directly");
 assert.match(app, /setActivePanel/, "app should switch between compartment panels");
 assert.match(app, /renderPhonePush/, "app should render push notification setup guidance");
-assert.match(app, /Download for iPhone/, "app should provide iPhone install guidance");
-assert.match(app, /Download for Android/, "app should provide Android install guidance");
+assert.match(app, /App Store.*iPhone|Download for iPhone/s, "app should provide iPhone install guidance");
+assert.match(app, /Google Play.*Android|Download for Android/s, "app should provide Android install guidance");
 assert.doesNotMatch(index, /data-enable-flight-alerts|Browser Alerts|photoModal|photo-reminder\.ics/, "site should not expose browser or calendar reminder controls");
 assert.doesNotMatch(app, /Notification\.requestPermission|new Notification|maybeNotifyFlightStatus|openPhotoReminder|photoMission/, "app should not use browser notification reminders");
 assert.match(tripPushWorkflow, /ntfy\.sh\/\$NTFY_TOPIC/, "trip reminders should send through ntfy phone push");
