@@ -709,7 +709,7 @@ function renderTodaySummary(date = new Date()) {
   const nextMove = chooseNextMove(nextMoveTimeline, date);
 
   document.querySelector("#todaySummary").innerHTML = `
-    <article class="hero-card hero-card--primary">
+    <article class="hero-card">
       <span>${nextMove.label}</span>
       <strong>${nextMove.title}</strong>
       <p>${nextMove.message}</p>
@@ -751,12 +751,15 @@ function renderItinerary() {
   document.querySelector("#itineraryList").innerHTML = days.map((day, index) => `
     <details class="pocket-card itinerary-pocket" id="${day.id}" data-day="${index + 1}">
       <summary class="pocket-card__summary itinerary-summary">
+        <div class="day-badge day-badge--${index + 1}">
+          <span class="day-badge__num">${index + 1}</span>
+          <span class="day-badge__label">Day</span>
+        </div>
         <div class="itinerary-summary__text">
           <span class="itinerary-summary__date">${day.date}</span>
           <strong>${day.title}</strong>
           <p class="itinerary-summary__area">${day.area}</p>
         </div>
-        <span class="summary-pill">Day ${index + 1}</span>
       </summary>
       <div class="itinerary-pocket__media">
         <picture>
@@ -989,7 +992,109 @@ function renderFlightStatusBox(status) {
   `;
 }
 
+function renderFlightStatusOverview() {
+  const el = document.querySelector("#flightStatusOverview");
+  if (!el) return;
+  const statusDotClass = (flight) => {
+    const s = statusForFlight(flight);
+    if (!s) return "status-dot--upcoming";
+    const kind = (s.statusKind || "").toLowerCase();
+    if (kind === "ok") return "status-dot--on-time";
+    if (kind === "delayed" || kind === "cancelled" || kind === "alert") return "status-dot--delayed";
+    return "status-dot--upcoming";
+  };
+  const statusLabel = (flight) => {
+    const s = statusForFlight(flight);
+    if (!s) return "Upcoming";
+    return s.status || "Upcoming";
+  };
+  el.innerHTML = `
+    <div class="flight-status-overview">
+      <div class="flight-status-overview__header">
+        All 4 Legs
+        <span class="flight-status-overview__updated" id="overviewUpdated"></span>
+      </div>
+      ${flights.map(f => `
+        <div class="flight-status-leg">
+          <span class="status-dot ${statusDotClass(f)}"></span>
+          <div class="flight-status-leg__route">
+            <span class="flight-leg-code">${f.route.replace(" → ", "").split(" ").slice(0,1)[0] || f.route}</span>
+            <span class="flight-leg-arrow">→</span>
+            <span class="flight-leg-code">${f.route.split(" → ")[1] || ""}</span>
+          </div>
+          <span class="flight-status-leg__date">${f.day.split(",")[0]}</span>
+          <span class="flight-status-leg__label" style="color:${
+            (statusForFlight(f)?.statusKind || "") === "ok" ? "var(--success)" :
+            ["delayed","cancelled","alert"].includes((statusForFlight(f)?.statusKind || "").toLowerCase()) ? "var(--warning)" :
+            "var(--text-secondary)"
+          }">${statusLabel(f)}</span>
+        </div>
+      `).join("")}
+    </div>
+  `;
+}
+
+function renderDocsProgressBar() {
+  const el = document.querySelector("#docsProgressBar");
+  if (!el) return;
+  const total = tickets.length;
+  const confirmed = tickets.filter(t => t.status === "confirmed").length;
+  const needed = tickets.filter(t => t.status === "pending" || t.status === "action");
+  const pct = Math.round((confirmed / total) * 100);
+  const neededNames = needed.map(t => t.label.split(" — ")[0].split(" hop")[0]);
+  el.innerHTML = `
+    <div class="docs-progress">
+      <div class="docs-progress__text">
+        <span>Documents ready</span>
+        <strong>${confirmed} of ${total} confirmed</strong>
+      </div>
+      <div class="docs-progress__track">
+        <div class="docs-progress__fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+    ${needed.length > 0 ? `
+    <div class="needed-alert">
+      <div class="needed-alert__label">Still needed</div>
+      <div class="needed-alert__title">${needed.length} item${needed.length !== 1 ? "s" : ""} missing</div>
+      <div class="needed-alert__items">
+        ${neededNames.map(name => `
+          <div class="needed-alert__item">
+            <span class="needed-dot"></span>${name}
+          </div>
+        `).join("")}
+      </div>
+    </div>
+    ` : ""}
+  `;
+}
+
+function renderDayIndicator() {
+  const el = document.querySelector("#dayIndicator");
+  const textEl = document.querySelector("#dayIndicatorText");
+  if (!el || !textEl) return;
+  const now = new Date();
+  const tripDays = [
+    { id: "day-1", date: new Date("2026-06-26T00:00:00+01:00") },
+    { id: "day-2", date: new Date("2026-06-27T00:00:00+01:00") },
+    { id: "day-3", date: new Date("2026-06-28T00:00:00+01:00") }
+  ];
+  const today = tripDays.find(d => {
+    const start = new Date(d.date);
+    const end = new Date(start);
+    end.setDate(end.getDate() + 1);
+    return now >= start && now < end;
+  });
+  if (today) {
+    textEl.textContent = `Day ${tripDays.indexOf(today) + 1} of 3`;
+    el.hidden = false;
+  } else if (now >= new Date("2026-06-26T00:00:00+01:00") && now < new Date("2026-06-30T00:00:00+01:00")) {
+    textEl.textContent = "Trip in progress";
+    el.hidden = false;
+  }
+}
+
 function renderFlights() {
+  renderFlightStatusOverview();
   document.querySelector("#flightPanel").innerHTML = flights.map(flight => `
     <details class="pocket-card" ${flight.number === "2184" ? "open" : ""}>
       <summary class="pocket-card__summary">
@@ -1054,7 +1159,7 @@ function renderPhonePush() {
       <ol class="bullet-list">
         <li>Install ntfy from the App Store.</li>
         <li>Open ntfy and allow notifications.</li>
-        <li>Tap Add subscription and enter <code style="font-size:0.85em;background:#eee;padding:2px 6px;border-radius:4px">${ntfyTopic}</code></li>
+        <li>Tap Add subscription and enter <code class="topic-code" style="display:inline;padding:2px 8px;font-size:0.85em">${ntfyTopic}</code></li>
         <li>Open JetBlue from the iPhone App Store too, then allow JetBlue notifications.</li>
         <li>Save this trip site to the home screen with Safari Share -> Add to Home Screen.</li>
       </ol>
@@ -1074,7 +1179,7 @@ function renderPhonePush() {
       <ol class="bullet-list">
         <li>Install ntfy from Google Play.</li>
         <li>Open ntfy and allow notifications.</li>
-        <li>Add the topic <code style="font-size:0.85em;background:#eee;padding:2px 6px;border-radius:4px">${ntfyTopic}</code></li>
+        <li>Add the topic <code class="topic-code" style="display:inline;padding:2px 8px;font-size:0.85em">${ntfyTopic}</code></li>
         <li>Install JetBlue and TfL Go from Google Play and allow notifications.</li>
         <li>Add this trip site to the home screen from the browser menu if desired.</li>
       </ol>
@@ -1129,13 +1234,39 @@ function renderBooking() {
 }
 
 function renderEmergencyContacts() {
-  document.querySelector("#emergencyPanel").innerHTML = emergencyContacts.map(contact => `
-    <a class="info-card emergency-card" href="${contact.href}">
-      <span>${contact.label}</span>
-      <strong>${contact.value}</strong>
-      <p>${contact.note}</p>
-    </a>
-  `).join("");
+  const [emergency, police, nhs, embassy] = emergencyContacts;
+  document.querySelector("#emergencyPanel").innerHTML = `
+    <div class="emergency-grid">
+      <a class="emergency-card emergency-card--critical" href="${emergency.href}">
+        <div class="emergency-card__content">
+          <span class="emergency-card__type">${emergency.label}</span>
+          <span class="emergency-card__number">${emergency.value}</span>
+          <span class="emergency-card__desc">${emergency.note}</span>
+        </div>
+        <span class="call-btn call-btn--primary">Call 999</span>
+      </a>
+      <a class="emergency-card" href="${police.href}">
+        <span class="emergency-card__type">${police.label}</span>
+        <span class="emergency-card__number">${police.value}</span>
+        <span class="emergency-card__desc">${police.note}</span>
+        <span class="call-btn call-btn--secondary">Call 101</span>
+      </a>
+      <a class="emergency-card" href="${nhs.href}">
+        <span class="emergency-card__type">${nhs.label}</span>
+        <span class="emergency-card__number">${nhs.value}</span>
+        <span class="emergency-card__desc">${nhs.note}</span>
+        <span class="call-btn call-btn--secondary">Call 111</span>
+      </a>
+      <a class="emergency-card emergency-card--embassy" href="${embassy.href}" style="grid-column: 1 / -1; flex-direction: row; text-align: left; gap: 12px; justify-content: space-between; align-items: center;">
+        <div class="emergency-card__content">
+          <span class="emergency-card__type">${embassy.label}</span>
+          <span class="emergency-card__number">${embassy.value}</span>
+          <span class="emergency-card__desc">${embassy.note}</span>
+        </div>
+        <span class="call-btn call-btn--secondary" style="flex-shrink:0">Call Embassy</span>
+      </a>
+    </div>
+  `;
 }
 
 function renderRecovery() {
@@ -1181,7 +1312,7 @@ function setActivePanel(panelId, { pushHash = true } = {}) {
     panel.classList.toggle("is-active", isActive);
   }
 
-  for (const button of document.querySelectorAll(".tab-button")) {
+  for (const button of document.querySelectorAll(".nav-item[data-target]")) {
     const isActive = button.dataset.target === panelId;
     button.classList.toggle("is-active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
@@ -1290,6 +1421,7 @@ renderRouteShortcuts();
 renderTubePockets();
 renderMaps();
 renderResources();
+renderDocsProgressBar();
 renderTickets();
 renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
@@ -1299,6 +1431,7 @@ renderRecovery();
 renderDepartureGuard();
 renderPhonePush();
 renderFlights();
+renderDayIndicator();
 wireEvents();
 syncPanelFromLocation();
 loadFlightStatus();
