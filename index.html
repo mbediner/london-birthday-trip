@@ -10,7 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606090100">
+  <link rel="stylesheet" href="styles.css?v=202606090200">
 </head>
 <body>
   <div class="app-shell">
@@ -20,11 +20,6 @@
         <p class="eyebrow">June 26-29, 2026</p>
         <h1>London Travel Guide</h1>
         <p class="lede">A practical London guide with the itinerary first, then directions, tickets, flights, and safety backups tucked into easy pockets.</p>
-        <div class="hero-chip-row">
-          <span class="hero-chip">Hotel: Victoria</span>
-          <span class="hero-chip">Nearest Tube: Pimlico</span>
-          <span class="hero-chip">June 26-29 Birthday Trip</span>
-        </div>
         <div class="hero-actions">
           <button class="button button--light" type="button" data-target="overview">Open Guide</button>
           <a class="button button--ghost" data-map="Hotel" target="_blank" rel="noopener">Hotel Map</a>
@@ -113,29 +108,35 @@
           <p class="eyebrow">Wallet + Prep</p>
           <h2>Documents, checklists, and booking proof</h2>
         </div>
-        <div class="split-grid">
-          <section class="panel-card">
-            <p class="eyebrow">Ticket Wallet</p>
-            <h2>Save these on both phones</h2>
+        <div class="pocket-stack">
+          <details class="pocket-card" open>
+            <summary class="pocket-card__summary">
+              <div>
+                <span>Confirmations</span>
+                <strong>Ticket Wallet</strong>
+              </div>
+            </summary>
             <div id="ticketList" class="action-list"></div>
-          </section>
-          <section class="panel-card">
-            <p class="eyebrow">Before Leaving</p>
-            <h2>Prep checklist</h2>
+          </details>
+          <details class="pocket-card">
+            <summary class="pocket-card__summary">
+              <div>
+                <span>Checklist</span>
+                <strong>Before Leaving</strong>
+              </div>
+            </summary>
             <div id="todoList" class="checklist"></div>
-          </section>
-        </div>
-        <div class="split-grid">
-          <section class="panel-card">
-            <p class="eyebrow">Pack</p>
-            <h2>What to bring</h2>
+          </details>
+          <details class="pocket-card">
+            <summary class="pocket-card__summary">
+              <div>
+                <span>Pack</span>
+                <strong>What to Bring</strong>
+              </div>
+            </summary>
             <div id="packList" class="checklist"></div>
-          </section>
-          <section class="panel-card">
-            <p class="eyebrow">Booking Proof</p>
-            <h2>Hotel confirmation pocket</h2>
-            <div id="bookingPanel" class="pocket-stack"></div>
-          </section>
+          </details>
+          <div id="bookingPanel"></div>
         </div>
       </section>
 
@@ -183,6 +184,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606090100"></script>
+  <script type="module" src="app.js?v=202606090200"></script>
 </body>
 </html>

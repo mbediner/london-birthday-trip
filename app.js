@@ -505,18 +505,17 @@ const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
 
 const todo = [
   "Order British pounds from Chase",
-  "Download JetBlue app",
-  "Download TfL Go",
-  "Download ntfy",
-  "Download offline maps for London",
-  "Download Uber and FREENOW",
-  "Apply for UK ETA for Tiffany and Collin",
-  "Save JetBlue confirmation KDHSOU on both phones",
-  "Buy Big Bus London hop-on hop-off tickets",
-  "Buy London Eye tickets",
-  "Confirm hotel luggage storage for arrival morning before check-in",
-  "Save hotel address as favorite in maps and ride apps",
-  "Save parent travel consent letter on both phones"
+  "Download JetBlue app and confirm KDHSOU booking appears",
+  "Download TfL Go for Tube routes",
+  "Download ntfy and subscribe to the trip alert topic",
+  "Download offline Google Maps for London",
+  "Download Uber and FREENOW — set up payment before leaving",
+  "Apply for UK ETA for Tiffany and Collin at gov.uk",
+  "Buy Big Bus London hop-on hop-off tickets and add confirmation here",
+  "Buy London Eye tickets and add confirmation here",
+  "Confirm hotel can store bags on arrival morning before check-in",
+  "Save hotel address in Uber and Google Maps before leaving home",
+  "Save parent travel consent letter as PDF on both phones"
 ];
 
 const pack = [
@@ -538,40 +537,42 @@ const tickets = [
   {
     label: "JetBlue — All 4 flights",
     detail: "Confirmation KDHSOU",
-    sub: "RDU→BOS→LHR outbound · LHR→JFK→RDU return",
-    href: appLinks.jetBlueIos,
+    sub: "RDU→BOS→LHR · LHR→JFK→RDU return",
+    href: "https://www.jetblue.com/manage-trips/",
     status: "confirmed"
   },
   {
     label: "Hotel — Holiday Inn Express Victoria",
     detail: "June 26-29, 2026 · 106-110 Belgrave Road, SW1V 2BJ",
-    sub: "Booked on Booking.com · Guest: Marianna",
+    sub: "Phone: +44 20 7630 8888 · Guest: Marianna · Booked on Booking.com",
     href: "https://www.booking.com/",
     status: "confirmed"
   },
   {
     label: "Big Bus London hop-on hop-off",
-    detail: "Not yet booked — add confirmation number when purchased",
+    detail: "Confirmation number needed — add when Marianna books",
     status: "pending"
   },
   {
     label: "London Eye",
-    detail: "Not yet booked — add confirmation number when purchased",
+    detail: "Confirmation number needed — add when Marianna books",
     status: "pending"
   },
   {
     label: "UK ETA — Tiffany",
-    detail: "Add ETA authorisation number when received",
+    detail: "Electronic Travel Authorisation required for US citizens entering UK — authorisation number needed",
+    href: "https://www.gov.uk/apply-uk-visa",
     status: "pending"
   },
   {
     label: "UK ETA — Collin",
-    detail: "Add ETA authorisation number when received",
+    detail: "Electronic Travel Authorisation required for US citizens entering UK — authorisation number needed",
+    href: "https://www.gov.uk/apply-uk-visa",
     status: "pending"
   },
   {
     label: "Parent travel consent letter",
-    detail: "Print a signed copy and keep a PDF on both phones",
+    detail: "Signed letter from parents authorising Tiffany and Collin to travel — Google Doc link needed",
     status: "action"
   }
 ];
@@ -581,35 +582,30 @@ const booking = {
   guest: "Marianna",
   hotel: "Holiday Inn Express London - Victoria",
   address: "106-110 Belgrave Road, London SW1V 2BJ, United Kingdom",
-  source: "Booking.com confirmation email or app",
-  screenshot: "assets/booking_confirmation.jpg",
+  phone: "+44 20 7630 8888",
   dates: "June 26-29, 2026",
   actionItems: [
     "Open the Booking.com app before leaving and confirm the reservation is visible there.",
-    "Confirm the hotel can store bags on arrival morning before check-in time."
+    "Ask the front desk to store bags on arrival morning — check-in may not be until afternoon."
   ],
   fillIns: [
     "Booking confirmation number: ____________________",
     "Booking PIN: ____________________",
-    "Check-in time: ____________________",
-    "Cancellation or payment note: ____________________"
+    "Check-in time: ____________________"
   ]
 };
 
 const resourceGroups = [
-  ["TfL Go (iPhone)", appLinks.tflIos],
-  ["TfL Go (Android)", appLinks.tflAndroid],
-  ["JetBlue app (iPhone)", appLinks.jetBlueIos],
-  ["JetBlue app (Android)", appLinks.jetBlueAndroid],
-  ["Official Tube map", tubeMapUrl],
-  ["TfL Journey Planner", "https://tfl.gov.uk/plan-a-journey/"],
-  ["Google Maps London", "https://www.google.com/maps/place/London,+UK"],
-  ["Uber", "https://www.uber.com/gb/en/"],
-  ["FREENOW black cabs", "https://www.free-now.com/uk/"],
-  ["Booking.com", "https://www.booking.com/"],
-  ["U.S. Embassy London", "https://uk.usembassy.gov/"],
-  ["Travel.State.gov lost passport abroad", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"],
-  ["TfL lost property", "https://tfl.gov.uk/help-and-contact/lost-property"]
+  { label: "TfL Go — iPhone", href: appLinks.tflIos, why: "Plan every Tube move and see live departures and delays" },
+  { label: "TfL Go — Android", href: appLinks.tflAndroid, why: "Plan every Tube move and see live departures and delays" },
+  { label: "JetBlue app", href: appLinks.jetBlueIos, why: "Check in, see boarding passes, and track flight status" },
+  { label: "Uber", href: "https://www.uber.com/gb/en/", why: "Best way home when tired — works exactly like in the US" },
+  { label: "FREENOW — black cabs", href: "https://www.free-now.com/uk/", why: "Book official London black cabs as a backup to Uber" },
+  { label: "Official Tube map (PDF)", href: tubeMapUrl, why: "Offline backup — works without signal" },
+  { label: "TfL Journey Planner", href: "https://tfl.gov.uk/plan-a-journey/", why: "Live route planning with disruption alerts direct from TfL" },
+  { label: "Google Maps London", href: "https://www.google.com/maps/place/London,+UK", why: "Download offline so it works on weak signal" },
+  { label: "U.S. Embassy London", href: "https://uk.usembassy.gov/", why: "Lost passport, emergency consular help for US citizens" },
+  { label: "TfL lost property", href: "https://tfl.gov.uk/help-and-contact/lost-property", why: "Report and recover anything left on the Tube or bus" }
 ];
 
 const tubeBasics = [
@@ -912,10 +908,13 @@ function renderMaps(filter = "") {
 }
 
 function renderResources() {
-  document.querySelector("#resourceList").innerHTML = resourceGroups.map(([label, url]) => `
-    <a class="list-link" href="${url}" target="_blank" rel="noopener">
-      <strong>${label}</strong>
-      <span>Open</span>
+  document.querySelector("#resourceList").innerHTML = resourceGroups.map(r => `
+    <a class="list-link" href="${r.href}" target="_blank" rel="noopener">
+      <div class="ticket-card__body">
+        <strong>${r.label}</strong>
+        <span>${r.why}</span>
+      </div>
+      <span style="flex:0 0 auto;font-size:0.8rem;color:var(--forest);font-weight:700">Open →</span>
     </a>
   `).join("");
 }
@@ -1118,8 +1117,7 @@ function renderBooking() {
       <div class="trip-facts">
         <article><span>Guest</span><strong>${booking.guest}</strong></article>
         <article><span>Address</span><strong>${booking.address}</strong></article>
-        <article><span>Verify in</span><strong>${booking.source}</strong></article>
-        <article><span>Map</span><strong>Keep hotel directions ready</strong></article>
+        <article><span>Phone</span><strong>${booking.phone}</strong></article>
       </div>
       <div class="button-row">
         <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
