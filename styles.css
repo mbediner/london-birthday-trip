@@ -587,6 +587,28 @@ summary:hover {
   cursor: pointer;
 }
 
+.ticket-card { align-items: flex-start; }
+.ticket-card__body { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.ticket-card__body strong { font-size: 0.95rem; }
+.ticket-card__body span { font-size: 0.83rem; color: var(--muted); }
+.ticket-card__sub { font-size: 0.78rem !important; color: var(--muted); opacity: 0.75; }
+
+.ticket-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ticket-badge--confirmed { background: var(--forest); color: #fff; }
+.ticket-badge--pending { background: #e8a000; color: #fff; }
+.ticket-badge--action { background: var(--line-strong); color: var(--ink); }
+
 .check-item input {
   width: 20px;
   height: 20px;

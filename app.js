@@ -535,14 +535,45 @@ const pack = [
 ];
 
 const tickets = [
-  "JetBlue confirmation KDHSOU",
-  "Big Bus ticket",
-  "London Eye ticket",
-  "Flight confirmation",
-  "Hotel confirmation",
-  "Booking.com hotel confirmation",
-  "UK ETA confirmations",
-  "Parent travel consent letter"
+  {
+    label: "JetBlue — All 4 flights",
+    detail: "Confirmation KDHSOU",
+    sub: "RDU→BOS→LHR outbound · LHR→JFK→RDU return",
+    href: appLinks.jetBlueIos,
+    status: "confirmed"
+  },
+  {
+    label: "Hotel — Holiday Inn Express Victoria",
+    detail: "June 26-29, 2026 · 106-110 Belgrave Road, SW1V 2BJ",
+    sub: "Booked on Booking.com · Guest: Marianna",
+    href: "https://www.booking.com/",
+    status: "confirmed"
+  },
+  {
+    label: "Big Bus London hop-on hop-off",
+    detail: "Not yet booked — add confirmation number when purchased",
+    status: "pending"
+  },
+  {
+    label: "London Eye",
+    detail: "Not yet booked — add confirmation number when purchased",
+    status: "pending"
+  },
+  {
+    label: "UK ETA — Tiffany",
+    detail: "Add ETA authorisation number when received",
+    status: "pending"
+  },
+  {
+    label: "UK ETA — Collin",
+    detail: "Add ETA authorisation number when received",
+    status: "pending"
+  },
+  {
+    label: "Parent travel consent letter",
+    detail: "Print a signed copy and keep a PDF on both phones",
+    status: "action"
+  }
 ];
 
 const booking = {
@@ -554,10 +585,8 @@ const booking = {
   screenshot: "assets/booking_confirmation.jpg",
   dates: "June 26-29, 2026",
   actionItems: [
-    "Save the Booking.com confirmation email on both phones.",
-    "Open the Booking.com app before leaving and confirm the reservation appears there.",
-    "Confirm the hotel can store bags on arrival day before check-in.",
-    "Screenshot the confirmation page, confirmation number, PIN, check-in rules, and payment details."
+    "Open the Booking.com app before leaving and confirm the reservation is visible there.",
+    "Confirm the hotel can store bags on arrival morning before check-in time."
   ],
   fillIns: [
     "Booking confirmation number: ____________________",
@@ -912,12 +941,26 @@ function renderInlineChecklist(items, key) {
 }
 
 function renderTickets() {
-  document.querySelector("#ticketList").innerHTML = tickets.map(ticket => `
-    <div class="list-link">
-      <strong>${ticket}</strong>
-      <span>Save screenshot or confirmation number</span>
-    </div>
-  `).join("");
+  document.querySelector("#ticketList").innerHTML = tickets.map(ticket => {
+    const tag = ticket.href ? "a" : "div";
+    const attrs = ticket.href
+      ? `href="${ticket.href}" target="_blank" rel="noopener"`
+      : "";
+    const badge = ticket.status === "confirmed"
+      ? `<span class="ticket-badge ticket-badge--confirmed">Confirmed</span>`
+      : ticket.status === "pending"
+      ? `<span class="ticket-badge ticket-badge--pending">Needed</span>`
+      : `<span class="ticket-badge ticket-badge--action">Action</span>`;
+    return `
+    <${tag} class="list-link ticket-card" ${attrs}>
+      <div class="ticket-card__body">
+        <strong>${ticket.label}</strong>
+        <span>${ticket.detail}</span>
+        ${ticket.sub ? `<span class="ticket-card__sub">${ticket.sub}</span>` : ""}
+      </div>
+      ${badge}
+    </${tag}>`;
+  }).join("");
 }
 
 function statusForFlight(flight) {
