@@ -9,18 +9,19 @@ Mobile-first travel guide and itinerary for Tiffany and Collin's birthday trip, 
 
 ## Architecture
 
-Single-file ES module SPA. No framework, no build step.
+ES module SPA. No framework, no build step.
 
 | File | Purpose |
 |---|---|
 | `index.html` | App shell — 5 panel sections + bottom nav |
-| `app.js` | All data + all rendering logic |
+| `app.js` | All trip data + all rendering logic |
+| `site-logic.js` | Pure helpers (URL builders, panel routing) — imported by `app.js`, `sw.js`, and unit tests |
 | `styles.css` | All styles — deep navy design system |
 | `sw.js` | Service worker — offline caching |
 | `site.webmanifest` | PWA manifest — installable as home screen app |
 | `data/flight-status.json` | Written by GitHub Actions flight tracker |
-| `assets/` | Hero images (JPG + WebP pairs) |
-| `tools/` | QA scripts, cache buster, flight updater |
+| `assets/` | Active hero images (JPG + WebP). Unused images in `assets/unused/` |
+| `tools/` | QA scripts, cache buster, flight updater, preview server |
 | `tests/` | Unit tests |
 
 ### 5 Panels
@@ -140,7 +141,8 @@ ntfy push topic: `london-birthday-trip-2026-a9x4m2q7`
 ## Local Dev
 
 ```bash
-npx serve -p 4321 .       # preview at http://localhost:4321
+npm run preview           # preview server at http://localhost:4173 (tools/preview-site.mjs)
+npx serve -p 4321 .       # alternative: used by Claude Preview MCP at port 4321
 npm run check             # JS syntax check
 npm run test:unit         # unit tests
 npm run site:qa           # static assertions

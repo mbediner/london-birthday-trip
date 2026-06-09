@@ -66,7 +66,6 @@ for (const file of [
   "assets/camden_market.jpg",
   "assets/camden_market.webp",
   "assets/flight_itinerary.jpg",
-  "assets/booking_confirmation.jpg",
   "data/flight-status.json"
 ]) {
   await fs.access(file);
