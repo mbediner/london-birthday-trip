@@ -357,21 +357,40 @@ summary:hover {
 
 .pocket-card {
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.84);
+  background: rgba(236, 248, 246, 0.96);
 }
 
 .pocket-card__summary {
   display: flex;
-  align-items: start;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   padding: 18px;
   list-style: none;
   cursor: pointer;
+  user-select: none;
 }
 
-.pocket-card__summary::-webkit-details-marker {
+.pocket-card__summary::-webkit-details-marker,
+.pocket-card__summary::marker {
   display: none;
+}
+
+/* chevron indicator */
+.pocket-card__summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 9px;
+  height: 9px;
+  border-right: 2.5px solid var(--muted);
+  border-bottom: 2.5px solid var(--muted);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  margin-top: -2px;
+}
+.pocket-card[open] > .pocket-card__summary::after {
+  transform: rotate(-135deg);
+  margin-top: 4px;
 }
 
 .summary-pill {
@@ -384,6 +403,29 @@ summary:hover {
   color: var(--forest);
   background: var(--sand);
 }
+
+/* per-day accent colour on the card top border */
+.itinerary-pocket[data-day="1"] { border-top: 3px solid var(--coral); }
+.itinerary-pocket[data-day="2"] { border-top: 3px solid var(--forest); }
+.itinerary-pocket[data-day="3"] { border-top: 3px solid #f7c56b; }
+
+/* itinerary summary layout */
+.itinerary-summary { align-items: flex-start; }
+.itinerary-summary__text { display: flex; flex-direction: column; gap: 2px; }
+.itinerary-summary__date {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.itinerary-pocket[data-day="1"] .itinerary-summary__date { color: var(--coral); }
+.itinerary-pocket[data-day="2"] .itinerary-summary__date { color: var(--forest); }
+.itinerary-pocket[data-day="3"] .itinerary-summary__date { color: #c49a20; }
+.itinerary-summary__area { margin: 0; font-size: 0.83rem; color: var(--muted); }
+
+/* single-column trip-facts variant (booking section) */
+.trip-facts--single { grid-template-columns: 1fr !important; }
 
 .itinerary-pocket__media img {
   width: 100%;
@@ -445,10 +487,28 @@ summary:hover {
   padding: 14px 16px;
   list-style: none;
   cursor: pointer;
+  user-select: none;
 }
 
-.sub-pocket__summary::-webkit-details-marker {
+.sub-pocket__summary::-webkit-details-marker,
+.sub-pocket__summary::marker {
   display: none;
+}
+
+.sub-pocket__summary::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid rgba(255,255,255,0.55);
+  border-bottom: 2px solid rgba(255,255,255,0.55);
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+  margin-top: -1px;
+}
+.sub-pocket[open] > .sub-pocket__summary::after {
+  transform: rotate(-135deg);
+  margin-top: 3px;
 }
 
 .sub-pocket__summary strong {

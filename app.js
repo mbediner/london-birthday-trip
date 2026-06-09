@@ -536,16 +536,15 @@ const pack = [
 const tickets = [
   {
     label: "JetBlue — All 4 flights",
-    detail: "Confirmation KDHSOU",
-    sub: "RDU→BOS→LHR · LHR→JFK→RDU return",
-    href: "https://www.jetblue.com/manage-trips/",
+    detail: "Confirmation: KDHSOU",
+    sub: "RDU→BOS→LHR outbound · LHR→JFK→RDU return · Open JetBlue app to check in",
     status: "confirmed"
   },
   {
     label: "Hotel — Holiday Inn Express Victoria",
     detail: "June 26-29, 2026 · 106-110 Belgrave Road, SW1V 2BJ",
-    sub: "Phone: +44 20 7630 8888 · Guest: Marianna · Booked on Booking.com",
-    href: "https://www.booking.com/",
+    sub: "+44 20 7630 8888 · Guest: Marianna",
+    href: "https://www.google.com/maps/search/?api=1&query=Holiday+Inn+Express+London+-+Victoria,+106-110+Belgrave+Road,+London+SW1V+2BJ",
     status: "confirmed"
   },
   {
@@ -750,12 +749,12 @@ function renderTodaySummary(date = new Date()) {
 
 function renderItinerary() {
   document.querySelector("#itineraryList").innerHTML = days.map((day, index) => `
-    <details class="pocket-card itinerary-pocket" id="${day.id}">
-      <summary class="pocket-card__summary">
-        <div>
-          <span>${day.date}</span>
+    <details class="pocket-card itinerary-pocket" id="${day.id}" data-day="${index + 1}">
+      <summary class="pocket-card__summary itinerary-summary">
+        <div class="itinerary-summary__text">
+          <span class="itinerary-summary__date">${day.date}</span>
           <strong>${day.title}</strong>
-          <p>${day.area}</p>
+          <p class="itinerary-summary__area">${day.area}</p>
         </div>
         <span class="summary-pill">Day ${index + 1}</span>
       </summary>
@@ -1114,10 +1113,10 @@ function renderBooking() {
           <p>${booking.dates}</p>
         </div>
       </summary>
-      <div class="trip-facts">
+      <div class="trip-facts trip-facts--single">
         <article><span>Guest</span><strong>${booking.guest}</strong></article>
         <article><span>Address</span><strong>${booking.address}</strong></article>
-        <article><span>Phone</span><strong>${booking.phone}</strong></article>
+        <article><span>Phone</span><strong><a href="tel:${booking.phone.replace(/\s/g,'')}" style="color:inherit;text-decoration:none">${booking.phone}</a></strong></article>
       </div>
       <div class="button-row">
         <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>

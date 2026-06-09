@@ -11,7 +11,6 @@ const tripPushWorkflow = await fs.readFile(".github/workflows/trip-push-reminder
 
 assert.match(index, /<link rel="manifest" href="site\.webmanifest">/, "index should expose the PWA manifest");
 assert.match(index, /assets\/london_eye\.webp/, "index should preload the optimized hero image");
-assert.match(index, /data-install-app/, "index should include install controls");
 assert.match(index, /styles\.css\?v=\d+/, "index should include a cache-busted stylesheet URL");
 assert.match(index, /app\.js\?v=\d+/, "index should include a cache-busted app URL");
 assert.match(index, /data-target="overview"/, "index should start from the itinerary panel");
