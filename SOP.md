@@ -49,8 +49,7 @@ At the beginning of every session, Codex should do this automatically before edi
 8. Commit the finished change.
 9. Push to `main`.
 10. Confirm the GitHub Pages deployment succeeds.
-11. Email the release note to the family list with the new feature summary and live site URL.
-12. Print the live site URL for review:
+11. Print the live site URL for review:
 
 https://mbediner.github.io/london-birthday-trip/
 
@@ -58,7 +57,7 @@ https://mbediner.github.io/london-birthday-trip/
 
 Every time a commit is pushed, the final response must include the live site URL.
 When adding a new feature, do not stop at implementation. QA it, commit it, push it, verify deployment, and print the live site URL.
-Every new feature release must also send an email update after the production deployment succeeds.
+Do not send release emails. Email notifications after deployments are disabled.
 Every production release must bust cache before the live URL is presented.
 If Git state is risky or unclear, Codex must pause and explain the exact blocker in plain English instead of guessing.
 
@@ -79,11 +78,11 @@ When the requested work is complete, Codex should do this automatically when saf
 1. Review changed files.
 2. Run the relevant checks and QA commands.
 3. If this is a production release, make sure `npm run release:prepare` was run in this round of changes.
-3. Summarize what changed in plain English.
-4. Create a clear commit.
-5. Push to the active remote branch.
-6. Verify production deployment when the change is intended for production.
-7. Include the live site URL in the final response only after deploy success and cache-busting are confirmed.
+4. Summarize what changed in plain English.
+5. Create a clear commit.
+6. Push to the active remote branch.
+7. Verify production deployment when the change is intended for production.
+8. Include the live site URL in the final response only after deploy success and cache-busting are confirmed.
 
 If push fails:
 
@@ -91,22 +90,6 @@ If push fails:
 2. Explain it plainly.
 3. Attempt the safest obvious fix.
 4. Stop and report the blocker if the fix is not clearly safe.
-
-## Family Release Email
-
-Send a release email after every successful feature deployment.
-
-- To: `mbediner@gmail.com`
-- CC: `rbediner@gmail.com`, `tbediner@gmail.com`, `collin.bediner@gmail.com`
-- Subject format: `London Trip App Update: <short feature name>`
-- Body must include:
-  - What changed, in plain English.
-  - Why it matters for the trip.
-  - Any action Tiffany, Collin, Roman, or Marianna should take.
-  - QA completed.
-  - Production/live site URL: `https://mbediner.github.io/london-birthday-trip/`
-- Send the email only after QA passes, the commit is pushed, and GitHub Pages deployment succeeds.
-- If deployment or QA fails, do not send a feature email. Fix the issue first.
 
 ## Google Drive Drift Rules
 
@@ -125,10 +108,10 @@ Send a release email after every successful feature deployment.
 - Keep explanations simple and calm.
 - Avoid overwhelming the user with Git jargon unless it is necessary.
 - Good examples:
-  - “I pulled the latest changes before starting.”
-  - “There were local changes, so I paused before syncing to avoid overwriting anything.”
-  - “I finished the work, ran the checks, pushed it, and verified the live site.”
-  - “Push is blocked because Git needs authentication on this machine.”
+  - "I pulled the latest changes before starting."
+  - "There were local changes, so I paused before syncing to avoid overwriting anything."
+  - "I finished the work, ran the checks, pushed it, and verified the live site."
+  - "Push is blocked because Git needs authentication on this machine."
 
 ## Confirmation Screenshots
 
@@ -150,12 +133,10 @@ Send a release email after every successful feature deployment.
 - The site reads `data/flight-status.json` and shows last updated / last checked times.
 - `Update Now` refreshes the latest published JSON in the browser. It cannot secretly start a GitHub Actions run without a private token.
 - For immediate human confirmation, use the Google Status and JetBlue buttons.
-- Do not use browser notification prompts for this trip site.
-- Flight alerts and trip reminders use ntfy.sh topic `london-birthday-trip-2026-a9x4m2q7`.
-- Trip reminder send state lives in `data/trip-push-state.json`; do not manually mark reminders sent unless a push actually went out.
+- Browser notifications work while the site is open and notification permission is granted. Closed-phone push requires a real push service or airline app notifications.
+- Closed-phone flight push uses ntfy.sh topic `london-birthday-trip-2026-a9x4m2q7`.
 - Keep the ntfy topic hard to guess. It is public if someone has the topic name.
 - Run `npm run flight:qa` after changing flight tracking logic.
-- Run `npm run reminder:qa` after changing trip reminder logic.
 - Run `npm run flight:update` outside the monitoring windows and confirm it does not create a `data/flight-status.json` diff.
 
 ## Installable / Offline App
@@ -163,7 +144,6 @@ Send a release email after every successful feature deployment.
 - Keep `site.webmanifest`, `sw.js`, and `assets/icon.svg` in sync when changing the installable app experience.
 - Static trip content should stay cache-first for speed.
 - Flight status JSON should stay network-first so fresh status wins when online and cached status remains available when offline.
-- For every release, rotate the cache token for `styles.css`, `app.js`, and the service worker cache name by running `npm run release:prepare`.
 - Run `npm run site:qa` after changing app install, offline cache, critical travel assets, or departure guardrails.
 - If adding a new must-have image, PDF, or local asset, add it to the service worker cache list so it is available when signal is poor.
 
