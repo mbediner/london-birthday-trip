@@ -2,7 +2,7 @@
 
 > Update this file after every commit/push. It is the first thing an agent reads.
 
-**Last commit:** `3440fce` — Update HANDOFF.md to current state
+**Last commit:** `ff9028f` — Repo cleanup: remove legacy files, organise assets, fix docs
 **Branch:** `main` — clean, fully deployed
 **Cache token:** `202606091535`
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
@@ -36,3 +36,4 @@
 - **To-do list** — split by owner: Marianna tasks / Tiffany & Collin tasks
 - **Portable chargers** — added to Marianna's to-do
 - **Docs consolidation** — `README.md`, `AGENTS.md`, `HANDOFF.md` are now the only context files; `SOP.md` and `SESSION-START-CHECK.md` removed
+- **Repo cleanup** — deleted 5 legacy print files + Python builder; moved 11 unreferenced images to `assets/unused/`; deleted stale `Claude Design Audit Files/` folder; updated `.gitignore`; fixed README architecture section (`site-logic.js` is still active)
