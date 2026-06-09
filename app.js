@@ -15,42 +15,81 @@ Phone: +44 20 7630 8888`;
 const panelIds = ["overview", "move", "flights", "wallet", "safety"];
 
 const mapQueries = {
-  "Hotel": "Holiday Inn Express London - Victoria, 106-110 Belgrave Road, London SW1V 2BJ",
-  "RDU Airport": "Raleigh-Durham International Airport",
-  "Boston Logan Airport": "Boston Logan International Airport",
-  "London Heathrow Airport": "London Heathrow Airport",
-  "JFK Airport": "John F. Kennedy International Airport",
-  "U.S. Embassy London": "U.S. Embassy London, 33 Nine Elms Lane, London SW11 7US",
-  "Tachbrook Street Market": "Tachbrook Street Market, Pimlico",
-  "Victoria Station": "Victoria Station Buckingham Palace Road entrance",
-  "London Eye": "London Eye, London",
-  "Westminster Bridge": "Westminster Bridge, London",
   "Big Ben": "Big Ben, London",
-  "Parliament Square": "Parliament Square, London",
-  "Westminster Abbey": "Westminster Abbey, London",
-  "Southbank Centre": "Southbank Centre Royal Festival Hall, London",
-  "Gabriel's Wharf": "Gabriel's Wharf, London",
-  "Oxo Tower": "Oxo Tower, London",
-  "Pimlico Station": "Pimlico Station, Bessborough Street, London SW1V 2JA",
-  "Tower Hill Station": "Tower Hill Station, London",
-  "Tower of London": "Tower of London",
-  "Tower Bridge": "Tower Bridge, London",
   "Borough Market": "Borough Market, London",
-  "London Bridge Station": "London Bridge Underground Station, London",
-  "Leicester Square Station": "Leicester Square Station, London",
-  "Covent Garden": "Covent Garden, London",
-  "Seven Dials": "Seven Dials, London",
-  "Neal's Yard": "Neal's Yard, Covent Garden, London",
-  "Soho": "Soho, London",
-  "Carnaby Street": "Carnaby Street, London",
-  "Chinatown": "Chinatown Gate, London",
+  "Boston Logan Airport": "Boston Logan International Airport",
   "Buckingham Palace": "Buckingham Palace, London",
-  "St. James's Park": "St James's Park, London",
-  "The Mall": "The Mall, London",
-  "Trafalgar Square": "Trafalgar Square, London",
   "Camden Market": "Camden Market, London",
   "Camden Town Station": "Camden Town Station, London",
-  "Regent's Canal": "Regent's Canal Camden Lock, London"
+  "Carnaby Street": "Carnaby Street, London",
+  "Chinatown": "Chinatown Gate, London",
+  "Covent Garden": "Covent Garden, London",
+  "Gabriel's Wharf": "Gabriel's Wharf, London",
+  "Hotel": "Holiday Inn Express London - Victoria, 106-110 Belgrave Road, London SW1V 2BJ",
+  "JFK Airport": "John F. Kennedy International Airport",
+  "Leicester Square Station": "Leicester Square Station, London",
+  "London Bridge Station": "London Bridge Underground Station, London",
+  "London Eye": "London Eye, London",
+  "London Heathrow Airport": "London Heathrow Airport",
+  "Neal's Yard": "Neal's Yard, Covent Garden, London",
+  "Oxo Tower": "Oxo Tower, London",
+  "Parliament Square": "Parliament Square, London",
+  "Pimlico Station": "Pimlico Station, Bessborough Street, London SW1V 2JA",
+  "RDU Airport": "Raleigh-Durham International Airport",
+  "Regent's Canal": "Regent's Canal Camden Lock, London",
+  "Seven Dials": "Seven Dials, London",
+  "Soho": "Soho, London",
+  "Southbank Centre": "Southbank Centre Royal Festival Hall, London",
+  "St. James's Park": "St James's Park, London",
+  "Tachbrook Street Market": "Tachbrook Street Market, Pimlico",
+  "The Mall": "The Mall, London",
+  "Tower Bridge": "Tower Bridge, London",
+  "Tower Hill Station": "Tower Hill Station, London",
+  "Tower of London": "Tower of London",
+  "Trafalgar Square": "Trafalgar Square, London",
+  "U.S. Embassy London": "U.S. Embassy London, 33 Nine Elms Lane, London SW11 7US",
+  "Victoria Station": "Victoria Station Buckingham Palace Road entrance",
+  "Westminster Abbey": "Westminster Abbey, London",
+  "Westminster Bridge": "Westminster Bridge, London"
+};
+
+const mapIcons = {
+  "Big Ben": "🕰️",
+  "Borough Market": "🛒",
+  "Boston Logan Airport": "✈️",
+  "Buckingham Palace": "👑",
+  "Camden Market": "🎨",
+  "Camden Town Station": "🚇",
+  "Carnaby Street": "🛍️",
+  "Chinatown": "🥢",
+  "Covent Garden": "🎭",
+  "Gabriel's Wharf": "🎨",
+  "Hotel": "🏨",
+  "JFK Airport": "✈️",
+  "Leicester Square Station": "🚇",
+  "London Bridge Station": "🚇",
+  "London Eye": "🎡",
+  "London Heathrow Airport": "✈️",
+  "Neal's Yard": "🌿",
+  "Oxo Tower": "🏢",
+  "Parliament Square": "🏛️",
+  "Pimlico Station": "🚇",
+  "RDU Airport": "✈️",
+  "Regent's Canal": "🚣",
+  "Seven Dials": "🕐",
+  "Soho": "🎭",
+  "Southbank Centre": "🎶",
+  "St. James's Park": "🌳",
+  "Tachbrook Street Market": "🛒",
+  "The Mall": "👑",
+  "Tower Bridge": "🌉",
+  "Tower Hill Station": "🚇",
+  "Tower of London": "🏰",
+  "Trafalgar Square": "🦁",
+  "U.S. Embassy London": "🇺🇸",
+  "Victoria Station": "🚇",
+  "Westminster Abbey": "⛪",
+  "Westminster Bridge": "🌉"
 };
 
 const appLinks = {
@@ -630,9 +669,10 @@ const booking = {
 };
 
 const resourceGroups = [
-  { label: "TfL Go — iPhone", href: appLinks.tflIos, why: "Plan every Tube move and see live departures and delays" },
-  { label: "TfL Go — Android", href: appLinks.tflAndroid, why: "Plan every Tube move and see live departures and delays" },
-  { label: "JetBlue app", href: appLinks.jetBlueIos, why: "Check in, see boarding passes, and track flight status" },
+  { label: "TfL Go — iPhone", href: appLinks.tflIos, why: "Transport for London app — plan every Tube move and see live departures" },
+  { label: "TfL Go — Android", href: appLinks.tflAndroid, why: "Transport for London app — plan every Tube move and see live departures" },
+  { label: "JetBlue — iPhone", href: appLinks.jetBlueIos, why: "Check in, see boarding passes, and track flight status" },
+  { label: "JetBlue — Android", href: appLinks.jetBlueAndroid, why: "Check in, see boarding passes, and track flight status" },
   { label: "Uber", href: "https://www.uber.com/gb/en/", why: "Best way home when tired — works exactly like in the US" },
   { label: "FREENOW — black cabs", href: "https://www.free-now.com/uk/", why: "Book official London black cabs as a backup to Uber" },
   { label: "Official Tube map (PDF)", href: tubeMapUrl, why: "Offline backup — works without signal" },
@@ -698,8 +738,7 @@ function directionsUrl(from, to, mode = "transit") {
 function flightTrackers(flight) {
   const googleQuery = encodeURIComponent(`B6 ${flight.number} ${flight.dateQuery} flight status`);
   return [
-    ["Live status", `https://www.google.com/search?q=${googleQuery}`],
-    ["FlightAware", `https://www.flightaware.com/live/flight/JBU${flight.number}`]
+    ["Live status", `https://www.google.com/search?q=${googleQuery}`]
   ];
 }
 
@@ -948,7 +987,7 @@ function renderMaps(filter = "") {
   const entries = Object.keys(mapQueries).filter(name => name.toLowerCase().includes(query));
   document.querySelector("#mapList").innerHTML = entries.map(name => `
     <a class="list-link" href="${mapsUrl(name)}" target="_blank" rel="noopener">
-      <strong>${name}</strong>
+      <strong>${mapIcons[name] ? `<span aria-hidden="true">${mapIcons[name]}</span> ` : ""}${name}</strong>
       <span>Open map</span>
     </a>
   `).join("");
@@ -961,7 +1000,7 @@ function renderResources() {
         <strong>${r.label}</strong>
         <span>${r.why}</span>
       </div>
-      <span style="flex:0 0 auto;font-size:0.8rem;color:var(--forest);font-weight:700">Open →</span>
+      <span style="flex:0 0 auto;font-size:0.8rem;color:var(--accent);font-weight:700">Open →</span>
     </a>
   `).join("");
 }
@@ -1077,7 +1116,7 @@ function renderFlightStatusOverview() {
         <span class="flight-status-overview__updated" id="overviewUpdated"></span>
       </div>
       ${flights.map(f => `
-        <div class="flight-status-leg">
+        <div class="flight-status-leg flight-status-leg--clickable" data-scroll-to-flight="${f.number}" role="button" tabindex="0" title="Tap to see details for B6 ${f.number}">
           <span class="status-dot ${statusDotClass(f)}"></span>
           <div class="flight-status-leg__route">
             <span class="flight-leg-code">${f.route.replace(" → ", "").split(" ").slice(0,1)[0] || f.route}</span>
@@ -1090,6 +1129,7 @@ function renderFlightStatusOverview() {
             ["delayed","cancelled","alert"].includes((statusForFlight(f)?.statusKind || "").toLowerCase()) ? "var(--warning)" :
             "var(--text-secondary)"
           }">${statusLabel(f)}</span>
+          <span class="flight-status-leg__cta">Details ›</span>
         </div>
       `).join("")}
     </div>
@@ -1158,7 +1198,7 @@ function renderDayIndicator() {
 function renderFlights() {
   renderFlightStatusOverview();
   document.querySelector("#flightPanel").innerHTML = flights.map(flight => `
-    <details class="pocket-card" ${flight.number === "2184" ? "open" : ""}>
+    <details class="pocket-card" id="flight-${flight.number}" ${flight.number === "2184" ? "open" : ""}>
       <summary class="pocket-card__summary">
         <div>
           <span>${flight.time}</span>
@@ -1180,7 +1220,7 @@ function renderFlights() {
         <div class="button-row">
           ${flightTrackers(flight).map(([label, url]) => `<a class="button button--secondary" href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
         </div>
-        <p class="flight-pocket__note">Use the JetBlue app on the phone for the most direct airline updates. The public JetBlue website does not deep-link cleanly into these exact flights, so this page now keeps the backup links short and practical.</p>
+        <p class="flight-pocket__note">Use the <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (Android)</a> for the most direct airline updates. The Live Status link above opens a Google search for real-time status.</p>
       </div>
     </details>
   `).join("");
@@ -1231,19 +1271,16 @@ function renderPhonePush() {
         <div>
           <span>Save this guide</span>
           <strong>Add to home screen (works offline)</strong>
-          <p>Chrome on Android and iPhone, or Safari on iPhone.</p>
+          <p>Install on iPhone or Android via Chrome — works without Wi-Fi once saved.</p>
         </div>
       </summary>
       <ol class="bullet-list">
-        <li><strong>iPhone — Chrome:</strong> Tap the share button (⊡) at the bottom → Add to Home Screen</li>
-        <li><strong>iPhone — Safari:</strong> Tap Share (□↑) → Add to Home Screen</li>
-        <li><strong>Android — Chrome:</strong> Tap ⋮ (three dots) → Add to Home Screen or Install App</li>
+        <li><strong>iPhone — Chrome:</strong> Tap the share button (⊡) at the bottom → "Add to Home Screen"</li>
+        <li><strong>Android — Chrome:</strong> Tap ⋮ (three dots) → "Add to Home Screen" or "Install App"</li>
         <li>The guide works offline once installed — no signal required to read routes and plans</li>
       </ol>
       <div class="button-row">
-        <button class="button install-button" type="button" data-install-app hidden>Install App (tap here)</button>
-        <a class="button button--secondary" href="${appLinks.tflIos}" target="_blank" rel="noopener">TfL Go — iPhone</a>
-        <a class="button button--secondary" href="${appLinks.tflAndroid}" target="_blank" rel="noopener">TfL Go — Android</a>
+        <button class="button install-button" type="button" data-install-app hidden>📲 Install App (tap here)</button>
       </div>
     </details>
   `;
@@ -1375,6 +1412,15 @@ function openDayPocket(dayId) {
 
 function syncPanelFromLocation() {
   const panelFromQuery = new URLSearchParams(window.location.search).get("panel");
+
+  // Support #day-N deep links — e.g. share a URL like index.html#day-1 to open Day 1
+  const hash = window.location.hash.slice(1);
+  if (/^day-[1-4]$/.test(hash)) {
+    setActivePanel("overview", { pushHash: false });
+    setTimeout(() => openDayPocket(hash), 100);
+    return;
+  }
+
   const panelId = panelIds.includes(panelFromQuery)
     ? panelFromQuery
     : resolvePanelFromHash(window.location.hash, panelIds, "overview");
@@ -1418,10 +1464,21 @@ function wireEvents() {
     const pushSetupButton = event.target.closest("[data-open-push-setup]");
     if (pushSetupButton) {
       setActivePanel("flights");
-      // Scroll to ntfy setup after panel transition
+      // Reset scroll to top first so phonePushPanel (first element in panel) is visible
+      window.scrollTo({ top: 0, behavior: "instant" });
       setTimeout(() => {
         document.querySelector("#phonePushPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 60);
+      return;
+    }
+
+    const flightLeg = event.target.closest("[data-scroll-to-flight]");
+    if (flightLeg) {
+      const pocket = document.querySelector(`#flight-${flightLeg.dataset.scrollToFlight}`);
+      if (pocket) {
+        pocket.open = true;
+        pocket.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
       return;
     }
 

@@ -1,11 +1,11 @@
-const CACHE_NAME = "london-trip-v202606091549";
+const CACHE_NAME = "london-trip-v202606091620";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./styles.css?v=202606091549",
+  "./styles.css?v=202606091620",
   "./app.js",
-  "./app.js?v=202606091549",
+  "./app.js?v=202606091620",
   "./site-logic.js",
   "./site.webmanifest",
   "./assets/icon.svg",
@@ -16,7 +16,6 @@ const APP_SHELL = [
   "./assets/camden_market.webp",
   "./assets/camden_market.jpg",
   "./assets/flight_itinerary.jpg",
-  "./assets/booking_confirmation.jpg",
   "./data/flight-status.json"
 ];
 
@@ -41,6 +40,13 @@ self.addEventListener("fetch", event => {
   if (requestUrl.origin !== self.location.origin || event.request.method !== "GET") return;
 
   if (requestUrl.pathname.endsWith("/data/flight-status.json")) {
+    event.respondWith(networkFirst(event.request));
+    return;
+  }
+
+  // Always fetch fresh HTML for navigation requests — ensures new releases appear
+  // without the user needing to manually clear cache or close all tabs.
+  if (event.request.mode === "navigate") {
     event.respondWith(networkFirst(event.request));
     return;
   }
