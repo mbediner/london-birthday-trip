@@ -1,236 +1,173 @@
-# London Birthday Trip Site
+# London Birthday Trip
 
-Mobile-first London travel guide and itinerary for Tiffany and Collin's birthday trip, June 26-29, 2026.
+Mobile-first travel guide and itinerary for Tiffany and Collin's birthday trip, June 26–29, 2026.
 
-The site is now organized as a compact app shell with pockets instead of one long infinite scroll:
+**Live site:** https://mbediner.github.io/london-birthday-trip/
+**Repo:** https://github.com/mbediner/london-birthday-trip
 
-- `Guide` starts first with the itinerary as the lead content.
-- `Directions` holds route shortcuts, Tube rules, walking directions, and app links.
-- `Alerts` holds flight status, departure guardrails, and ntfy phone-push setup.
-- `Wallet` holds confirmations and prep checklists.
-- `Safety` tucks all emergency and recovery guidance into its own compartment.
+---
 
-## Live Site
+## Architecture
 
-The public GitHub Pages URL is:
+Single-file ES module SPA. No framework, no build step.
 
-https://mbediner.github.io/london-birthday-trip/
+| File | Purpose |
+|---|---|
+| `index.html` | App shell — 5 panel sections + bottom nav |
+| `app.js` | All data + all rendering logic |
+| `styles.css` | All styles — deep navy design system |
+| `sw.js` | Service worker — offline caching |
+| `site.webmanifest` | PWA manifest — installable as home screen app |
+| `data/flight-status.json` | Written by GitHub Actions flight tracker |
+| `assets/` | Hero images (JPG + WebP pairs) |
+| `tools/` | QA scripts, cache buster, flight updater |
+| `tests/` | Unit tests |
 
-Every time the site is pushed to `main`, GitHub Actions deploys the latest version.
+### 5 Panels
 
-## What Is Included
+| Panel | ID | Contains |
+|---|---|---|
+| Guide | `#overview` | 4-day itinerary cards + essentials |
+| Directions | `#move` | Route shortcuts, tube basics, map search |
+| Flights | `#flights` | ntfy setup, flight status, departure guardrails |
+| Docs | `#wallet` | Confirmations, pre-trip checklist, packing list |
+| Safety | `#safety` | Emergency numbers, lost item recovery |
 
-- `index.html` - site structure and page sections.
-- `styles.css` - mobile-first styling.
-- `app.js` - itinerary data, map links, saved checklists, ticket wallet, and resource rendering.
-- `site.webmanifest` and `sw.js` - installable/offline app support.
-- `assets/` - London photos used by the site.
-- `.github/workflows/pages.yml` - GitHub Pages CI/CD workflow.
-- `.nojekyll` - tells GitHub Pages to serve the static files exactly as-is.
-- Legacy printable outputs remain in the folder: `.docx`, `.pdf`, and the original itinerary builder.
+### Key patterns
 
-## Editing The Site
+- `<details>`/`<summary>` pocket cards for all collapsible sections
+- `setActivePanel()` uses `history.pushState` + `popstate` listener — swipe-back navigates between panels, does not exit the app
+- `[hidden] { display: none !important; }` in CSS reset — required, stops `display:flex` overriding the `hidden` attribute
+- Cache-bust: `?v=YYYYMMDDHHNN` on `styles.css` and `app.js` — auto-bumped by `release:prepare`
+- Service worker: network-first for `data/flight-status.json`, cache-first for static shell
 
-Most trip changes happen in `app.js`.
+---
 
-- Update the daily itinerary in the `days` array.
-- Update Google Maps targets in `mapQueries`.
-- Update one-tap Google Maps direction cards in `routeShortcuts`.
-- Update pre-travel tasks in `todo`.
-- Update packing items in `pack`.
-- Update ticket reminders in `tickets`.
-- Update app and safety links in `resourceGroups`.
-- Update emergency and lost-item recovery guidance in `emergencyContacts` and `recoveryPlans`.
-- Update flight departure rules in `departureGuardrails`.
-- Update per-leg saved flight readiness checklists in `flightReadiness`.
-- Update date-aware next-step guidance in `nextMoveTimeline`.
-- Keep day/hero WebP image variants paired with JPG fallbacks for fast mobile loading.
-- Marianna still needs to add one more Sunday guide/itinerary pocket when the extra Sunday plan is finalized. Add it to the `days` array with real routes, food, photo, tired, and rain notes instead of leaving loose text elsewhere.
+## Design System — Deep Navy
 
-Design changes happen in `styles.css`. Shared pure helpers live in `site-logic.js` so panel routing and map URL generation can be unit-tested.
+| Token | Value | Use |
+|---|---|---|
+| `--bg-base` | `#0D1B2A` | Page background |
+| `--bg-card` | `#162236` | Card background |
+| `--accent` | `#4F9CF9` | JetBlue blue — CTAs, active nav |
+| `--success` | `#2D9E6B` | Day 3 green |
+| `--warning` | `#F59E0B` | Day 2 amber |
+| `--danger` | `#E63946` | Day 1 red |
+| `--purple` | `#8B5CF6` | Day 4 purple (departure day) |
+| `--text-primary` | `#F8FAFC` | Body text |
+| `--text-secondary` | `#94A3B8` | Subtext, labels |
 
-## Publishing Workflow
+Day badges: Day 1 red / Day 2 amber / Day 3 green / Day 4 purple. Defined in `.day-badge--N` and `.itinerary-pocket[data-day="N"]` in `styles.css`.
 
-1. Edit the site files.
-2. Run `npm run release:prepare`.
-3. Commit the changes.
-4. Push to the `main` branch.
-5. GitHub Actions runs validation and `Deploy GitHub Pages`.
-6. The public site updates automatically only after the workflow succeeds.
-7. Send a family release email for every new feature.
-8. Print the public site URL only after deploy success and cache-busting are both confirmed.
+---
 
-`npm run release:prepare` automatically:
+## Itinerary Data (app.js — `days` array)
 
-- updates the stylesheet and app query-string token
-- bumps the service worker cache name
-- reruns the local checks before release
+| ID | Date | Title | Hero |
+|---|---|---|---|
+| `day-1` | Friday, June 26 | Victoria, Westminster and South Bank | `assets/london_eye.webp` |
+| `day-2` | Saturday, June 27 | Tower Bridge, Borough Market and West End | `assets/tower_bridge.webp` |
+| `day-3` | Sunday, June 28 | Palace Morning and Camden Adventure | `assets/camden_market.webp` |
+| `day-4` | Monday, June 29 | Departure Day — Fly Home | *(null — no image)* |
 
-The deployment workflow uses official GitHub Pages actions:
+Set `image: null` on any day with no hero — `renderItinerary` skips the `<picture>` block automatically.
 
-- `actions/configure-pages`
-- `actions/upload-pages-artifact`
-- `actions/deploy-pages`
-
-## GitHub Pages Setup
-
-For a new repository:
-
-1. Create a public GitHub repo.
-2. Push this folder to the repo's `main` branch.
-3. In GitHub, open `Settings > Pages`.
-4. Set the source to `GitHub Actions`.
-5. Push again or run the `Deploy GitHub Pages` workflow manually.
-
-## Local Preview
-
-Open `index.html` in a browser, or run a local preview:
-
-```powershell
-npm run preview
+Day object shape:
+```js
+{
+  id: "day-N",
+  date: "Weekday, Month DD",
+  title: "...",
+  image: "assets/photo.jpg",   // null = no hero
+  imageWebp: "assets/photo.webp",
+  area: "...",
+  transport: "...",
+  food: "...",
+  night: "...",
+  launchRoute: ["From", "To", "walking|transit|driving"],
+  steps: [["Title", "Description", ["MapName", ...]], ...],
+  photo: "...",
+  tired: "...",
+  rain: "..."
+}
 ```
 
-Then open `http://localhost:4173/`.
+---
 
-Before pushing JavaScript changes, run:
+## Other Data in app.js
 
-```powershell
-npm run check
+| Variable | What to update |
+|---|---|
+| `flights` | Flight legs — number, route, times, terminal |
+| `flightReadiness` | Per-leg checklist items |
+| `departureGuardrails` | Departure day reminders |
+| `nextMoveTimeline` | Date-aware "next step" cards on Guide tab |
+| `todo` | Pre-trip checklist — sectioned by owner `[{section, items}]` |
+| `pack` | Packing list |
+| `tickets` | Wallet confirmations — add numbers when Marianna books |
+| `booking` | Hotel booking details and fill-ins |
+| `emergencyContacts` | Safety tab numbers |
+| `recoveryPlans` | Lost passport/phone/wallet steps |
+| `mapQueries` | Named map targets used by buttons throughout the site |
+| `routeShortcuts` | One-tap direction shortcuts on Directions tab |
+| `resourceGroups` | App download links on Directions tab |
+| `ntfyTopic` | ntfy push topic string |
+
+---
+
+## Flights
+
+All on confirmation **KDHSOU**:
+
+| Flight | Route | Date | Departs | Arrives |
+|---|---|---|---|---|
+| B6 2184 | RDU → BOS | Thu Jun 25 | 2:34 PM EDT (T2) | 4:34 PM EDT |
+| B6 1620 | BOS → LHR | Thu Jun 25 | 6:39 PM EDT (T-C) | Fri Jun 26, 6:30 AM BST |
+| B6 20 | LHR → JFK | Mon Jun 29 | 11:55 AM BST (T2) | 3:25 PM EDT |
+| B6 585 | JFK → RDU | Mon Jun 29 | 6:30 PM EDT (T5) | 8:33 PM EDT |
+
+ntfy push topic: `london-birthday-trip-2026-a9x4m2q7`
+
+### Flight tracking
+
+- GitHub Actions runs `tools/update-flight-status.mjs` every 30 minutes during active windows (24h before departure → 3h after arrival)
+- Writes `data/flight-status.json`; site reads and displays it
+- `npm run flight:update` to run locally; `npm run flight:qa` to test the logic
+- Closed-phone alerts go via ntfy, not browser notifications
+
+---
+
+## Local Dev
+
+```bash
+npx serve -p 4321 .       # preview at http://localhost:4321
+npm run check             # JS syntax check
+npm run test:unit         # unit tests
+npm run site:qa           # static assertions
+npm run release:prepare   # bust-cache + check + test:unit + site:qa + reminder:qa
 ```
 
-For the site resilience checks, run:
+---
 
-```powershell
-npm run site:qa
+## Release Workflow
+
+```bash
+npm run release:prepare
+git add <files>
+git commit -m "..."
+git push
+gh run watch              # confirm GitHub Pages CI is green
 ```
 
-For the unit tests, run:
+`main` is production. GitHub Pages deploys automatically after CI passes. Never present the live URL before CI is green.
 
-```powershell
-npm run test:unit
-```
+---
 
-For optimized image checks, run:
+## UX Gotchas — Do Not Break
 
-```powershell
-npm run image:qa
-```
-
-## Local Tools
-
-The Windows workstation is set up with:
-
-- Git and GitHub CLI for commits, pushes, repo management, and Pages checks.
-- Node.js and npm for lightweight site validation.
-- Python plus `pillow` and `python-docx` for regenerating the legacy printable itinerary files.
-- ImageMagick for optimizing or resizing photos.
-- VS Code for editing.
-- Playwright Chromium for browser screenshots and visual checks.
-
-Avoid installing local `node_modules` inside this Google Drive folder. The sync layer can interfere with large dependency folders, so project scripts stay dependency-light.
-
-## Flight Tracking
-
-The public site includes a no-paid flight status system:
-
-- GitHub Actions runs `tools/update-flight-status.mjs` every 30 minutes.
-- The script checks only flights inside their monitoring window: 24 hours before departure through 3 hours after scheduled arrival.
-- The script writes `data/flight-status.json`.
-- The site reads that JSON and shows each flight's status, last checked time, estimated departure/arrival, and gate when available.
-- The `Update Now` button refreshes the latest status data already published to the site.
-- Real phone push notifications use ntfy.sh. Install the ntfy app and subscribe to the topic shown in the site.
-- Do not add browser notification prompts back to the website. Flight alerts and trip reminders should go through ntfy phone push.
-- Google Status search for the free Google flight-status card.
-- JetBlue flight tracker and app for the source of truth.
-- FlightStats for public flight status pages.
-- FlightAware for live tracking near departure/in-flight windows.
-
-No paid flight API is required. Google does not provide a simple public flight-status API for this static site, so the free on-demand path is to open Google's flight-status result directly for each flight.
-
-### Phone Push Alerts
-
-The site uses ntfy for no-paid phone push alerts:
-
-- Topic: `london-birthday-trip-2026-a9x4m2q7`
-- App/web topic URL: `https://ntfy.sh/london-birthday-trip-2026-a9x4m2q7`
-- Alerts are sent by the GitHub Actions flight-status workflow.
-- Alerts are sent on the first active check for a flight and when meaningful flight status details change.
-- Trip reminders are sent by the GitHub Actions trip-push-reminders workflow.
-- Reminder send state is stored in `data/trip-push-state.json` so scheduled reminders do not repeat.
-
-The ntfy topic is public but intentionally hard to guess. Anyone who knows the topic URL could subscribe or send messages, so this should be treated as a practical travel notifier, not a private medical/banking channel.
-
-To test the status updater locally:
-
-```powershell
-npm run flight:update
-```
-
-To simulate an active window:
-
-```powershell
-$env:FLIGHT_STATUS_NOW="2026-06-25T19:00:00Z"; npm run flight:update
-```
-
-To run the flight tracker QA suite:
-
-```powershell
-npm run flight:qa
-```
-
-The QA suite verifies that inactive dates do not churn the status file, outbound flights are checked during the outbound window, and return flights are checked during the return window.
-
-## Installable Offline App
-
-The site can be added to a phone home screen using the browser's install/add-to-home-screen option.
-
-- `site.webmanifest` supplies the app name, color, and icon.
-- `sw.js` caches the app shell and key trip assets for offline use.
-- Hero/day images use WebP first with JPG fallbacks.
-- Static content uses cache-first loading for speed.
-- `data/flight-status.json` uses network-first loading so fresh flight information wins when a connection is available, with cached status as the fallback.
-- `npm run site:qa` verifies that the manifest, service worker, offline shell, flight-status caching strategy, and departure guardrail rendering are wired.
-- `npm run image:qa` verifies optimized WebP assets exist and are smaller than the approved JPG fallbacks.
-
-This does not replace JetBlue app notifications or ntfy phone push. It makes the guide more reliable when cellular service is weak.
-
-## Cache Busting Rule
-
-Every release must bust cache before anyone is told to open the live site.
-
-- Run `npm run release:prepare` before every production commit.
-- Do not present the live URL until the new deploy succeeds.
-- If the phone or installed app still looks stale, remove the saved app copy and reopen the browser version once so the new service worker and assets can take over.
-
-## Google Drive Sync Safety
-
-This repo lives inside Google Drive, so use the preflight check before committing:
-
-```powershell
-npm run drive:preflight
-```
-
-The check looks for sync conflict files, generated dependency folders, whitespace issues, and remote drift from GitHub.
-
-## Travel Details
-
-Confirmation screenshots may be included in the public site when approved. Copy approved screenshots into `assets/`, link them from the relevant itinerary section, and keep fill-in fields when exact numbers are not clearly legible.
-
-## Update Rule
-
-After every push, print the live site URL so the newest version can be checked immediately.
-
-See `SOP.md` for the standard update process. The live URL must be printed after every commit and push:
-
-https://mbediner.github.io/london-birthday-trip/
-
-Every new feature release must also email:
-
-- To: `mbediner@gmail.com`
-- CC: `rbediner@gmail.com`, `tbediner@gmail.com`, `collin.bediner@gmail.com`
-
-The email should explain the new feature, why it matters, QA completed, any action needed, and the live site link. Send it only after QA passes and GitHub Pages deployment succeeds.
-
-## Photo Sources
-
-Photo credits are documented in the original itinerary README history and builder metadata. Current site images live in `assets/`.
+- `[hidden] { display: none !important; }` must stay in CSS reset
+- `history.pushState` (not `replaceState`) in `setActivePanel` — back navigation
+- `.topic-code { word-break: normal; overflow-wrap: break-word; }` — no mid-word break in ntfy topic
+- `trip-facts article:last-child:nth-child(odd) { grid-column: 1/-1; }` — no orphan cell in 2-col grid
+- `.emergency-card--embassy .call-btn { width: auto; }` — embassy button not clipped
+- Bottom nav: `padding-bottom: env(safe-area-inset-bottom, 0px)` — iPhone home indicator

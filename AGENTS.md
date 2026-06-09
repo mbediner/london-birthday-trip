@@ -1,52 +1,81 @@
-# AGENTS.md
+# AGENTS — London Birthday Trip
 
-## Purpose
+Read this before doing anything. It is the single source of truth for AI agent behavior on this project.
 
-This project uses GitHub as the source of truth.
+---
 
-Read `SOP.md` before making changes and follow it as the primary operating procedure for this repo.
+## Session Start (every session, no exceptions)
 
-## Required Session Start Behavior
+1. Confirm this is a Git repo: `git status --short --branch`
+2. Check remote: `git remote -v`
+3. If working tree is clean: `git fetch origin && git pull`
+4. If working tree is dirty: inspect changes, explain the situation, do not blindly pull
+5. Read `HANDOFF.md` — it has the last known state, cache token, and pending items
+6. Then proceed with the requested task
 
-Before editing:
+---
 
-1. Confirm the folder is a Git repository.
-2. Read `SOP.md`.
-3. Inspect repo state:
-   - `git status --short --branch`
-   - `git remote -v`
-   - `git branch --show-current`
-4. If the working tree is clean:
-   - `git fetch origin`
-   - pull the current branch from `origin`
-5. If the working tree is dirty:
-   - do not blindly pull
-   - inspect the changed files
-   - explain the risk in plain English before taking action
+## Non-Negotiable Rules
 
-## Required Working Style
+- **Git is the source of truth.** Commit and push after every meaningful change. Do not ask for permission.
+- **Never send release emails.** That requirement is permanently dead.
+- **Always run `npm run release:prepare`** before pushing to production — it busts cache, checks syntax, runs unit tests and QA.
+- **Always `gh run watch`** after pushing — confirm CI is green before presenting the live URL.
+- **Never present the live URL** until the new deploy is confirmed green.
+- **Never use `--no-verify`, `--force`, or destructive git commands** without explicit approval.
+- GitHub remote: `https://github.com/mbediner/london-birthday-trip.git` (HTTPS, auth via gh CLI + osxkeychain)
 
-1. Keep explanations simple and calm.
-2. Do the Git work automatically when it is safe.
-3. Do not ask the user to use GitHub Desktop.
-4. Do not ask the user to manage Git manually unless there is a real blocker.
-5. When changing behavior, run the relevant checks from `package.json`.
-6. Keep documentation in sync with the actual workflow.
+---
 
-## Required End Of Session Behavior
+## Release Workflow
 
-When work is complete and safe to publish:
+```bash
+npm run release:prepare       # mandatory before every production push
+git add <changed files>
+git commit -m "clear message"
+git push
+gh run watch                  # wait for green
+# then present: https://mbediner.github.io/london-birthday-trip/
+```
 
-1. Review changed files.
-2. Run the relevant QA checks.
-3. Commit with a clear message.
-4. Push to the active branch.
-5. If production changed, verify deployment when practical.
-6. Include the live site URL in the final response:
-   - `https://mbediner.github.io/london-birthday-trip/`
+---
 
-## Safety Rules
+## What to Update When
 
-1. Never manually edit `.git/`.
-2. Never use destructive Git commands unless explicitly approved.
-3. If Git state is unclear, pause and explain the blocker in plain English.
+| What changed | File to update |
+|---|---|
+| Architecture, panels, design system, data shape, UX gotchas | `README.md` |
+| Every commit/push | `HANDOFF.md` — current state, cache token, pending items |
+| These agent rules | `AGENTS.md` |
+
+---
+
+## UAT Before Every Push
+
+Always visually verify at **375×812 mobile viewport** before pushing. Use the Claude Preview MCP (`preview_start("london-trip")`) or `npx serve -p 4321`. Do not rely on static analysis alone — run the app.
+
+---
+
+## Working Style
+
+- Keep explanations short. Do the work, report the result.
+- Run the relevant checks automatically — do not ask the user to run them.
+- Do not ask the user to manage Git unless there is a real, specific blocker.
+- When something looks off during UAT, fix it in the same commit — do not ship known issues.
+
+---
+
+## End of Session
+
+1. Run `npm run release:prepare`
+2. Commit all changed files
+3. Push
+4. `gh run watch` — confirm green
+5. Update `HANDOFF.md` with current state
+6. Present the live URL: **https://mbediner.github.io/london-birthday-trip/**
+
+---
+
+## Google Drive Note
+
+This repo lives inside Google Drive (sync layer only — not the source of truth). Before committing, check for Drive conflict files: `find . -name "* (*'s conflicted copy*" -not -path "./.git/*"`. If found, resolve before committing.
