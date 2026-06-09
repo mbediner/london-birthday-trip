@@ -714,7 +714,50 @@ summary:hover {
 }
 
 .emergency-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 18px;
   text-decoration: none;
+  cursor: pointer;
+  border-color: var(--line-strong);
+}
+
+.emergency-card::after {
+  content: "Call →";
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: white;
+  background: var(--forest);
+  font-size: 0.8rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.emergency-card span {
+  display: block;
+  color: var(--coral);
+  font-size: 0.74rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.emergency-card strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.emergency-card p {
+  margin: 4px 0 0;
+  font-size: 0.88rem;
+  color: var(--muted);
 }
 
 .site-footer {
@@ -807,11 +850,22 @@ summary:hover {
 
   .tab-bar {
     position: static;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
     gap: 8px;
     margin-top: 0;
     padding: 8px 14px 4px;
+    scrollbar-width: none;
+  }
+
+  .tab-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-button {
+    flex: 0 0 auto;
+    min-width: 96px;
   }
 
   .tab-button {

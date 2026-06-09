@@ -748,7 +748,7 @@ function renderItinerary() {
             <p>${day.transport}</p>
           </div>
           <div class="button-row">
-            ${sameTabTravelLink(directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2]), "Launch day route")}
+            ${sameTabTravelLink(directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2]), `Directions → ${day.launchRoute[1]}`)}
             <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
           </div>
         </section>
@@ -960,7 +960,8 @@ function renderFlights() {
         <span class="summary-pill">${flight.number}</span>
       </summary>
       <div class="flight-pocket__body">
-        <p><strong>${flight.terminal}</strong> | ${flight.arrive}</p>
+        <p><strong>${flight.terminal}</strong></p>
+        <p>${flight.arrive}</p>
         ${renderFlightStatusBox(statusForFlight(flight))}
         <section class="flight-pocket__checklist">
           <strong>Before this leg</strong>
@@ -1080,13 +1081,9 @@ function renderBooking() {
       <div class="button-row">
         <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
         <a class="button button--secondary" href="https://www.booking.com/" target="_blank" rel="noopener">Booking.com</a>
-        <a class="button button--secondary" href="${booking.screenshot}" target="_blank" rel="noopener">Open screenshot</a>
       </div>
       <ul class="bullet-list">${booking.actionItems.map(item => `<li>${item}</li>`).join("")}</ul>
       <ul class="bullet-list">${booking.fillIns.map(item => `<li>${item}</li>`).join("")}</ul>
-      <a class="booking-image" href="${booking.screenshot}" target="_blank" rel="noopener">
-        <img src="${booking.screenshot}" alt="Booking.com hotel confirmation screenshot" loading="lazy" decoding="async">
-      </a>
     </details>
   `;
 }
