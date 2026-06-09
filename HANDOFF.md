@@ -1,78 +1,179 @@
-# Session Handoff — June 9, 2026
+# London Birthday Trip — Handoff
 
-Read this before touching anything. The repo is clean, on `main`, and fully deployed.
+Read this before touching anything. Repo is clean, on `main`, fully deployed.
 
-## Current State
-
-- Branch: `main`
-- Working tree: clean
-- Last commit: `1fb7688` — "UAT fixes: stale screenshot copy, badge contrast, ntfy stray period"
-- Live URL: https://mbediner.github.io/london-birthday-trip/
-- Cache token: `?v=202606090301`
-
-Do **not** run `git restore`, `git reset`, or `git rm`. The repo is healthy.
-
----
-
-## What Was Done This Session
-
-A full redesign pass was completed. Key changes (all pushed and live):
-
-1. **Redesign** — New masthead, tab bar, card system. Avenir Next font, `--forest` (#173f3d) primary, `--paper` (#f4efe7) background.
-2. **Hero chips removed** — The three pill labels (Hotel Victoria / Nearest Tube / June 26-29) were removed from the masthead.
-3. **Tab bar (mobile)** — Changed from a 3-col grid to `flex / overflow-x: auto` so all 5 tabs fit in one scrollable row.
-4. **Wallet redesign** — Ticket Wallet, Before Leaving, What to Bring, and Booking are now collapsible `<details class="pocket-card">` sections.
-5. **Ticket cards** — Each ticket is a rich object with real data, status badge (✓ Set / NEEDED / To do), and a reason. JetBlue links to Manage Trips. UK ETA explains what it is and links to gov.uk.
-6. **Booking section** — Hotel phone (+44 20 7630 8888) added. Screenshot image and "Open screenshot" button removed entirely.
-7. **Downloads (Directions tab)** — Each resource now shows a reason WHY to download/open it.
-8. **Emergency contacts (Safety tab)** — Full-width tappable cards with a "Call →" badge.
-9. **Day route label** — "Launch day route" renamed to "Directions → [destination]" per day.
-10. **Flight display** — Stray pipe between terminal and arrival time fixed.
-11. **Stale copy** — All "screenshot" references removed from copy (Before Departure card, departure morning card, flight readiness checklists).
-12. **ntfy setup** — Stray period after ntfy topic fixed by using inline `<code>` instead of `<strong>`.
-13. **SOP** — Post-release email requirement removed. SOP updated.
-
----
-
-## Architecture Quick Reference
-
-- **Static GitHub Pages** site — `index.html` + `app.js` + `styles.css` + `site-logic.js`
-- **ES module SPA** — `app.js` imports from `./site-logic.js`
-- **5 tab panels**: `overview` (Guide) · `move` (Directions) · `flights` (Alerts) · `wallet` · `safety`
-- Panels are shown/hidden via the `hidden` attribute + `.is-active` class
-- **Day cards** use `<details class="pocket-card">` / `<summary>` collapsible pattern
-- **Cache busting**: version query param in `index.html` on BOTH `styles.css` and `app.js` links — must bump on every production release. Run `npm run release:prepare` before pushing.
-- **itinerary data** lives in the `days` array in `app.js` (~line 70)
-- **flights data** lives in the `flights` array (~line 209)
-- **ticket wallet data** lives in the `tickets` array (~line 537)
-- **booking data** lives in the `booking` object (~line 548)
-
----
-
-## What Is Still Pending (Needs Real Data)
-
-These items are marked **NEEDED** in the Wallet tab. Update them in `app.js` when the info is available:
-
-| Item | Where in app.js | What's needed |
-|---|---|---|
-| Big Bus London hop-on hop-off | `tickets` array, index 2 | Confirmation number — add when Marianna books |
-| London Eye | `tickets` array, index 3 | Confirmation number — add when Marianna books |
-| UK ETA — Tiffany | `tickets` array, index 4 | ETA authorisation number from gov.uk |
-| UK ETA — Collin | `tickets` array, index 5 | ETA authorisation number from gov.uk |
-| Parent travel consent letter | `tickets` array, index 6 | Google Doc link — ask Marianna |
-| Booking confirmation number | `booking.fillIns` | From Booking.com email |
-| Booking PIN | `booking.fillIns` | From Booking.com email |
-| Check-in time | `booking.fillIns` | From Booking.com email |
-| Sunday itinerary (Day 3 extra) | `days` array | Marianna still needs to add one more Sunday guide pocket per SOP |
+**Live URL:** https://mbediner.github.io/london-birthday-trip/
+**Repo:** https://github.com/mbediner/london-birthday-trip.git
+**Last cache token:** `202606091519`
 
 ---
 
 ## Repo Rules (Non-Negotiable)
 
-- **Never send a release email** after deploying. This requirement is dead.
+- **Never send a release email** after deploying. Requirement is dead.
 - **Commit and push immediately** without asking for permission. Produce the live URL.
-- **Bump the cache version** (`?v=YYYYMMDDHHNN`) in `index.html` on every production release.
-- Run `npm run release:prepare` before every push to production.
-- Always confirm GitHub Pages deploy succeeded before presenting the live URL.
-- GitHub remote: `https://github.com/mbediner/london-birthday-trip.git` (HTTPS, rbediner is collaborator)
-- Auth: `gh` CLI + osxkeychain. If push fails auth, run `gh auth login` via browser.
+- **Run `npm run release:prepare`** before every push — bumps cache token, syntax check, unit tests, QA.
+- **Always `gh run watch`** to confirm GitHub Pages CI is green before presenting the URL.
+- Auth: `gh` CLI + osxkeychain. If push fails, run `gh auth login`.
+
+---
+
+## Release Workflow
+
+```bash
+npm run release:prepare   # bust-cache → syntax check → unit tests → site QA → reminder QA
+git add <changed files>
+git commit -m "..."
+git push
+gh run watch              # wait for green
+```
+
+---
+
+## Architecture
+
+- **Single-file ES module SPA** — all logic in `app.js`; no separate site-logic.js
+- `styles.css` for all styling; `sw.js` service worker; `index.html` shell
+- **5 panels:** Guide (`#overview`), Directions (`#move`), Flights (`#flights`), Docs (`#wallet`), Safety (`#safety`)
+- Panel switching: `setActivePanel()` uses `history.pushState` (not `replaceState`) + `popstate` listener — swipe-back navigates between panels, does not exit the app
+- `<details>`/`<summary>` pocket card pattern for all collapsible sections
+- Cache-bust: `?v=YYYYMMDDHHNN` on `styles.css` and `app.js` in `index.html` + `sw.js` — bumped automatically by `release:prepare`
+- Service worker: network-first for `data/flight-status.json`, cache-first for static shell
+
+---
+
+## Design System — Deep Navy
+
+| Token | Value | Use |
+|---|---|---|
+| `--bg-base` | `#0D1B2A` | Page background |
+| `--bg-card` | `#162236` | Card background |
+| `--bg-card-hover` | `#1E3047` | Card hover |
+| `--accent` | `#4F9CF9` | JetBlue blue — CTAs, active nav |
+| `--success` | `#2D9E6B` | Day 3 green |
+| `--warning` | `#F59E0B` | Day 2 amber |
+| `--danger` | `#E63946` | Day 1 red |
+| `--purple` | `#8B5CF6` | Day 4 purple (departure day) |
+| `--text-primary` | `#F8FAFC` | Body text |
+| `--text-secondary` | `#94A3B8` | Subtext, labels |
+
+Day badge colors:
+- Day 1 FRI — red `rgba(230,57,70,0.25)` / text `#f87a84`
+- Day 2 SAT — amber `rgba(245,158,11,0.25)` / text `#fbbf3a`
+- Day 3 SUN — green `rgba(45,158,107,0.25)` / text `#45cc8b`
+- Day 4 MON — purple `rgba(139,92,246,0.25)` / text `#c4b5fd`
+
+---
+
+## Itinerary — 4 Days
+
+| ID | Date | Title | Hero Image |
+|---|---|---|---|
+| `day-1` | Friday, June 26 | Victoria, Westminster and South Bank | `assets/london_eye.webp` |
+| `day-2` | Saturday, June 27 | Tower Bridge, Borough Market and West End | `assets/tower_bridge.webp` |
+| `day-3` | Sunday, June 28 | Palace Morning and Camden Adventure | `assets/camden_market.webp` |
+| `day-4` | Monday, June 29 | Departure Day — Fly Home | *(null — no hero, airport day)* |
+
+Day 4 departure: leave hotel 7:00–7:15 AM BST → Heathrow T2 by 8:55 AM → B6 20 LHR→JFK (11:55 AM BST / arrives 3:25 PM EDT) → B6 585 JFK→RDU (6:30 PM EDT / arrives 8:33 PM EDT).
+
+`renderItinerary` skips the `<picture>` media block when `day.image` is null.
+
+Add new days in this shape:
+```js
+{
+  id: "day-N",
+  date: "Weekday, Month DD",        // e.g. "Monday, June 29"
+  title: "...",
+  image: "assets/photo.jpg",        // null = no hero image
+  imageWebp: "assets/photo.webp",
+  area: "...",
+  transport: "...",
+  food: "...",
+  night: "...",
+  launchRoute: ["From", "To", "walking|transit|driving"],
+  steps: [["Title", "Description", ["MapName", ...]], ...],
+  photo: "...",
+  tired: "...",
+  rain: "..."
+}
+```
+
+---
+
+## Flights
+
+All on confirmation **KDHSOU**:
+
+| Flight | Route | Date | Departs | Arrives |
+|---|---|---|---|---|
+| B6 2184 | RDU → BOS | Thu Jun 25 | 2:34 PM EDT (T2) | 4:34 PM EDT |
+| B6 1620 | BOS → LHR | Thu Jun 25 | 6:39 PM EDT (T-C) | Fri Jun 26, 6:30 AM BST |
+| B6 20 | LHR → JFK | Mon Jun 29 | 11:55 AM BST (T2) | 3:25 PM EDT |
+| B6 585 | JFK → RDU | Mon Jun 29 | 6:30 PM EDT (T5) | 8:33 PM EDT |
+
+ntfy push topic: `london-birthday-trip-2026-a9x4m2q7`
+
+---
+
+## Pre-Trip To-Do (Docs → Pre-Trip Checklist)
+
+Grouped by owner. `renderChecklist` auto-detects `[{section, items}]` format vs flat string array.
+
+**Marianna:**
+- Order British pounds from Chase
+- Apply for UK ETA for Tiffany and Collin at gov.uk
+- Buy Big Bus London hop-on hop-off tickets and add confirmation here
+- Buy London Eye tickets and add confirmation here
+- Buy portable chargers for Tiffany and Collin's phones
+- Confirm hotel can store bags on arrival morning before check-in
+
+**Tiffany & Collin:**
+- Download JetBlue app and confirm KDHSOU booking appears
+- Download TfL Go for Tube routes
+- Download ntfy and subscribe to the trip alert topic
+- Download offline Google Maps for London
+- Download Uber and FREENOW — set up payment before leaving
+- Save hotel address in Uber and Google Maps before leaving home
+- Save parent travel consent letter as PDF on both phones
+
+---
+
+## Wallet Confirmations — Pending Fill-Ins
+
+Update in the `tickets` array and `booking` object in `app.js`:
+
+| Item | Status |
+|---|---|
+| JetBlue KDHSOU | ✅ confirmed |
+| Hotel — Holiday Inn Express Victoria, 106-110 Belgrave Rd SW1V 2BJ | ✅ confirmed |
+| Big Bus London hop-on hop-off | ⏳ add confirmation number when Marianna books |
+| London Eye | ⏳ add confirmation number when Marianna books |
+| UK ETA — Tiffany | ⏳ add authorisation number (gov.uk) |
+| UK ETA — Collin | ⏳ add authorisation number (gov.uk) |
+| Parent travel consent letter | ⏳ add Google Doc link |
+| Booking.com confirmation number | ⏳ fill in |
+| Booking.com PIN | ⏳ fill in |
+| Check-in time | ⏳ fill in |
+
+---
+
+## Key UX Rules and Gotchas
+
+- **`[hidden] { display: none !important; }`** — must stay in CSS reset or `#dayIndicator` shows incorrectly (`display:flex` overrides the attribute)
+- **Bottom nav safe area** — `position: fixed; bottom: 0; padding-bottom: env(safe-area-inset-bottom, 0px)` for iPhone home indicator
+- **Day badge parsing** — `parseDayBadge("Friday, June 26")` → `{abbr: "FRI", short: "Jun 26"}`
+- **Trip-facts orphan fix** — `trip-facts article:last-child:nth-child(odd) { grid-column: 1/-1; }` — prevents empty cell when day has odd number of fact items in 2-col grid
+- **ntfy topic display** — `.topic-code { word-break: normal; overflow-wrap: break-word; font-size: 0.75rem; }` — prevents mid-word break in topic string
+- **Embassy button** — `.emergency-card--embassy .call-btn { width: auto; }` — prevents "Call Embassy" clipping in flex row
+- **ntfy Step 2 text** — plain text only inside `<li>`, no `<strong>` tags (inherit oversized bold styles)
+- **"Set up alerts" button** — `data-open-push-setup` attribute → switches to `#flights` and scrolls to `#phonePushPanel` after 60ms timeout
+- **Back navigation** — `history.pushState` (not `replaceState`); `popstate` listener handles back
+
+---
+
+## QA
+
+- `tools/qa-site.mjs` — static assertions on HTML/JS/CSS; runs inside `release:prepare`
+- `tests/*.test.mjs` — unit tests for cache token, URL builders, panel routing
+- Always UAT visually at **375×812 mobile viewport** before pushing
+- Local preview: `npx serve -p 4321`
