@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `de780d3` — Update HANDOFF.md after repo cleanup
-**Cache token:** `202606091535`
+**Last commit:** `b726e4d` — Fix cache bug + 8 UX improvements from feedback
+**Cache token:** `202606091620`
 **Branch:** `main` — clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606091535
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606091620
 
 ---
 
@@ -32,6 +32,22 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session — June 9, 2026 (Claude) — Part 2
+
+- **SW cache bug fixed** — `booking_confirmation.jpg` was still in sw.js APP_SHELL pre-cache list after being moved to `assets/unused/`; `cache.addAll` fails the entire SW install if any file is missing, meaning new SWs never activated (root cause of "mobile cache never clears"). Removed the file from the list.
+- **SW navigation-first** — HTML navigation requests now use network-first so new releases appear immediately without manual cache clearing
+- **"Set up alerts" scroll fixed** — added `window.scrollTo(0,0)` before the panel transition so the button always lands on the ntfy setup card (not "Status at a glance")
+- **Deep links** — `#day-1` through `#day-4` URL anchors now open the correct itinerary day directly; shareable URLs for each day
+- **Status at a glance — clickable** — each flight row now has a "Details ›" link; clicking opens and scrolls to the corresponding flight detail card (`id="flight-{number}"` added to each `<details>`)
+- **FlightAware removed** — `flightTrackers()` now returns only Live Status (Google search); no duplicate tracker
+- **JetBlue app links** — all "JetBlue app" text in flight cards now links to App Store (iPhone) and Google Play (Android) with inline styled links
+- **Add to Home Screen cleanup** — removed out-of-place TfL Go download buttons; removed Safari instructions; Chrome-only wording; cleaner summary text
+- **Directions — alphabetized + icons** — all 36 map locations sorted A→Z; `mapIcons` object added with per-location emoji (🚇 stations, ✈️ airports, 🏰 landmarks, 🛒 markets, etc.)
+- **TfL spelled out** — `resourceGroups` now says "Transport for London app" in the description; JetBlue split into iPhone and Android entries
+- **Token fix** — `var(--forest)` in `renderResources` corrected to `var(--accent)` (was an alias anyway, now semantically correct)
 
 ---
 
