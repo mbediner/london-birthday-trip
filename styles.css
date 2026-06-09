@@ -578,7 +578,7 @@ summary:hover {
   display: block;
 }
 
-.list-link span {
+.list-link span:not(.ticket-badge) {
   color: var(--forest);
 }
 
@@ -605,9 +605,9 @@ summary:hover {
   text-transform: uppercase;
   white-space: nowrap;
 }
-.ticket-badge--confirmed { background: var(--forest); color: #fff; }
-.ticket-badge--pending { background: #e8a000; color: #fff; }
-.ticket-badge--action { background: var(--line-strong); color: var(--ink); }
+.ticket-badge--confirmed { background: var(--forest); color: #fff !important; }
+.ticket-badge--pending { background: #e8a000; color: #fff !important; }
+.ticket-badge--action { background: var(--line-strong); color: var(--ink) !important; }
 
 .check-item input {
   width: 20px;

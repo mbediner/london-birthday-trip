@@ -268,7 +268,7 @@ const flightReadiness = {
   ],
   "20": [
     "Leave hotel around 7:00-7:15 AM BST.",
-    "Passport, phone, charger, wallet, and flight screenshots are physically checked before leaving.",
+    "Passport, phone, charger, wallet, and medication are physically checked before leaving.",
     "JetBlue app confirms Terminal 2 and current flight status.",
     "At Heathrow by 8:55 AM and through security before food."
   ],
@@ -334,7 +334,7 @@ const nextMoveTimeline = [
     label: "Before departure",
     title: "Finish the phone setup",
     message: "Install JetBlue, TfL Go, ntfy, and save this guide to the phone home screen.",
-    detail: "Confirm passports, UK ETA, consent letter, hotel screenshot, and JetBlue confirmation KDHSOU are saved on both phones.",
+    detail: "Confirm passports, UK ETA, consent letter, and JetBlue confirmation KDHSOU are ready on both phones.",
     actions: [
       ["Open Wallet", "panel:wallet"],
       ["Alerts Setup", "panel:flights"]
@@ -406,7 +406,7 @@ const nextMoveTimeline = [
     label: "Departure morning",
     title: "Leave for Heathrow",
     message: "Leave the hotel around 7:00-7:15 AM BST. Target Heathrow arrival is 8:55 AM.",
-    detail: "Use JetBlue first. Keep passports and flight screenshots out before leaving the hotel.",
+    detail: "Use JetBlue first. Keep passports and boarding passes accessible before leaving the hotel.",
     actions: [
       ["Heathrow Map", "map:London Heathrow Airport"],
       ["Flights", "panel:flights"]
@@ -946,10 +946,10 @@ function renderTickets() {
       ? `href="${ticket.href}" target="_blank" rel="noopener"`
       : "";
     const badge = ticket.status === "confirmed"
-      ? `<span class="ticket-badge ticket-badge--confirmed">Confirmed</span>`
+      ? `<span class="ticket-badge ticket-badge--confirmed">✓ Set</span>`
       : ticket.status === "pending"
       ? `<span class="ticket-badge ticket-badge--pending">Needed</span>`
-      : `<span class="ticket-badge ticket-badge--action">Action</span>`;
+      : `<span class="ticket-badge ticket-badge--action">To do</span>`;
     return `
     <${tag} class="list-link ticket-card" ${attrs}>
       <div class="ticket-card__body">
@@ -1055,7 +1055,7 @@ function renderPhonePush() {
       <ol class="bullet-list">
         <li>Install ntfy from the App Store.</li>
         <li>Open ntfy and allow notifications.</li>
-        <li>Tap Add subscription and enter <strong>${ntfyTopic}</strong>.</li>
+        <li>Tap Add subscription and enter <code style="font-size:0.85em;background:#eee;padding:2px 6px;border-radius:4px">${ntfyTopic}</code></li>
         <li>Open JetBlue from the iPhone App Store too, then allow JetBlue notifications.</li>
         <li>Save this trip site to the home screen with Safari Share -> Add to Home Screen.</li>
       </ol>
@@ -1075,7 +1075,7 @@ function renderPhonePush() {
       <ol class="bullet-list">
         <li>Install ntfy from Google Play.</li>
         <li>Open ntfy and allow notifications.</li>
-        <li>Add the topic <strong>${ntfyTopic}</strong>.</li>
+        <li>Add the topic <code style="font-size:0.85em;background:#eee;padding:2px 6px;border-radius:4px">${ntfyTopic}</code></li>
         <li>Install JetBlue and TfL Go from Google Play and allow notifications.</li>
         <li>Add this trip site to the home screen from the browser menu if desired.</li>
       </ol>
