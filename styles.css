@@ -10,6 +10,7 @@
   --warning:        #F59E0B;
   --danger:         #E63946;
   --danger-dark:    #7F1D1D;
+  --purple:         #8B5CF6;
   --text-primary:   #F8FAFC;
   --text-secondary: #94A3B8;
   --border:         rgba(255,255,255,0.08);
@@ -436,6 +437,7 @@ h3 {
 .itinerary-pocket[data-day="1"] { border-top: 3px solid var(--danger); }
 .itinerary-pocket[data-day="2"] { border-top: 3px solid var(--warning); }
 .itinerary-pocket[data-day="3"] { border-top: 3px solid var(--success); }
+.itinerary-pocket[data-day="4"] { border-top: 3px solid var(--purple); }
 
 /* Summary layout with numbered badge */
 .itinerary-summary {
@@ -476,6 +478,7 @@ h3 {
 .day-badge--1 { background: rgba(230,57,70,0.25); border-color: rgba(230,57,70,0.45); color: #f87a84; }
 .day-badge--2 { background: rgba(245,158,11,0.25); border-color: rgba(245,158,11,0.45); color: #fbbf3a; }
 .day-badge--3 { background: rgba(45,158,107,0.25); border-color: rgba(45,158,107,0.45); color: #45cc8b; }
+.day-badge--4 { background: rgba(139,92,246,0.25); border-color: rgba(139,92,246,0.45); color: #c4b5fd; }
 
 .itinerary-summary__text { flex: 1; min-width: 0; }
 .itinerary-summary__date {
@@ -490,6 +493,7 @@ h3 {
 .itinerary-pocket[data-day="1"] .itinerary-summary__date { color: var(--danger); }
 .itinerary-pocket[data-day="2"] .itinerary-summary__date { color: var(--warning); }
 .itinerary-pocket[data-day="3"] .itinerary-summary__date { color: var(--success); }
+.itinerary-pocket[data-day="4"] .itinerary-summary__date { color: var(--purple); }
 .itinerary-summary__text strong {
   display: block;
   font-size: 0.9375rem;
@@ -825,6 +829,16 @@ h3 {
   gap: 6px;
   padding: 0 0 4px;
 }
+.checklist-section__label {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 10px 4px 2px;
+  margin: 0;
+}
+.checklist-section__label:first-child { padding-top: 2px; }
 
 .list-link {
   display: flex;
@@ -1231,9 +1245,12 @@ h3 {
   background: var(--bg-base);
   border: 1px solid var(--border);
   color: var(--text-primary);
+  /* width:100% only for column-layout cards (101, 111) — not row-layout (embassy) */
   width: 100%;
   justify-content: center;
 }
+/* Embassy card uses row layout — button should be auto width */
+.emergency-card--embassy .call-btn { width: auto; }
 
 /* ═══════════════════════════════════════════════════════════
    SEARCH INPUT
@@ -1279,16 +1296,16 @@ h3 {
 .topic-code {
   display: block;
   margin: 10px 0;
-  padding: 10px 14px;
+  padding: 8px 12px;
   border-radius: var(--radius-inner);
   background: var(--bg-base);
   border: 1px solid var(--border);
   font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
-  font-size: 0.85rem;
+  font-size: 0.75rem;   /* smaller so topic fits on fewer lines */
   color: var(--accent);
-  word-break: break-all;
+  word-break: normal;
+  overflow-wrap: break-word; /* break at hyphens first, not mid-char */
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .copy-btn {
@@ -1355,7 +1372,6 @@ h3 {
 @media (max-width: 400px) {
   .callout-grid { grid-template-columns: 1fr; }
   .overview-grid { grid-template-columns: 1fr; }
-  .emergency-grid { grid-template-columns: 1fr; }
-  .emergency-card--critical { grid-column: 1; }
+  /* emergency-grid stays 2-col even at 375px — numbers fit fine */
   .itinerary-summary__text strong { font-size: 0.875rem; }
 }

@@ -203,6 +203,30 @@ const days = [
     photo: "Buckingham Palace gates, Camden Market signs, Regent's Canal near Camden Lock.",
     tired: "Skip Regent's Canal and spend only 1 to 2 hours at Camden Market before returning toward the hotel.",
     rain: "Shorten the park walk and spend more time in Camden Market covered areas, cafes, and shops."
+  },
+  {
+    id: "day-4",
+    date: "Monday, June 29",
+    title: "Departure Day — Fly Home",
+    image: null,
+    imageWebp: null,
+    area: "Heathrow Terminal 2",
+    transport: "Uber/taxi from hotel to Heathrow; B6 20 LHR→JFK then B6 585 JFK→RDU",
+    food: "Hotel breakfast, then airport food at Heathrow before boarding",
+    night: "Back home in Raleigh by 8:33 PM EDT",
+    launchRoute: ["Hotel", "London Heathrow Airport", "driving"],
+    steps: [
+      ["6:00 AM — wake up and final check", "Set alarms for 6:00 and 6:30 AM BST. Physical check before leaving: passports, wallet, phone, charger, medication, and all bags out of the safe.", ["Hotel"]],
+      ["Leave hotel by 7:15 AM", "Book Uber or FREENOW to Heathrow Terminal 2. Target arrival at Heathrow by 8:55 AM. Allow extra time — London morning traffic is unpredictable.", ["London Heathrow Airport"]],
+      ["Check in at Terminal 2", "B6 20 departs from Terminal 2. Use the JetBlue app for boarding passes. Queue for bag drop and security early.", ["London Heathrow Airport"]],
+      ["Clear security and find the gate", "Security lines at Heathrow can be long. Go straight to the gate after clearing. Eat and charge phones airside before boarding.", []],
+      ["Board B6 20 LHR → JFK", "Flight B6 20 departs 11:55 AM BST. Arrives JFK 3:25 PM EDT. Update the parent group text before boarding.", []],
+      ["JFK connection — find gate first", "After landing at JFK, stay airside. Find the Raleigh gate before food or charging. If delayed or confused, talk to a JetBlue gate agent.", ["JFK Terminal 5"]],
+      ["Board B6 585 JFK → RDU", "Departs 6:30 PM EDT from Terminal 5. Arrives Raleigh 8:33 PM EDT. Keep parent group text updated from JFK.", []]
+    ],
+    photo: "Last view of London from the plane if you get a window seat. Take it.",
+    tired: "Skip any last-minute airport shopping and go to the gate early to rest before the long flight.",
+    rain: "Airport day — weather doesn't change the plan."
   }
 ];
 
@@ -504,18 +528,29 @@ const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
 
 const todo = [
-  "Order British pounds from Chase",
-  "Download JetBlue app and confirm KDHSOU booking appears",
-  "Download TfL Go for Tube routes",
-  "Download ntfy and subscribe to the trip alert topic",
-  "Download offline Google Maps for London",
-  "Download Uber and FREENOW — set up payment before leaving",
-  "Apply for UK ETA for Tiffany and Collin at gov.uk",
-  "Buy Big Bus London hop-on hop-off tickets and add confirmation here",
-  "Buy London Eye tickets and add confirmation here",
-  "Confirm hotel can store bags on arrival morning before check-in",
-  "Save hotel address in Uber and Google Maps before leaving home",
-  "Save parent travel consent letter as PDF on both phones"
+  {
+    section: "Marianna",
+    items: [
+      "Order British pounds from Chase",
+      "Apply for UK ETA for Tiffany and Collin at gov.uk",
+      "Buy Big Bus London hop-on hop-off tickets and add confirmation here",
+      "Buy London Eye tickets and add confirmation here",
+      "Buy portable chargers for Tiffany and Collin's phones",
+      "Confirm hotel can store bags on arrival morning before check-in"
+    ]
+  },
+  {
+    section: "Tiffany & Collin",
+    items: [
+      "Download JetBlue app and confirm KDHSOU booking appears",
+      "Download TfL Go for Tube routes",
+      "Download ntfy and subscribe to the trip alert topic",
+      "Download offline Google Maps for London",
+      "Download Uber and FREENOW — set up payment before leaving",
+      "Save hotel address in Uber and Google Maps before leaving home",
+      "Save parent travel consent letter as PDF on both phones"
+    ]
+  }
 ];
 
 const pack = [
@@ -771,12 +806,12 @@ function renderItinerary() {
           <p class="itinerary-summary__area">${day.area}</p>
         </div>
       </summary>
-      <div class="itinerary-pocket__media">
+      ${day.image ? `<div class="itinerary-pocket__media">
         <picture>
           <source srcset="${day.imageWebp}" type="image/webp">
           <img src="${day.image}" alt="${escapeHtml(day.title)}" loading="${index === 0 ? "eager" : "lazy"}" decoding="async">
         </picture>
-      </div>
+      </div>` : ""}
       <div class="itinerary-pocket__body">
         <section class="day-command-card">
           <div>
@@ -933,12 +968,29 @@ function renderResources() {
 
 function renderChecklist(selector, items, key) {
   const saved = JSON.parse(localStorage.getItem(key) || "{}");
-  document.querySelector(selector).innerHTML = items.map((item, index) => `
-    <label class="check-item">
-      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
-      <span>${item}</span>
-    </label>
-  `).join("");
+  // Support both flat string arrays and sectioned arrays [{section, items}]
+  if (items.length && typeof items[0] === "object" && items[0].section) {
+    let html = "";
+    let idx = 0;
+    for (const group of items) {
+      html += `<p class="checklist-section__label">${group.section}</p>`;
+      for (const item of group.items) {
+        html += `<label class="check-item">
+          <input type="checkbox" data-key="${key}" data-index="${idx}" ${saved[idx] ? "checked" : ""}>
+          <span>${item}</span>
+        </label>`;
+        idx++;
+      }
+    }
+    document.querySelector(selector).innerHTML = html;
+  } else {
+    document.querySelector(selector).innerHTML = items.map((item, index) => `
+      <label class="check-item">
+        <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
+        <span>${item}</span>
+      </label>
+    `).join("");
+  }
 }
 
 function renderInlineChecklist(items, key) {
@@ -1168,7 +1220,7 @@ function renderPhonePush() {
 
       <ol class="bullet-list" style="margin-top:14px">
         <li>Download ntfy using the links above</li>
-        <li>Open ntfy → tap <strong>＋ Add topic</strong> → paste the topic above → Save</li>
+        <li>Open ntfy → tap "+ Add topic" → paste the topic above → tap Save</li>
         <li>Allow notifications when prompted</li>
         <li>Also install <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (Android)</a> and allow its notifications too</li>
       </ol>
