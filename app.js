@@ -187,7 +187,7 @@ const days = [
       ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
       ["Start the bus loop", "Walk to Victoria Station / Buckingham Palace Road entrance. Board the Hop-On / Hop-Off Big Bus that matches your ticket.", ["Victoria Station"]],
       ["Westminster photos", "Get off near London Eye / Westminster Bridge. Walk London Eye to Westminster Bridge to Big Ben photos to Parliament Square to Westminster Abbey exterior.", ["London Eye", "Westminster Bridge", "Big Ben", "Parliament Square", "Westminster Abbey"]],
-      ["London Eye", "Ride the London Eye. Aim for a timed ticket around 5:30 PM or 6:00 PM.", ["London Eye"]],
+      ["London Eye at 6:00 PM", "Use the standard ticket for Friday, June 26 at 6:00 PM. Go directly to the London Eye at the selected time slot, join the queue when allowed, and expect about 30 minutes for one rotation.", ["London Eye"]],
       ["Dinner and river walk", "Walk along Queen's Walk. Eat around Southbank Centre / Royal Festival Hall. If energy is good, continue toward Gabriel's Wharf or Oxo Tower.", ["Southbank Centre", "Gabriel's Wharf", "Oxo Tower"]],
       ["Go home", "Take Uber directly back to the hotel. Night 1 return is Uber or black cab, not the Tube.", ["Hotel"]]
     ],
@@ -573,7 +573,7 @@ const todo = [
       "Order British pounds from Chase",
       "Apply for UK ETA for Tiffany and Collin at gov.uk",
       "Buy Big Bus London hop-on hop-off tickets and add confirmation here",
-      "Buy London Eye tickets and add confirmation here",
+      "London Eye is booked for Friday, June 26 at 6:00 PM, ticket is in Docs",
       "Buy portable chargers for Tiffany and Collin's phones",
       "Confirm hotel can store bags on arrival morning before check-in"
     ]
@@ -628,8 +628,9 @@ const tickets = [
   },
   {
     label: "London Eye",
-    detail: "Confirmation number needed — add when Marianna books",
-    status: "pending"
+    detail: "Friday, June 26 at 6:00 PM · Standard ticket",
+    sub: "Order ID: 605056784 · Ticket: 150018675054750217 · Arrive at the selected time slot, then join the queue",
+    status: "confirmed"
   },
   {
     label: "UK ETA — Tiffany",
