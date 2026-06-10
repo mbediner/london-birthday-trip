@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `52609e0` - Refresh cache token for handoff sync
-**Cache token:** `202606101152`
+**Last commit:** `8aacfc5` - Add London Eye ticket details
+**Cache token:** `202606101936`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606101152
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606101936
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -18,7 +18,6 @@
 | Item | Variable in app.js | Status |
 |---|---|---|
 | Big Bus hop-on hop-off confirmation | `tickets` array | ⏳ book, then add number |
-| London Eye confirmation | `tickets` array | ⏳ book, then add number |
 | UK ETA — Tiffany | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
 | UK ETA — Collin | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
 | Parent travel consent letter | `tickets` array | ⏳ add Google Doc link |
@@ -31,6 +30,14 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 10, 2026 (Codex)
+
+- **London Eye ticket added** - Day 1 now shows the Friday, June 26 at 6:00 PM London Eye timed entry with queue guidance.
+- **Docs wallet updated** - London Eye is confirmed with Order ID `605056784` and ticket number `150018675054750217`.
+- **Release verified** - mobile UAT checked at 375x812, `npm run release:prepare` passed, pushed `8aacfc5`, GitHub Pages deploy `27301025095` was green, and handoff cache token was refreshed to `202606101936`.
 
 ---
 
