@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `3626046` - Add Big Bus booking instructions
-**Cache token:** `202606102005`
+**Last commit:** `357e14d` - Make London Eye ticket clickable
+**Cache token:** `202606102034`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606102005
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606102034
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -29,6 +29,13 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 10, 2026 (Codex)
+
+- **London Eye wallet link fixed** - Docs wallet London Eye card now opens Google Maps for Riverside Building, County Hall, Westminster Bridge Rd, London SE1 7PB.
+- **Release verified** - mobile Docs UAT confirmed the London Eye card renders as an `<a>` link with the correct address, `npm run release:prepare` passed, pushed `357e14d`, GitHub Pages deploy `27304473129` was green, and handoff cache token was refreshed to `202606102034`.
 
 ---
 
