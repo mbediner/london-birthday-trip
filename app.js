@@ -628,8 +628,8 @@ const tickets = [
   },
   {
     label: "London Eye",
-    detail: "Friday, June 26 at 6:00 PM · Standard ticket",
-    sub: "Order ID: 605056784 · Ticket: 150018675054750217 · Arrive at the selected time slot, then join the queue",
+    detail: "Friday, June 26 at 6:00 PM · London Eye excursion · 2 standard tickets",
+    sub: "Order ID: 605056784 · Adult ticket: 150018675054750217 · Child ticket: 150018553500106457 · Arrive at the selected 6:00 PM time slot, then join the queue",
     status: "confirmed"
   },
   {
