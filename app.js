@@ -29,7 +29,7 @@ const mapQueries = {
   "JFK Airport": "John F. Kennedy International Airport",
   "Leicester Square Station": "Leicester Square Station, London",
   "London Bridge Station": "London Bridge Underground Station, London",
-  "London Eye": "London Eye, London",
+  "London Eye": "Riverside Building, County Hall, Westminster Bridge Rd, London SE1 7PB",
   "London Heathrow Airport": "London Heathrow Airport",
   "Neal's Yard": "Neal's Yard, Covent Garden, London",
   "Oxo Tower": "Oxo Tower, London",
@@ -98,7 +98,9 @@ const appLinks = {
   tflIos: "https://apps.apple.com/us/app/tfl-go-plan-pay-travel/id1419541638",
   tflAndroid: "https://play.google.com/store/apps/details?id=uk.gov.tfl.gotfl",
   jetBlueIos: "https://apps.apple.com/us/app/jetblue-book-manage-trips/id481370590",
-  jetBlueAndroid: "https://play.google.com/store/apps/details?id=com.jetblue.JetBlueAndroid"
+  jetBlueAndroid: "https://play.google.com/store/apps/details?id=com.jetblue.JetBlueAndroid",
+  bigBusIos: "https://apps.apple.com/us/app/big-bus-tours/id590746945",
+  bigBusAndroid: "https://play.google.com/store/apps/details?id=com.bigbustours.bbt"
 };
 
 const routeShortcuts = [
@@ -185,9 +187,9 @@ const days = [
       ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
       ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
       ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
-      ["Start the bus loop", "Walk to Victoria Station / Buckingham Palace Road entrance. Board the Hop-On / Hop-Off Big Bus that matches your ticket.", ["Victoria Station"]],
+      ["Start the bus loop", "Open the Big Bus Tours app, retrieve booking VVXCH9SM, and activate the ticket only when you are ready to board on Friday, June 26. Walk to Victoria Station / Buckingham Palace Road entrance and board the Hop-On / Hop-Off Big Bus.", ["Victoria Station"]],
       ["Westminster photos", "Get off near London Eye / Westminster Bridge. Walk London Eye to Westminster Bridge to Big Ben photos to Parliament Square to Westminster Abbey exterior.", ["London Eye", "Westminster Bridge", "Big Ben", "Parliament Square", "Westminster Abbey"]],
-      ["London Eye at 6:00 PM", "Use the standard ticket for Friday, June 26 at 6:00 PM. Go directly to the London Eye at the selected time slot, join the queue when allowed, and expect about 30 minutes for one rotation.", ["London Eye"]],
+      ["London Eye at 6:00 PM", "Use the standard tickets for Friday, June 26 at 6:00 PM. Arrival address: Riverside Building, County Hall, Westminster Bridge Rd, London SE1 7PB. Go directly to the London Eye at the selected time slot, join the queue when allowed, and expect about 30 minutes for one rotation.", ["London Eye"]],
       ["Dinner and river walk", "Walk along Queen's Walk. Eat around Southbank Centre / Royal Festival Hall. If energy is good, continue toward Gabriel's Wharf or Oxo Tower.", ["Southbank Centre", "Gabriel's Wharf", "Oxo Tower"]],
       ["Go home", "Take Uber directly back to the hotel. Night 1 return is Uber or black cab, not the Tube.", ["Hotel"]]
     ],
@@ -572,7 +574,7 @@ const todo = [
     items: [
       "Order British pounds from Chase",
       "Apply for UK ETA for Tiffany and Collin at gov.uk",
-      "Buy Big Bus London hop-on hop-off tickets and add confirmation here",
+      "Download the Big Bus Tours app, add booking VVXCH9SM, and activate the tickets on Friday, June 26 when ready to board",
       "London Eye is booked for Friday, June 26 at 6:00 PM, ticket is in Docs",
       "Buy portable chargers for Tiffany and Collin's phones",
       "Confirm hotel can store bags on arrival morning before check-in"
@@ -582,6 +584,7 @@ const todo = [
     section: "Tiffany & Collin",
     items: [
       "Download JetBlue app and confirm KDHSOU booking appears",
+      "Download Big Bus Tours app and confirm booking VVXCH9SM appears",
       "Download TfL Go for Tube routes",
       "Download ntfy and subscribe to the trip alert topic",
       "Download offline Google Maps for London",
@@ -623,8 +626,10 @@ const tickets = [
   },
   {
     label: "Big Bus London hop-on hop-off",
-    detail: "Confirmation number needed — add when Marianna books",
-    status: "pending"
+    detail: "Friday, June 26 · 1 Day Hop-On Hop-Off Bus Only · 1 adult and 1 child",
+    sub: "Booking reference: VVXCH9SM · Download Big Bus Tours app, tap Add Booking, enter the booking reference, then activate only on the day when ready to board",
+    href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner",
+    status: "confirmed"
   },
   {
     label: "London Eye",
@@ -670,6 +675,9 @@ const booking = {
 };
 
 const resourceGroups = [
+  { label: "Big Bus Tours — iPhone", href: appLinks.bigBusIos, why: "Store the hop-on hop-off tickets, route maps, and live bus arrivals" },
+  { label: "Big Bus Tours — Android", href: appLinks.bigBusAndroid, why: "Store the hop-on hop-off tickets, route maps, and live bus arrivals" },
+  { label: "Big Bus booking", href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner", why: "Retrieve booking VVXCH9SM if the app needs the confirmation again" },
   { label: "TfL Go — iPhone", href: appLinks.tflIos, why: "Transport for London app — plan every Tube move and see live departures" },
   { label: "TfL Go — Android", href: appLinks.tflAndroid, why: "Transport for London app — plan every Tube move and see live departures" },
   { label: "JetBlue — iPhone", href: appLinks.jetBlueIos, why: "Check in, see boarding passes, and track flight status" },
