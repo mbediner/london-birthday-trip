@@ -6,18 +6,17 @@
 
 ## Current State
 
-**Last commit:** `8aacfc5` - Add London Eye ticket details
-**Cache token:** `202606101936`
+**Last commit:** `3626046` - Add Big Bus booking instructions
+**Cache token:** `202606102005`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606101936
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606102005
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
 
 | Item | Variable in app.js | Status |
 |---|---|---|
-| Big Bus hop-on hop-off confirmation | `tickets` array | ⏳ book, then add number |
 | UK ETA — Tiffany | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
 | UK ETA — Collin | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
 | Parent travel consent letter | `tickets` array | ⏳ add Google Doc link |
@@ -30,6 +29,22 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 10, 2026 (Codex)
+
+- **Big Bus booking added** - Docs wallet now confirms Friday, June 26 hop-on hop-off booking `VVXCH9SM` for 1 adult and 1 child.
+- **Big Bus setup added** - Day 1, Docs, checklist, and Resources now tell the kids to download Big Bus Tours, add booking `VVXCH9SM`, and activate only when ready to board.
+- **London Eye address added** - Day 1 and map links now use Riverside Building, County Hall, Westminster Bridge Rd, London SE1 7PB for the 6:00 PM excursion.
+- **Release verified** - mobile Day 1, Docs, and Resources UAT passed at 375x812, `npm run release:prepare` passed, pushed `3626046`, GitHub Pages deploy `27302786506` was green, and handoff cache token was refreshed to `202606102005`.
+
+---
+
+### Session - June 10, 2026 (Codex)
+
+- **Second London Eye ticket added** - Docs wallet now shows the shared 6:00 PM London Eye excursion with adult ticket `150018675054750217` and child ticket `150018553500106457`.
+- **Release verified** - mobile Docs UAT passed at 375x812, `npm run release:prepare` passed, pushed `00b22b6`, GitHub Pages deploy `27302127124` was green, and handoff cache token was refreshed to `202606101954`.
 
 ---
 
