@@ -635,6 +635,7 @@ const tickets = [
     label: "London Eye",
     detail: "Friday, June 26 at 6:00 PM · London Eye excursion · 2 standard tickets",
     sub: "Order ID: 605056784 · Adult ticket: 150018675054750217 · Child ticket: 150018553500106457 · Arrive at the selected 6:00 PM time slot, then join the queue",
+    href: "https://www.google.com/maps/search/?api=1&query=Riverside+Building,+County+Hall,+Westminster+Bridge+Rd,+London+SE1+7PB",
     status: "confirmed"
   },
   {
