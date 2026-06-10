@@ -6,14 +6,13 @@
 
 ## Current State
 
-**Last commit:** `b726e4d` — Fix cache bug + 8 UX improvements from feedback
-**Cache token:** `202606091620`
-**Branch:** `main` — clean, deployed, CI green
+**Last commit:** `52609e0` - Refresh cache token for handoff sync
+**Cache token:** `202606101152`
+**Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606091620
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606101152
 
 ---
-
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
 
 | Item | Variable in app.js | Status |
@@ -35,6 +34,14 @@ Newest first. Agents prepend a new entry here at the end of every session.
 
 ---
 
+### Session - June 10, 2026 (Codex)
+
+- **Startup sync completed** - removed Google Drive/Windows `desktop.ini` noise files, including invalid `desktop.ini` Git ref files that were breaking fetch; verified clean fetch from `origin`.
+- **Repo ready** - confirmed local `main` matches `origin/main`, working tree clean, and CI/CD workflows healthy.
+- **Cache refreshed** - ran `npm run release:prepare`, bumped cache token to `202606101152`, pushed `52609e0`, and verified GitHub Pages CI green.
+- **SOP confirmed** - `AGENTS.md` requires `HANDOFF.md` updates after pushes for future agents; no release emails should be sent.
+
+---
 ### Session — June 9, 2026 (Claude) — Part 2
 
 - **SW cache bug fixed** — `booking_confirmation.jpg` was still in sw.js APP_SHELL pre-cache list after being moved to `assets/unused/`; `cache.addAll` fails the entire SW install if any file is missing, meaning new SWs never activated (root cause of "mobile cache never clears"). Removed the file from the list.
