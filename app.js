@@ -658,8 +658,13 @@ const tickets = [
     copyCode: "VVXCH9SM",
     codeColor: "amber",
     codeLabel: "Booking ref",
-    instructions: ["Download the Big Bus Tours app (see App Setup below)", "Tap \"Add Booking\" → enter VVXCH9SM", "Activate only on the day when ready to board — not before"],
-    href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner",
+    instructions: [
+      "Get the Big Bus Tours app (see App Setup below) → tap 'Add Booking' → enter VVXCH9SM",
+      "On the morning of travel: open the app, tap your ticket, press 'Activate' — ticket countdown starts",
+      "Show the activated screen to the driver to board"
+    ],
+    href: "assets/big-bus-ticket.pdf",
+    buttonLabel: "Open Bus Ticket",
     status: "confirmed"
   },
   {
@@ -685,9 +690,9 @@ const tickets = [
   {
     label: "Parent travel consent letter",
     detail: "Signed PDF authorising Tiffany and Collin to travel",
-    sub: "Tap to open the parental travel consent letter on this phone",
+    sub: "Open this if border control or airline staff ask for it",
     href: "assets/parental-travel-consent-letter.pdf",
-    actionLabel: "PDF",
+    buttonLabel: "Open Letter",
     status: "confirmed"
   }
 ];
@@ -917,6 +922,14 @@ function renderTodaySummary(date = new Date()) {
       <p>Trip reminders and flight alerts use phone push. Set it up before anyone is on airport Wi-Fi.</p>
       <div class="button-row">
         <button class="button button--secondary" type="button" data-open-push-setup>Set up alerts →</button>
+      </div>
+    </article>
+    <article class="info-card">
+      <span>Save this guide</span>
+      <strong>Works offline on your phone</strong>
+      <p>iPhone — Chrome: tap share (⊡) → Add to Home Screen. Android — Chrome: tap ⋮ → Install App.</p>
+      <div class="button-row">
+        <button class="button button--secondary install-button" type="button" data-install-app hidden>📲 Install App</button>
       </div>
     </article>
   `;
@@ -1169,8 +1182,11 @@ function renderTickets() {
     const steps = ticket.instructions ? `
       <ol class="ticket-steps">${ticket.instructions.map(s => `<li>${s}</li>`).join("")}</ol>` : "";
 
-    const linkEl = ticket.href ? `
-      <a class="ticket-item__link" href="${ticket.href}" target="_blank" rel="noopener">${ticket.actionLabel ? `${ticket.actionLabel} →` : "Open →"}</a>` : "";
+    const linkEl = ticket.buttonLabel && ticket.href
+      ? `<a class="button ticket-item__btn" href="${ticket.href}" target="_blank" rel="noopener">${ticket.buttonLabel}</a>`
+      : ticket.href
+      ? `<a class="ticket-item__link" href="${ticket.href}" target="_blank" rel="noopener">${ticket.actionLabel ? `${ticket.actionLabel} →` : "Open →"}</a>`
+      : "";
 
     return `
     <div class="ticket-item">
@@ -1481,22 +1497,10 @@ function renderAppSetup() {
 
     <div class="setup-section">
       <p class="setup-label">Big Bus Tours app</p>
-      <p class="setup-note">Store hop-on hop-off tickets and route maps. Booking ref: <strong>VVXCH9SM</strong></p>
+      <p class="setup-note">Install before June 26 → tap 'Add Booking' → enter <strong>VVXCH9SM</strong> → activate on the day when boarding.</p>
       <div class="button-row" style="margin-top:8px">
         <a class="button" href="${appLinks.bigBusIos}" target="_blank" rel="noopener">App Store — iPhone</a>
         <a class="button" href="${appLinks.bigBusAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
-      </div>
-    </div>
-
-    <div class="setup-section">
-      <p class="setup-label">Install this guide</p>
-      <p class="setup-note">Add to home screen — works offline once saved.</p>
-      <ol class="ticket-steps" style="margin-top:4px">
-        <li><strong>iPhone — Chrome:</strong> Tap share (⊡) → "Add to Home Screen"</li>
-        <li><strong>Android — Chrome:</strong> Tap ⋮ → "Add to Home Screen" or "Install App"</li>
-      </ol>
-      <div class="button-row" style="margin-top:8px">
-        <button class="button install-button" type="button" data-install-app hidden>📲 Install App</button>
       </div>
     </div>
   `;

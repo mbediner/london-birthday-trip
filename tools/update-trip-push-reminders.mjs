@@ -28,6 +28,14 @@ export const tripReminders = [
     tags: "round_pushpin,hotel"
   },
   {
+    id: "big-bus-activate-2026-06-26",
+    sendAt: "2026-06-26T09:30:00+01:00",
+    title: "Mom and Dad: activate your bus ticket now",
+    message: "Open the Big Bus Tours app → tap your ticket → press Activate. Ticket countdown starts. Walk to Victoria Station / Buckingham Palace Road entrance and board. Booking ref: VVXCH9SM.",
+    priority: "high",
+    tags: "bus,ticket"
+  },
+  {
     id: "day-1-start-2026-06-26",
     sendAt: "2026-06-26T10:00:00+01:00",
     title: "Mom and Dad: Day 1 starts easy",

@@ -8,6 +8,7 @@ const worker = await fs.readFile("sw.js", "utf8");
 const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"));
 const manifest = JSON.parse(await fs.readFile("site.webmanifest", "utf8"));
 const tripPushWorkflow = await fs.readFile(".github/workflows/trip-push-reminders.yml", "utf8");
+const pushReminders = await fs.readFile("tools/update-trip-push-reminders.mjs", "utf8");
 
 assert.match(index, /<link rel="manifest" href="site\.webmanifest">/, "index should expose the PWA manifest");
 assert.match(index, /assets\/london_eye\.webp/, "index should preload the optimized hero image");
@@ -43,8 +44,11 @@ assert.match(app, /recoveryPlans/, "app should define lost-item recovery plans")
 assert.match(app, /resolvePanelFromHash/, "app should resolve panel routing from the hash");
 assert.match(app, /assets\/parental-travel-consent-letter\.pdf/, "wallet should link to the parental travel consent PDF");
 assert.match(app, /assets\/hotel-booking-confirmation\.pdf/, "wallet should link to the hotel Booking.com PDF");
-assert.match(app, /ticket-item__link/, "linked wallet documents should show an obvious tap cue");
+assert.match(app, /assets\/big-bus-ticket\.pdf/, "wallet should link to the Big Bus ticket PDF");
+assert.match(app, /buttonLabel.*Open (Bus Ticket|Letter)|Open (Bus Ticket|Letter).*buttonLabel/s, "prominent wallet documents should use buttonLabel for a big tap button");
+assert.match(app, /ticket-item__btn/, "prominent wallet buttons should use ticket-item__btn class");
 assert.match(app, /renderAppSetup/, "wallet should render the app setup and alerts section");
+assert.match(pushReminders, /big-bus-activate-2026-06-26/, "push reminders should include Big Bus activation on June 26");
 assert.doesNotMatch(app, /Download JetBlue app|Download Big Bus Tours app|Download TfL Go|Download ntfy|Download Uber/, "pre-trip checklist should not contain dead-end download wording");
 assert.match(styles, /\.panel-view/, "styles should define compartment panels");
 assert.match(styles, /\.bottom-nav|\.tab-bar/, "styles should define the section navigation");
@@ -61,6 +65,7 @@ assert.match(worker, /cacheFirst\(event\.request\)/, "static shell should use ca
 assert.match(worker, /const CACHE_NAME = "london-trip-v\d+"/, "service worker cache name should change per release");
 assert.match(worker, /"\.\/styles\.css\?v=\d+"/, "service worker should cache-bust styles");
 assert.match(worker, /"\.\/app\.js\?v=\d+"/, "service worker should cache-bust the app shell");
+assert.match(worker, /"\.\/assets\/big-bus-ticket\.pdf"/, "service worker should cache the Big Bus ticket PDF");
 assert.match(worker, /"\.\/assets\/hotel-booking-confirmation\.pdf"/, "service worker should cache the hotel confirmation PDF");
 assert.match(worker, /"\.\/assets\/parental-travel-consent-letter\.pdf"/, "service worker should cache the parental travel consent PDF");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");
@@ -76,6 +81,7 @@ for (const file of [
   "assets/camden_market.jpg",
   "assets/camden_market.webp",
   "assets/flight_itinerary.jpg",
+  "assets/big-bus-ticket.pdf",
   "assets/hotel-booking-confirmation.pdf",
   "assets/parental-travel-consent-letter.pdf",
   "data/flight-status.json"

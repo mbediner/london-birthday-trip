@@ -1445,6 +1445,7 @@ h3 {
 .ticket-item__detail { font-size:0.8rem; color:var(--text-secondary); margin:0; }
 .ticket-item__sub { font-size:0.75rem; color:var(--text-secondary); opacity:0.8; margin:0; }
 .ticket-item__link { font-size:0.75rem; color:var(--accent); font-weight:600; align-self:flex-start; }
+.ticket-item__btn { display:block; text-align:center; margin-top:8px; width:100%; box-sizing:border-box; }
 .ref-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
 .ref-chip { display:inline-flex; align-items:center; padding:5px 12px; border-radius:8px; font-family:monospace; font-size:1rem; font-weight:800; letter-spacing:0.06em; border:1.5px solid; flex-shrink:0; }
 .ref-chip--red { background:rgba(230,57,70,0.18); border-color:rgba(230,57,70,0.4); color:#f08090; }
