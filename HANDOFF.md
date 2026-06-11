@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `71304fb` - Simplify safety page and nearest tube shortcut
-**Cache token:** `202606111418`
+**Last commit:** `16cb49c` - Update Collin ETA and safety shortcut
+**Cache token:** `202606111441`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111418
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111441
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -29,6 +29,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 11, 2026 (Codex)
+
+- **Top Safety shortcut removed** - Safety is now available only in the bottom navigation.
+- **Passport recovery simplified** - removed the obvious first passport-search instruction from the Safety page.
+- **Collin ETA marked complete** - Docs wallet now shows Collin's UK ETA approval reference `2021-2606-1009-0807`, valid until March 7, 2028, linked to passport ending `1892`; Tiffany ETA remains pending.
+- **Release verified** - mobile UAT passed at 375x812, `npm run release:prepare` passed, pushed `16cb49c`, GitHub Pages deploy `27354685082` was green, and handoff cache token was refreshed to `202606111441`.
 
 ---
 
