@@ -1,11 +1,11 @@
-const CACHE_NAME = "london-trip-v202606111418";
+const CACHE_NAME = "london-trip-v202606111435";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./styles.css?v=202606111418",
+  "./styles.css?v=202606111435",
   "./app.js",
-  "./app.js?v=202606111418",
+  "./app.js?v=202606111435",
   "./site-logic.js",
   "./site.webmanifest",
   "./assets/icon.svg",

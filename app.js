@@ -529,7 +529,6 @@ const recoveryPlans = [
     title: "Passport problem",
     urgency: "U.S. Embassy",
     steps: [
-      "Search the hotel safe, day bag, wallet, and the last place the passport was used.",
       "Use the embassy block above before reporting it lost. A passport reported lost cannot be used for travel even if found later.",
       "If it was stolen, file a police report and keep the report reference."
     ],
@@ -590,7 +589,8 @@ const todo = [
     section: "Marianna",
     items: [
       "Order British pounds from Chase",
-      "Apply for UK ETA for Tiffany and Collin at gov.uk",
+      "Apply for UK ETA for Tiffany at gov.uk",
+      "Collin's UK ETA is approved, reference 2021-2606-1009-0807, linked to passport ending 1892",
       "Download the Big Bus Tours app, add booking VVXCH9SM, and activate the tickets on Friday, June 26 when ready to board",
       "London Eye is booked for Friday, June 26 at 6:00 PM, ticket is in Docs",
       "Buy portable chargers for Tiffany and Collin's phones",
@@ -663,9 +663,10 @@ const tickets = [
   },
   {
     label: "UK ETA — Collin",
-    detail: "Electronic Travel Authorisation required for US citizens entering UK — authorisation number needed",
-    href: "https://www.gov.uk/apply-uk-visa",
-    status: "pending"
+    detail: "Approved · Reference: 2021-2606-1009-0807 · Valid until March 7, 2028",
+    sub: "Linked to passport ending 1892. This is an ETA approval, not a printed visa; passport is what he needs at travel.",
+    href: "https://www.gov.uk/check-eta",
+    status: "confirmed"
   },
   {
     label: "Parent travel consent letter",
