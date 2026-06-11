@@ -100,7 +100,15 @@ const appLinks = {
   jetBlueIos: "https://apps.apple.com/us/app/jetblue-book-manage-trips/id481370590",
   jetBlueAndroid: "https://play.google.com/store/apps/details?id=com.jetblue.JetBlueAndroid",
   bigBusIos: "https://apps.apple.com/us/app/big-bus-tours/id590746945",
-  bigBusAndroid: "https://play.google.com/store/apps/details?id=com.bigbustours.bbt"
+  bigBusAndroid: "https://play.google.com/store/apps/details?id=com.bigbustours.bbt",
+  uberIos: "https://apps.apple.com/us/app/uber-request-a-ride/id368677368",
+  uberAndroid: "https://play.google.com/store/apps/details?id=com.ubercab",
+  freenowIos: "https://apps.apple.com/us/app/freenow-by-lyft-taxi-more/id357852748",
+  freenowAndroid: "https://play.google.com/store/apps/details?id=taxi.android.client",
+  googleMapsIos: "https://apps.apple.com/us/app/google-maps/id585027354",
+  googleMapsAndroid: "https://play.google.com/store/apps/details?id=com.google.android.apps.maps",
+  bookingIos: "https://apps.apple.com/us/app/booking-com-hotels-travel/id367003839",
+  bookingAndroid: "https://play.google.com/store/apps/details?id=com.booking"
 };
 
 const routeShortcuts = [
@@ -401,8 +409,8 @@ const nextMoveTimeline = [
     message: "Install JetBlue, TfL Go, ntfy, and save this guide to the phone home screen.",
     detail: "Confirm passports, UK ETA, consent letter, and JetBlue confirmation KDHSOU are ready on both phones.",
     actions: [
-      ["Open Wallet", "panel:wallet"],
-      ["Alerts Setup", "panel:flights"]
+      ["Download Apps", "panel:wallet"],
+      ["Open Docs", "panel:wallet"]
     ]
   },
   {
@@ -591,8 +599,8 @@ const todo = [
       "Order British pounds from Chase",
       "Apply for UK ETA for Tiffany at gov.uk",
       "Collin's UK ETA is approved, reference 2021-2606-1009-0807, linked to passport ending 1892",
-      "Download the Big Bus Tours app, add booking VVXCH9SM, and activate the tickets on Friday, June 26 when ready to board",
-      "London Eye is booked for Friday, June 26 at 6:00 PM, ticket is in Docs",
+      "Confirm Big Bus booking VVXCH9SM appears in the Big Bus Tours app; activate only on Friday, June 26 when ready to board",
+      "London Eye order 605056784 is confirmed for Friday, June 26 at 6:00 PM",
       "Buy portable chargers for Tiffany and Collin's phones",
       "Confirm hotel can store bags on arrival morning before check-in"
     ]
@@ -600,13 +608,12 @@ const todo = [
   {
     section: "Tiffany & Collin",
     items: [
-      "Download JetBlue app and confirm KDHSOU booking appears",
-      "Download Big Bus Tours app and confirm booking VVXCH9SM appears",
-      "Download TfL Go for Tube routes",
-      "Download ntfy and subscribe to the trip alert topic",
-      "Download offline Google Maps for London",
-      "Download Uber and FREENOW — set up payment before leaving",
-      "Save hotel address in Uber and Google Maps before leaving home",
+      "Use the Download Apps section to install JetBlue, Big Bus, TfL Go, ntfy, Google Maps, Uber, FREENOW, and Booking.com",
+      "Confirm JetBlue booking KDHSOU appears in the JetBlue app",
+      "Confirm Big Bus booking VVXCH9SM appears in the Big Bus Tours app",
+      "Subscribe to the ntfy trip alert topic",
+      "Save offline Google Maps for London",
+      "Set up Uber and FREENOW payment before leaving",
       "Save parent travel consent letter as PDF on both phones"
     ]
   }
@@ -629,29 +636,30 @@ const pack = [
 
 const tickets = [
   {
+    label: "Hotel — Holiday Inn Express Victoria",
+    detail: "June 26-29, 2026 · Booking.com confirmation 6945.109.446",
+    sub: "PIN 4412 · Lodging confirmation 88897847 · Tap for the Booking.com PDF",
+    href: "assets/hotel-booking-confirmation.pdf",
+    actionLabel: "PDF",
+    status: "confirmed"
+  },
+  {
     label: "JetBlue — All 4 flights",
     detail: "Confirmation: KDHSOU",
     sub: "RDU→BOS→LHR outbound · LHR→JFK→RDU return · Open JetBlue app to check in",
     status: "confirmed"
   },
   {
-    label: "Hotel — Holiday Inn Express Victoria",
-    detail: "June 26-29, 2026 · 106-110 Belgrave Road, SW1V 2BJ",
-    sub: "+44 20 7630 8888 · Guest: Marianna",
-    href: "https://www.google.com/maps/search/?api=1&query=Holiday+Inn+Express+London+-+Victoria,+106-110+Belgrave+Road,+London+SW1V+2BJ",
-    status: "confirmed"
-  },
-  {
     label: "Big Bus London hop-on hop-off",
     detail: "Friday, June 26 · 1 Day Hop-On Hop-Off Bus Only · 1 adult and 1 child",
-    sub: "Booking reference: VVXCH9SM · Download Big Bus Tours app, tap Add Booking, enter the booking reference, then activate only on the day when ready to board",
+    sub: "Booking reference: VVXCH9SM · Use Download Apps, then tap Add Booking, enter the booking reference, and activate only on the day when ready to board",
     href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner",
     status: "confirmed"
   },
   {
     label: "London Eye",
     detail: "Friday, June 26 at 6:00 PM · London Eye excursion · 2 standard tickets",
-    sub: "Order ID: 605056784 · Adult ticket: 150018675054750217 · Child ticket: 150018553500106457 · Arrive at the selected 6:00 PM time slot, then join the queue",
+    sub: "Order ID: 605056784 · 1 adult and 1 child · £55.00 total · This is order info, not the scannable ticket",
     href: "https://www.google.com/maps/search/?api=1&query=Riverside+Building,+County+Hall,+Westminster+Bridge+Rd,+London+SE1+7PB",
     status: "confirmed"
   },
@@ -680,32 +688,79 @@ const tickets = [
 
 const booking = {
   status: "Confirmed on Booking.com",
-  guest: "Marianna",
+  guest: "Tiffany Bediner",
   hotel: "Holiday Inn Express London - Victoria",
   address: "106-110 Belgrave Road, London SW1V 2BJ, United Kingdom",
   phone: "+44 20 7630 8888",
   dates: "June 26-29, 2026",
+  confirmation: "6945.109.446",
+  lodgingConfirmation: "88897847",
+  pin: "4412",
+  checkIn: "Friday, June 26 · 2:00 PM-12:00 AM",
+  checkOut: "Monday, June 29 · 5:00-11:00 AM",
+  room: "Standard Room with Free Hot Breakfast · 1 adult, 1 child",
+  pdf: "assets/hotel-booking-confirmation.pdf",
   actionItems: [
-    "Open the Booking.com app before leaving and confirm the reservation is visible there.",
-    "Ask the front desk to store bags on arrival morning — check-in may not be until afternoon."
+    "Approximate arrival request is 9:00-10:00 AM; ask the front desk to store bags until check-in.",
+    "Breakfast is included in the final price.",
+    "Bring photo ID and credit card for check-in."
   ],
-  fillIns: [
-    "Booking confirmation number: ____________________",
-    "Booking PIN: ____________________",
-    "Check-in time: ____________________"
-  ]
+  fillIns: []
 };
 
+const appDownloads = [
+  {
+    label: "JetBlue",
+    why: "Check in, boarding passes, gate changes, and flight status for KDHSOU.",
+    ios: appLinks.jetBlueIos,
+    android: appLinks.jetBlueAndroid
+  },
+  {
+    label: "Big Bus Tours",
+    why: "Add booking VVXCH9SM, routes, stops, and live bus arrivals.",
+    ios: appLinks.bigBusIos,
+    android: appLinks.bigBusAndroid
+  },
+  {
+    label: "TfL Go",
+    why: "Tube routes, live departures, disruption alerts, and station details.",
+    ios: appLinks.tflIos,
+    android: appLinks.tflAndroid
+  },
+  {
+    label: "ntfy",
+    why: "Trip reminders and flight push alerts from this guide.",
+    ios: appLinks.ntfyIos,
+    android: appLinks.ntfyAndroid
+  },
+  {
+    label: "Google Maps",
+    why: "Save offline London maps and open every trip destination.",
+    ios: appLinks.googleMapsIos,
+    android: appLinks.googleMapsAndroid
+  },
+  {
+    label: "Uber",
+    why: "Best tired or late fallback for getting back to the hotel.",
+    ios: appLinks.uberIos,
+    android: appLinks.uberAndroid
+  },
+  {
+    label: "FREENOW",
+    why: "Official London black cabs as a backup to Uber.",
+    ios: appLinks.freenowIos,
+    android: appLinks.freenowAndroid
+  },
+  {
+    label: "Booking.com",
+    why: "Open and manage the hotel reservation from the phone.",
+    ios: appLinks.bookingIos,
+    android: appLinks.bookingAndroid
+  }
+];
+
 const resourceGroups = [
-  { label: "Big Bus Tours — iPhone", href: appLinks.bigBusIos, why: "Store the hop-on hop-off tickets, route maps, and live bus arrivals" },
-  { label: "Big Bus Tours — Android", href: appLinks.bigBusAndroid, why: "Store the hop-on hop-off tickets, route maps, and live bus arrivals" },
   { label: "Big Bus booking", href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner", why: "Retrieve booking VVXCH9SM if the app needs the confirmation again" },
-  { label: "TfL Go — iPhone", href: appLinks.tflIos, why: "Transport for London app — plan every Tube move and see live departures" },
-  { label: "TfL Go — Android", href: appLinks.tflAndroid, why: "Transport for London app — plan every Tube move and see live departures" },
-  { label: "JetBlue — iPhone", href: appLinks.jetBlueIos, why: "Check in, see boarding passes, and track flight status" },
-  { label: "JetBlue — Android", href: appLinks.jetBlueAndroid, why: "Check in, see boarding passes, and track flight status" },
-  { label: "Uber", href: "https://www.uber.com/gb/en/", why: "Best way home when tired — works exactly like in the US" },
-  { label: "FREENOW — black cabs", href: "https://www.free-now.com/uk/", why: "Book official London black cabs as a backup to Uber" },
   { label: "Official Tube map (PDF)", href: tubeMapUrl, why: "Offline backup — works without signal" },
   { label: "TfL Journey Planner", href: "https://tfl.gov.uk/plan-a-journey/", why: "Live route planning with disruption alerts direct from TfL" },
   { label: "Google Maps London", href: "https://www.google.com/maps/place/London,+UK", why: "Download offline so it works on weak signal" },
@@ -1036,6 +1091,21 @@ function renderResources() {
   `).join("");
 }
 
+function renderAppDownloads() {
+  document.querySelector("#appDownloadList").innerHTML = appDownloads.map(app => `
+    <article class="app-download-card">
+      <div class="ticket-card__body">
+        <strong>${app.label}</strong>
+        <span>${app.why}</span>
+      </div>
+      <div class="app-download-card__actions">
+        <a class="button button--secondary" href="${app.ios}" target="_blank" rel="noopener">iPhone</a>
+        <a class="button button--secondary" href="${app.android}" target="_blank" rel="noopener">Android</a>
+      </div>
+    </article>
+  `).join("");
+}
+
 function renderChecklist(selector, items, key) {
   const saved = JSON.parse(localStorage.getItem(key) || "{}");
   // Support both flat string arrays and sectioned arrays [{section, items}]
@@ -1297,7 +1367,7 @@ function renderPhonePush() {
       </div>
 
       <ol class="bullet-list" style="margin-top:14px">
-        <li>Download ntfy using the links above</li>
+        <li>Install ntfy from the Download Apps section</li>
         <li>Open ntfy → tap "+ Add topic" → paste the topic above → tap Save</li>
         <li>Allow notifications when prompted</li>
         <li>Also install <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (Android)</a> and allow its notifications too</li>
@@ -1336,15 +1406,20 @@ function renderBooking() {
       </summary>
       <div class="trip-facts trip-facts--single">
         <article><span>Guest</span><strong>${booking.guest}</strong></article>
+        <article><span>Booking.com confirmation</span><strong>${booking.confirmation}</strong></article>
+        <article><span>Lodging confirmation</span><strong>${booking.lodgingConfirmation}</strong></article>
+        <article><span>PIN</span><strong>${booking.pin}</strong></article>
+        <article><span>Check-in</span><strong>${booking.checkIn}</strong></article>
+        <article><span>Check-out</span><strong>${booking.checkOut}</strong></article>
+        <article><span>Room</span><strong>${booking.room}</strong></article>
         <article><span>Address</span><strong>${booking.address}</strong></article>
         <article><span>Phone</span><strong><a href="tel:${booking.phone.replace(/\s/g,'')}" style="color:inherit;text-decoration:none">${booking.phone}</a></strong></article>
       </div>
       <div class="button-row">
         <a class="button" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
-        <a class="button button--secondary" href="https://www.booking.com/" target="_blank" rel="noopener">Booking.com</a>
+        <a class="button button--secondary" href="${booking.pdf}" target="_blank" rel="noopener">Open confirmation PDF</a>
       </div>
       <ul class="bullet-list">${booking.actionItems.map(item => `<li>${item}</li>`).join("")}</ul>
-      <ul class="bullet-list">${booking.fillIns.map(item => `<li>${item}</li>`).join("")}</ul>
     </details>
   `;
 }
@@ -1578,6 +1653,7 @@ renderRouteShortcuts();
 renderTubePockets();
 renderMaps();
 renderResources();
+renderAppDownloads();
 renderDocsProgressBar();
 renderTickets();
 renderChecklist("#todoList", todo, "londonTripTodo");

@@ -15,7 +15,7 @@ assert.match(index, /styles\.css\?v=\d+/, "index should include a cache-busted s
 assert.match(index, /app\.js\?v=\d+/, "index should include a cache-busted app URL");
 assert.match(index, /data-target="overview"/, "index should start from the itinerary panel");
 assert.match(index, /London (Birthday Trip|Travel Guide)/, "site should present itself as a travel guide");
-assert.match(index, /data-target="overview"[\s\S]{0,60}Guide/, "primary nav item should be the guide");
+assert.match(index, /<button class="nav-item is-active"[\s\S]*?data-target="overview"[\s\S]*?Guide[\s\S]*?<\/button>/, "primary bottom nav item should be the guide");
 assert.match(index, /London Itinerary|Day-by-day guide|Itinerary first/, "guide should keep itinerary first");
 assert.match(index, /id="phonePushPanel"/, "index should include the phone push panel");
 assert.match(index, /id="hotelActionPanel"/, "index should include the move panel hotel actions");
@@ -42,20 +42,27 @@ assert.match(app, /emergencyContacts/, "app should define emergency contact card
 assert.match(app, /recoveryPlans/, "app should define lost-item recovery plans");
 assert.match(app, /resolvePanelFromHash/, "app should resolve panel routing from the hash");
 assert.match(app, /assets\/parental-travel-consent-letter\.pdf/, "wallet should link to the parental travel consent PDF");
+assert.match(app, /assets\/hotel-booking-confirmation\.pdf/, "wallet should link to the hotel Booking.com PDF");
 assert.match(app, /ticket-action-cue/, "linked wallet documents should show an obvious tap cue");
+assert.match(app, /appDownloads/, "wallet should define a dedicated app downloads section");
+assert.match(app, /renderAppDownloads/, "wallet should render dedicated app download buttons");
+assert.doesNotMatch(app, /Download JetBlue app|Download Big Bus Tours app|Download TfL Go|Download ntfy|Download Uber/, "pre-trip checklist should not contain dead-end download wording");
 assert.match(styles, /\.panel-view/, "styles should define compartment panels");
 assert.match(styles, /\.bottom-nav|\.tab-bar/, "styles should define the section navigation");
 assert.match(styles, /\.pocket-card/, "styles should define tucked-away pocket cards");
 assert.match(styles, /\.route-pocket/, "styles should define direct route pockets");
 assert.match(styles, /\.overview-grid/, "styles should define summary grids");
 assert.match(styles, /\.ticket-action-cue/, "styles should define the wallet PDF tap cue");
+assert.match(styles, /\.app-download-card/, "styles should define dedicated app download cards");
 assert.match(index, /id="routeShortcutList"/, "index should include route shortcuts");
 assert.match(index, /id="recoveryPanel"/, "index should include recovery guidance");
+assert.match(index, /id="appDownloadList"/, "wallet should include the app download mount");
 assert.match(worker, /networkFirst\(event\.request\)/, "flight status should use network-first caching");
 assert.match(worker, /cacheFirst\(event\.request\)/, "static shell should use cache-first caching");
 assert.match(worker, /const CACHE_NAME = "london-trip-v\d+"/, "service worker cache name should change per release");
 assert.match(worker, /"\.\/styles\.css\?v=\d+"/, "service worker should cache-bust styles");
 assert.match(worker, /"\.\/app\.js\?v=\d+"/, "service worker should cache-bust the app shell");
+assert.match(worker, /"\.\/assets\/hotel-booking-confirmation\.pdf"/, "service worker should cache the hotel confirmation PDF");
 assert.match(worker, /"\.\/assets\/parental-travel-consent-letter\.pdf"/, "service worker should cache the parental travel consent PDF");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");
 assert.equal(manifest.start_url, "./", "manifest should start at the site root");
@@ -70,6 +77,7 @@ for (const file of [
   "assets/camden_market.jpg",
   "assets/camden_market.webp",
   "assets/flight_itinerary.jpg",
+  "assets/hotel-booking-confirmation.pdf",
   "assets/parental-travel-consent-letter.pdf",
   "data/flight-status.json"
 ]) {

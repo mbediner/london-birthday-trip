@@ -31,7 +31,7 @@ ES module SPA. No framework, no build step.
 | Guide | `#overview` | 4-day itinerary cards + essentials |
 | Directions | `#move` | Route shortcuts, tube basics, map search |
 | Flights | `#flights` | ntfy setup, flight status, departure guardrails |
-| Docs | `#wallet` | Confirmations, pre-trip checklist, packing list |
+| Docs | `#wallet` | Confirmations, app downloads, pre-trip checklist, packing list |
 | Safety | `#safety` | Emergency numbers, embassy help, practical recovery actions |
 
 ### Key patterns
@@ -103,15 +103,16 @@ Day object shape:
 | `flightReadiness` | Per-leg checklist items |
 | `departureGuardrails` | Departure day reminders |
 | `nextMoveTimeline` | Date-aware "next step" cards on Guide tab |
-| `todo` | Pre-trip checklist — sectioned by owner `[{section, items}]` |
+| `todo` | Pre-trip checklist — sectioned by owner `[{section, items}]`; do not put dead-end app download tasks here |
 | `pack` | Packing list |
-| `tickets` | Wallet confirmations — add numbers when Marianna books |
-| `booking` | Hotel booking details and fill-ins |
+| `tickets` | Wallet confirmations and PDF links — hotel belongs first |
+| `booking` | Hotel booking details, confirmation numbers, check-in/out, and PDF confirmation link |
+| `appDownloads` | Dedicated iPhone / Android app download buttons on Docs tab |
 | `emergencyContacts` / `embassyHelp` | Safety tab numbers, embassy address, map, and passport help |
 | `recoveryPlans` | Practical passport, phone, wallet/card, and lost property actions |
 | `mapQueries` | Named map targets used by buttons throughout the site |
 | `routeShortcuts` | One-tap direction shortcuts on Directions tab |
-| `resourceGroups` | App download links on Directions tab |
+| `resourceGroups` | Reference links on Directions tab; app downloads belong in `appDownloads` |
 | `ntfyTopic` | ntfy push topic string |
 
 ---

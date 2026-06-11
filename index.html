@@ -10,7 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606111920">
+  <link rel="stylesheet" href="styles.css?v=202606111943">
 </head>
 <body>
   <div class="app-shell">
@@ -29,9 +29,12 @@
 
     <!-- ── Quick-action strip (replaces hero buttons) ─────────────────────── -->
     <div class="quick-actions">
-      <button class="quick-action-btn quick-action-btn--primary" type="button" data-target="overview">Open Guide</button>
       <a class="quick-action-btn" data-map="Hotel" target="_blank" rel="noopener">🗺 Hotel Map</a>
       <a class="quick-action-btn" id="heroTubeDirections" target="_blank" rel="noopener">🚶 Nearest Tube</a>
+      <a class="quick-action-btn" data-map="Victoria Station" target="_blank" rel="noopener">🚇 Victoria</a>
+      <a class="quick-action-btn" data-map="London Eye" target="_blank" rel="noopener">🎡 London Eye</a>
+      <a class="quick-action-btn" data-map="Tower Bridge" target="_blank" rel="noopener">🌉 Tower Bridge</a>
+      <a class="quick-action-btn" data-map="Camden Market" target="_blank" rel="noopener">🛍 Camden</a>
     </div>
 
     <!-- ── Panels ──────────────────────────────────────────────────────────── -->
@@ -113,7 +116,7 @@
       <section class="panel-view" id="wallet" data-panel hidden>
         <div class="section-heading">
           <p class="eyebrow">Travel Documents</p>
-          <h2>Confirmations &amp; checklists</h2>
+          <h2>Docs, apps &amp; checklists</h2>
         </div>
         <!-- Progress bar + needed alert rendered by JS -->
         <div id="docsProgressBar"></div>
@@ -126,6 +129,15 @@
               </div>
             </summary>
             <div id="ticketList" class="action-list"></div>
+          </details>
+          <details class="pocket-card" open>
+            <summary class="pocket-card__summary">
+              <div>
+                <span>Phone Setup</span>
+                <strong>Download Apps</strong>
+              </div>
+            </summary>
+            <div id="appDownloadList" class="app-download-list"></div>
           </details>
           <details class="pocket-card">
             <summary class="pocket-card__summary">
@@ -207,6 +219,6 @@
   </div><!-- /app-shell -->
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606111920"></script>
+  <script type="module" src="app.js?v=202606111943"></script>
 </body>
 </html>
