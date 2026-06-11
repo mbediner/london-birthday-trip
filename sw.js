@@ -1,11 +1,11 @@
-const CACHE_NAME = "london-trip-v202606111441";
+const CACHE_NAME = "london-trip-v202606111920";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
-  "./styles.css?v=202606111441",
+  "./styles.css?v=202606111920",
   "./app.js",
-  "./app.js?v=202606111441",
+  "./app.js?v=202606111920",
   "./site-logic.js",
   "./site.webmanifest",
   "./assets/icon.svg",
@@ -16,6 +16,7 @@ const APP_SHELL = [
   "./assets/camden_market.webp",
   "./assets/camden_market.jpg",
   "./assets/flight_itinerary.jpg",
+  "./assets/parental-travel-consent-letter.pdf",
   "./data/flight-status.json"
 ];
 

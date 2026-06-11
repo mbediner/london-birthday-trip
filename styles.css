@@ -871,6 +871,22 @@ h3 {
 .ticket-card__body strong { font-size: 0.9rem; font-weight: 700; color: var(--text-primary); }
 .ticket-card__body span { font-size: 0.8rem; color: var(--text-secondary); }
 .ticket-card__sub { font-size: 0.75rem !important; color: var(--text-secondary); opacity: 0.8; }
+.ticket-card__actions { display: inline-flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 0 0 auto; }
+.ticket-action-cue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 32px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff !important;
+  font-size: 0.6875rem !important;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 
 /* Ticket badges */
 .ticket-badge {

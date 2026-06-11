@@ -41,11 +41,14 @@ assert.doesNotMatch(app, /Launch day route<\/a>[\s\S]{0,80}target="_blank"/, "La
 assert.match(app, /emergencyContacts/, "app should define emergency contact cards");
 assert.match(app, /recoveryPlans/, "app should define lost-item recovery plans");
 assert.match(app, /resolvePanelFromHash/, "app should resolve panel routing from the hash");
+assert.match(app, /assets\/parental-travel-consent-letter\.pdf/, "wallet should link to the parental travel consent PDF");
+assert.match(app, /ticket-action-cue/, "linked wallet documents should show an obvious tap cue");
 assert.match(styles, /\.panel-view/, "styles should define compartment panels");
 assert.match(styles, /\.bottom-nav|\.tab-bar/, "styles should define the section navigation");
 assert.match(styles, /\.pocket-card/, "styles should define tucked-away pocket cards");
 assert.match(styles, /\.route-pocket/, "styles should define direct route pockets");
 assert.match(styles, /\.overview-grid/, "styles should define summary grids");
+assert.match(styles, /\.ticket-action-cue/, "styles should define the wallet PDF tap cue");
 assert.match(index, /id="routeShortcutList"/, "index should include route shortcuts");
 assert.match(index, /id="recoveryPanel"/, "index should include recovery guidance");
 assert.match(worker, /networkFirst\(event\.request\)/, "flight status should use network-first caching");
@@ -53,6 +56,7 @@ assert.match(worker, /cacheFirst\(event\.request\)/, "static shell should use ca
 assert.match(worker, /const CACHE_NAME = "london-trip-v\d+"/, "service worker cache name should change per release");
 assert.match(worker, /"\.\/styles\.css\?v=\d+"/, "service worker should cache-bust styles");
 assert.match(worker, /"\.\/app\.js\?v=\d+"/, "service worker should cache-bust the app shell");
+assert.match(worker, /"\.\/assets\/parental-travel-consent-letter\.pdf"/, "service worker should cache the parental travel consent PDF");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");
 assert.equal(manifest.start_url, "./", "manifest should start at the site root");
 assert.match(packageJson.scripts["release:prepare"], /bust-cache/, "package should define a cache-busting release prep script");
@@ -66,6 +70,7 @@ for (const file of [
   "assets/camden_market.jpg",
   "assets/camden_market.webp",
   "assets/flight_itinerary.jpg",
+  "assets/parental-travel-consent-letter.pdf",
   "data/flight-status.json"
 ]) {
   await fs.access(file);

@@ -670,8 +670,11 @@ const tickets = [
   },
   {
     label: "Parent travel consent letter",
-    detail: "Signed letter from parents authorising Tiffany and Collin to travel — Google Doc link needed",
-    status: "action"
+    detail: "Signed PDF authorising Tiffany and Collin to travel",
+    sub: "Tap to open the parental travel consent letter on this phone",
+    href: "assets/parental-travel-consent-letter.pdf",
+    actionLabel: "PDF",
+    status: "confirmed"
   }
 ];
 
@@ -1076,6 +1079,10 @@ function renderTickets() {
     const attrs = ticket.href
       ? `href="${ticket.href}" target="_blank" rel="noopener"`
       : "";
+    // Action cue makes linked documents obvious on phones while keeping the whole card tappable.
+    const actionCue = ticket.actionLabel
+      ? `<span class="ticket-action-cue" aria-hidden="true">${ticket.actionLabel}</span>`
+      : "";
     const badge = ticket.status === "confirmed"
       ? `<span class="ticket-badge ticket-badge--confirmed">✓ Set</span>`
       : ticket.status === "pending"
@@ -1088,7 +1095,10 @@ function renderTickets() {
         <span>${ticket.detail}</span>
         ${ticket.sub ? `<span class="ticket-card__sub">${ticket.sub}</span>` : ""}
       </div>
-      ${badge}
+      <div class="ticket-card__actions">
+        ${actionCue}
+        ${badge}
+      </div>
     </${tag}>`;
   }).join("");
 }
