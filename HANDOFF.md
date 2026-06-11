@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `16cb49c` - Update Collin ETA and safety shortcut
-**Cache token:** `202606111441`
+**Last commit:** `a76938e` - Add parental travel consent PDF to wallet
+**Cache token:** `202606111920`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111441
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111920
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -19,7 +19,6 @@
 |---|---|---|
 | UK ETA — Tiffany | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
 | UK ETA — Collin | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
-| Parent travel consent letter | `tickets` array | ⏳ add Google Doc link |
 | Booking.com confirmation number | `booking.fillIns` | ⏳ from Booking.com email |
 | Booking.com PIN | `booking.fillIns` | ⏳ from Booking.com email |
 | Check-in time | `booking.fillIns` | ⏳ from Booking.com email |
@@ -29,6 +28,14 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 11, 2026 (Codex)
+
+- **Parent consent PDF added** - Docs wallet now links the Parent travel consent letter card to `assets/parental-travel-consent-letter.pdf` with an obvious `PDF` tap cue and a fully tappable card.
+- **Offline support updated** - service worker now includes the parental travel consent PDF in the app shell cache.
+- **Release verified** - mobile Docs UAT passed at 375x812, `npm run release:prepare` passed, pushed `a76938e`, GitHub Pages deploy `27371655848` was green, and the live PDF returned `200` with `application/pdf`.
 
 ---
 
