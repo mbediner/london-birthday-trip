@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `2403c66` - Consolidate docs wallet and app downloads
-**Cache token:** `202606111943`
+**Last commit:** `1e4d06f` - Reorganise Docs tab — confirmations, app setup, checklists
+**Cache token:** `202606112041`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111943
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606112041
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,21 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session — June 11, 2026 (Claude)
+
+- **Docs tab fully reorganised** — 3 clear sections: Ticket Wallet (confirmations), App Setup & Alerts, Checklists. Old scattered phonePushPanel/bookingPanel/appDownloadList structure replaced.
+- **Ticket Wallet redesign** — new `.ticket-item` layout with coloured `.ref-chip` chips: KDHSOU in red for JetBlue, VVXCH9SM in amber for Big Bus. Each has a one-tap Copy button. Big Bus shows numbered activation instructions inline.
+- **App Setup pocket** — `renderAppSetup()` consolidates ntfy (topic + copy + install steps), JetBlue, TfL Go, Big Bus, and PWA install guide into one section in Docs.
+- **Flights panel** — starts directly with "Status at a glance"; ntfy setup card removed.
+- **Directions / On the Go** — resourceGroups slimmed to 5 utility links: Uber, FREENOW, TfL Journey Planner, Google Maps, Tube map PDF. Section renamed "On the Go / Ride and navigate".
+- **Quick-actions strip** — 2-column grid (Hotel Map + Nearest Tube only, no horizontal scroll).
+- **"Set up alerts" button** — now routes to Docs → #appSetupPanel instead of Flights.
+- **Route shortcuts** — walking 🚶 / transit 🚇 / driving 🚗 mode icons added.
+- **UAT passed** — visual UAT via Preview MCP confirmed all changes at 375×812 mobile.
+- **Release verified** — `npm run release:prepare` passed, pushed `1e4d06f`, cache token `202606112041`.
 
 ---
 
