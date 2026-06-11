@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `a76938e` - Add parental travel consent PDF to wallet
-**Cache token:** `202606111920`
+**Last commit:** `2403c66` - Consolidate docs wallet and app downloads
+**Cache token:** `202606111943`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111920
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111943
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -18,16 +18,22 @@
 | Item | Variable in app.js | Status |
 |---|---|---|
 | UK ETA — Tiffany | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
-| UK ETA — Collin | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
-| Booking.com confirmation number | `booking.fillIns` | ⏳ from Booking.com email |
-| Booking.com PIN | `booking.fillIns` | ⏳ from Booking.com email |
-| Check-in time | `booking.fillIns` | ⏳ from Booking.com email |
 
 ---
 
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 11, 2026 (Codex)
+
+- **Docs wallet reorganized** - hotel confirmation now appears first in the wallet and opens `assets/hotel-booking-confirmation.pdf`.
+- **Hotel blanks filled** - Booking.com confirmation `6945.109.446`, lodging confirmation `88897847`, PIN `4412`, check-in/out, room, guest, and arrival-note details are now in the hotel panel.
+- **Download Apps section added** - JetBlue, Big Bus, TfL Go, ntfy, Google Maps, Uber, FREENOW, and Booking.com now have dedicated iPhone and Android buttons instead of dead-end checklist text.
+- **Directions/resources decluttered** - app download links moved out of Directions resources; Directions now stays focused on maps, routes, and reference links.
+- **Release verified** - mobile Docs UAT passed at 375x812, `npm run release:prepare` passed, pushed `2403c66`, GitHub Pages deploy `27372920777` was green, and the live hotel PDF returned `200` with `application/pdf`.
 
 ---
 
