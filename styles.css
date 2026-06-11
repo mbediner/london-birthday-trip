@@ -1232,6 +1232,21 @@ h3 {
 .emergency-card--embassy .emergency-card__number {
   font-size: 1.25rem;
 }
+.emergency-card--embassy-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0 14px;
+}
+.emergency-card--embassy-detail strong {
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.emergency-card--embassy-detail .emergency-card__number {
+  font-size: 1.35rem;
+  color: var(--text-primary);
+}
 .emergency-card__desc {
   font-size: 0.75rem;
   color: var(--text-secondary);

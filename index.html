@@ -10,7 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606102034">
+  <link rel="stylesheet" href="styles.css?v=202606111414">
 </head>
 <body>
   <div class="app-shell">
@@ -31,7 +31,7 @@
     <div class="quick-actions">
       <button class="quick-action-btn quick-action-btn--primary" type="button" data-target="overview">Open Guide</button>
       <a class="quick-action-btn" data-map="Hotel" target="_blank" rel="noopener">🗺 Hotel Map</a>
-      <a class="quick-action-btn" id="heroTubeDirections" target="_blank" rel="noopener">🚶 Walk to Tube</a>
+      <a class="quick-action-btn" id="heroTubeDirections" target="_blank" rel="noopener">🚶 Nearest Tube</a>
       <button class="quick-action-btn" type="button" data-target="safety">🆘 Safety</button>
     </div>
 
@@ -153,39 +153,11 @@
       <!-- Safety -->
       <section class="panel-view" id="safety" data-panel hidden>
         <div class="section-heading">
-          <p class="eyebrow">Safety Locker</p>
-          <h2>Emergency numbers first</h2>
+          <p class="eyebrow">Safety</p>
+          <h2>Useful help, fast</h2>
         </div>
         <div id="emergencyPanel"></div>
         <div id="recoveryPanel" class="pocket-stack"></div>
-        <section class="panel-card">
-          <div class="section-heading section-heading--tight">
-            <p class="eyebrow">Quick Rules</p>
-            <h2>When the day goes sideways</h2>
-          </div>
-          <div class="overview-grid overview-grid--compact">
-            <article class="info-card">
-              <span>If tired</span>
-              <strong>Shorten the day</strong>
-              <p>Eat nearby and use Uber, FREENOW, or an official black cab back to the hotel.</p>
-            </article>
-            <article class="info-card">
-              <span>If it rains</span>
-              <strong>Move indoors</strong>
-              <p>Shift toward markets, cafes, covered areas, and indoor stops without guilt.</p>
-            </article>
-            <article class="info-card">
-              <span>If separated</span>
-              <strong>Stop and reconnect</strong>
-              <p>Stop moving, call each other, share location, meet at the last agreed landmark or the hotel.</p>
-            </article>
-            <article class="info-card">
-              <span>If lost</span>
-              <strong>Hotel is home base</strong>
-              <p>Open the hotel map, ask staff at any station or shop, and head back to Victoria if unsure.</p>
-            </article>
-          </div>
-        </section>
       </section>
 
     </main>
@@ -236,6 +208,6 @@
   </div><!-- /app-shell -->
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606102034"></script>
+  <script type="module" src="app.js?v=202606111414"></script>
 </body>
 </html>

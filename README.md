@@ -32,7 +32,7 @@ ES module SPA. No framework, no build step.
 | Directions | `#move` | Route shortcuts, tube basics, map search |
 | Flights | `#flights` | ntfy setup, flight status, departure guardrails |
 | Docs | `#wallet` | Confirmations, pre-trip checklist, packing list |
-| Safety | `#safety` | Emergency numbers, lost item recovery |
+| Safety | `#safety` | Emergency numbers, embassy help, practical recovery actions |
 
 ### Key patterns
 
@@ -107,8 +107,8 @@ Day object shape:
 | `pack` | Packing list |
 | `tickets` | Wallet confirmations — add numbers when Marianna books |
 | `booking` | Hotel booking details and fill-ins |
-| `emergencyContacts` | Safety tab numbers |
-| `recoveryPlans` | Lost passport/phone/wallet steps |
+| `emergencyContacts` / `embassyHelp` | Safety tab numbers, embassy address, map, and passport help |
+| `recoveryPlans` | Practical passport, phone, wallet/card, and lost property actions |
 | `mapQueries` | Named map targets used by buttons throughout the site |
 | `routeShortcuts` | One-tap direction shortcuts on Directions tab |
 | `resourceGroups` | App download links on Directions tab |

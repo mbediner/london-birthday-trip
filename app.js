@@ -493,72 +493,89 @@ const nextMoveTimeline = [
 
 const emergencyContacts = [
   {
-    label: "Emergency",
+    label: "Emergency services",
     value: "999 or 112",
     href: "tel:999",
     note: "Police, ambulance, fire, or immediate danger."
   },
   {
-    label: "Police non-emergency",
+    label: "Police report line",
     value: "101",
     href: "tel:101",
-    note: "Use for non-urgent police reports."
+    note: "Non-urgent police reports, theft, or missing property."
   },
   {
-    label: "NHS urgent advice",
+    label: "Medical advice",
     value: "111",
     href: "tel:111",
     note: "Medical help fast, but not life-threatening."
-  },
-  {
-    label: "U.S. Embassy London",
-    value: "+44 20 7499 9000",
-    href: "tel:+442074999000",
-    note: "U.S. citizen help and lost passport emergencies."
   }
 ];
 
+const embassyHelp = {
+  label: "U.S. Embassy London",
+  phone: "+44 20 7499 9000",
+  address: "33 Nine Elms Lane, London SW11 7US",
+  note: "U.S. citizen help, emergency passports, and serious travel document problems.",
+  actions: [
+    ["Call Embassy", "tel:+442074999000"],
+    ["Embassy Map", "map:U.S. Embassy London"],
+    ["Travel.State.gov", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"]
+  ]
+};
+
 const recoveryPlans = [
   {
-    title: "Lost passport",
-    urgency: "Highest priority",
+    title: "Passport problem",
+    urgency: "U.S. Embassy",
     steps: [
-      "Stop moving and search bags, pockets, hotel safe, and the last place it was used.",
-      "Call Mom or Dad and stay with your sibling.",
-      "If stolen or tied to a crime, call 101 or report to police online; call 999 only for immediate danger.",
-      "Contact the U.S. Embassy London for emergency passport guidance.",
-      "Use Travel.State.gov before reporting the passport lost, because a reported lost passport cannot be used for travel even if found later."
+      "Search the hotel safe, day bag, wallet, and the last place the passport was used.",
+      "Use the embassy block above before reporting it lost. A passport reported lost cannot be used for travel even if found later.",
+      "If it was stolen, file a police report and keep the report reference."
     ],
     actions: [
-      ["U.S. Embassy Map", "map:U.S. Embassy London"],
-      ["Travel.State.gov", "https://travel.state.gov/content/travel/en/international-travel/emergencies/lost-stolen-passport-abroad.html"]
+      ["File Police Report", "https://www.met.police.uk/ro/report/"]
     ]
   },
   {
-    title: "Lost phone",
-    urgency: "Stay together",
+    title: "Phone missing",
+    urgency: "Find or lock",
     steps: [
-      "Do not split up to search.",
-      "Use the other phone to call it, share location, and message the family group.",
-      "Retrace only the last safe stop; if it is on transit, use TfL lost property.",
-      "If the phone is gone, get back to the hotel and use Wi-Fi or front desk help."
+      "Use Find My iPhone or Google Find My Device from the other phone.",
+      "If it was left on the Tube, bus, Elizabeth line, or station, use Transport for London lost property.",
+      "If it is gone, lock it remotely and use hotel Wi-Fi or the front desk."
     ],
     actions: [
-      ["Hotel Map", "map:Hotel"],
-      ["TfL Lost Property", "https://tfl.gov.uk/help-and-contact/lost-property"]
+      ["Find My iPhone", "https://www.icloud.com/find"],
+      ["Find Android", "https://www.google.com/android/find/"],
+      ["Transport Lost Property", "https://tfl.gov.uk/help-and-contact/lost-property"]
     ]
   },
   {
-    title: "Lost wallet or card",
+    title: "Wallet or card missing",
     urgency: "Freeze cards",
     steps: [
-      "Tell Mom or Dad immediately.",
-      "If a bank card is missing, ask a parent to freeze or cancel it.",
-      "If it was stolen, call 101 or report to police online; call 999 only for immediate danger.",
-      "Keep one payment method separate from the other phone or card if possible."
+      "Open the bank app first and freeze the missing card if possible.",
+      "Use the number on the back of the card or in the bank app first. Use the numbers below if that is not available.",
+      "If the wallet was stolen, file a police report and keep the report reference."
     ],
     actions: [
-      ["Police Advice", "https://www.gov.uk/contact-police"],
+      ["Chase Cards", "tel:+13025948200"],
+      ["American Express", "tel:+13363931111"],
+      ["File Police Report", "https://www.met.police.uk/ro/report/"]
+    ],
+    detail: "Chase card services outside the U.S.: +1 302 594 8200. American Express overseas collect: +1 336 393 1111."
+  },
+  {
+    title: "Transit or venue lost property",
+    urgency: "Official forms",
+    steps: [
+      "Use this for items left on the Tube, buses, Elizabeth line, stations, or major London venues.",
+      "Include the route, stop, time, and a clear item description.",
+      "Keep the hotel map handy as the practical meeting point if a pickup is needed."
+    ],
+    actions: [
+      ["Transport for London Lost Property", "https://tfl.gov.uk/help-and-contact/lost-property"],
       ["Hotel Map", "map:Hotel"]
     ]
   }
@@ -689,7 +706,7 @@ const resourceGroups = [
   { label: "TfL Journey Planner", href: "https://tfl.gov.uk/plan-a-journey/", why: "Live route planning with disruption alerts direct from TfL" },
   { label: "Google Maps London", href: "https://www.google.com/maps/place/London,+UK", why: "Download offline so it works on weak signal" },
   { label: "U.S. Embassy London", href: "https://uk.usembassy.gov/", why: "Lost passport, emergency consular help for US citizens" },
-  { label: "TfL lost property", href: "https://tfl.gov.uk/help-and-contact/lost-property", why: "Report and recover anything left on the Tube or bus" }
+  { label: "Transport for London lost property", href: "https://tfl.gov.uk/help-and-contact/lost-property", why: "Report and recover anything left on the Tube or bus" }
 ];
 
 const tubeBasics = [
@@ -1322,7 +1339,7 @@ function renderBooking() {
 }
 
 function renderEmergencyContacts() {
-  const [emergency, police, nhs, embassy] = emergencyContacts;
+  const [emergency, police, nhs] = emergencyContacts;
   document.querySelector("#emergencyPanel").innerHTML = `
     <div class="emergency-grid">
       <a class="emergency-card emergency-card--critical" href="${emergency.href}">
@@ -1345,15 +1362,18 @@ function renderEmergencyContacts() {
         <span class="emergency-card__desc">${nhs.note}</span>
         <span class="call-btn call-btn--secondary">Call 111</span>
       </a>
-      <a class="emergency-card emergency-card--embassy" href="${embassy.href}" style="grid-column: 1 / -1; flex-direction: row; text-align: left; gap: 12px; justify-content: space-between; align-items: center;">
-        <div class="emergency-card__content">
-          <span class="emergency-card__type">${embassy.label}</span>
-          <span class="emergency-card__number">${embassy.value}</span>
-          <span class="emergency-card__desc">${embassy.note}</span>
-        </div>
-        <span class="call-btn call-btn--secondary" style="flex-shrink:0">Call Embassy</span>
-      </a>
     </div>
+    <section class="panel-card emergency-card--embassy-detail">
+      <div class="emergency-card__content">
+        <span class="emergency-card__type">${embassyHelp.label}</span>
+        <strong>${embassyHelp.address}</strong>
+        <span class="emergency-card__number">${embassyHelp.phone}</span>
+        <span class="emergency-card__desc">${embassyHelp.note}</span>
+      </div>
+      <div class="button-row">
+        ${embassyHelp.actions.map(action => renderActionButton(action, "button button--secondary")).join("")}
+      </div>
+    </section>
   `;
 }
 
@@ -1361,10 +1381,10 @@ function renderRecovery() {
   document.querySelector("#recoveryPanel").innerHTML = recoveryPlans.map((plan, index) => `
     <details class="pocket-card" ${index === 0 ? "open" : ""}>
       <summary class="pocket-card__summary">
-        <div>
+        <div class="emergency-card__content">
           <span>${plan.urgency}</span>
           <strong>${plan.title}</strong>
-          <p>Open only when needed.</p>
+          <p>${plan.detail || "Open only when needed."}</p>
         </div>
       </summary>
       <ol class="bullet-list">${plan.steps.map(step => `<li>${step}</li>`).join("")}</ol>
@@ -1442,7 +1462,7 @@ function wireEvents() {
     link.href = mapsUrl(link.dataset.map);
   });
 
-  document.querySelector("#heroTubeDirections").href = directionsUrl("Hotel", "Pimlico Station", "walking");
+  document.querySelector("#heroTubeDirections").href = "https://www.google.com/maps/dir/?api=1&destination=nearest%20London%20Underground%20station&travelmode=walking";
 
   document.addEventListener("click", async event => {
     const targetButton = event.target.closest("[data-target]");
