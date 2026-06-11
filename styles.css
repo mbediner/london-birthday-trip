@@ -131,18 +131,18 @@ h1, h2, h3, p, li, strong, span { overflow-wrap: anywhere; }
    ═══════════════════════════════════════════════════════════ */
 .quick-actions {
   padding: 10px 16px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
-  overflow-x: auto;
-  scrollbar-width: none;
   background: var(--bg-base);
   border-bottom: 1px solid var(--border);
 }
-.quick-actions::-webkit-scrollbar { display: none; }
 
 .quick-action-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 6px;
   padding: 8px 14px;
   background: var(--bg-card);
@@ -151,22 +151,13 @@ h1, h2, h3, p, li, strong, span { overflow-wrap: anywhere; }
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text-primary);
-  white-space: nowrap;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.15s, border-color 0.15s;
-  flex-shrink: 0;
   min-height: 36px;
 }
 .quick-action-btn:hover,
 .quick-action-btn:active { background: var(--bg-card-hover); border-color: var(--border-active); }
-.quick-action-btn--primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #0D1B2A;
-  font-weight: 700;
-}
-.quick-action-btn--primary:hover { background: #6faaff; border-color: #6faaff; }
 
 /* ═══════════════════════════════════════════════════════════
    BOTTOM NAVIGATION BAR
@@ -1443,3 +1434,27 @@ h3 {
   /* emergency-grid stays 2-col even at 375px — numbers fit fine */
   .itinerary-summary__text strong { font-size: 0.875rem; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TICKET WALLET — new ref-chip design
+   ═══════════════════════════════════════════════════════════ */
+.ticket-item { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:6px; }
+.ticket-item:last-child { border-bottom:none; }
+.ticket-item__header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.ticket-item__label { font-size:0.9rem; font-weight:700; color:var(--text-primary); }
+.ticket-item__detail { font-size:0.8rem; color:var(--text-secondary); margin:0; }
+.ticket-item__sub { font-size:0.75rem; color:var(--text-secondary); opacity:0.8; margin:0; }
+.ticket-item__link { font-size:0.75rem; color:var(--accent); font-weight:600; align-self:flex-start; }
+.ref-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:2px; }
+.ref-chip { display:inline-flex; align-items:center; padding:5px 12px; border-radius:8px; font-family:monospace; font-size:1rem; font-weight:800; letter-spacing:0.06em; border:1.5px solid; flex-shrink:0; }
+.ref-chip--red { background:rgba(230,57,70,0.18); border-color:rgba(230,57,70,0.4); color:#f08090; }
+.ref-chip--amber { background:rgba(245,158,11,0.18); border-color:rgba(245,158,11,0.4); color:#fbbf24; }
+.ticket-steps { margin:4px 0 0; padding:0 0 0 18px; font-size:0.8rem; color:var(--text-secondary); line-height:1.6; }
+
+/* ═══════════════════════════════════════════════════════════
+   APP SETUP SECTION
+   ═══════════════════════════════════════════════════════════ */
+.setup-section { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:8px; }
+.setup-section:last-child { border-bottom:none; }
+.setup-label { font-size:0.8rem; font-weight:700; color:var(--text-primary); margin:0; text-transform:uppercase; letter-spacing:0.05em; }
+.setup-note { font-size:0.8rem; color:var(--text-secondary); margin:0; line-height:1.4; }

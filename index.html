@@ -10,7 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606111943">
+  <link rel="stylesheet" href="styles.css?v=202606112041">
 </head>
 <body>
   <div class="app-shell">
@@ -27,14 +27,10 @@
       </div>
     </header>
 
-    <!-- ── Quick-action strip (replaces hero buttons) ─────────────────────── -->
+    <!-- ── Quick-action strip — 2 buttons, no scroll ─────────────────────── -->
     <div class="quick-actions">
       <a class="quick-action-btn" data-map="Hotel" target="_blank" rel="noopener">🗺 Hotel Map</a>
       <a class="quick-action-btn" id="heroTubeDirections" target="_blank" rel="noopener">🚶 Nearest Tube</a>
-      <a class="quick-action-btn" data-map="Victoria Station" target="_blank" rel="noopener">🚇 Victoria</a>
-      <a class="quick-action-btn" data-map="London Eye" target="_blank" rel="noopener">🎡 London Eye</a>
-      <a class="quick-action-btn" data-map="Tower Bridge" target="_blank" rel="noopener">🌉 Tower Bridge</a>
-      <a class="quick-action-btn" data-map="Camden Market" target="_blank" rel="noopener">🛍 Camden</a>
     </div>
 
     <!-- ── Panels ──────────────────────────────────────────────────────────── -->
@@ -80,8 +76,8 @@
         </section>
         <section class="panel-card">
           <div class="section-heading section-heading--tight">
-            <p class="eyebrow">Helpful Downloads</p>
-            <h2>Apps and official links</h2>
+            <p class="eyebrow">On the Go</p>
+            <h2>Ride and navigate</h2>
           </div>
           <div id="resourceList" class="action-list"></div>
         </section>
@@ -89,9 +85,6 @@
 
       <!-- Flights -->
       <section class="panel-view" id="flights" data-panel hidden>
-        <!-- Push alerts setup — at top so "Set up alerts" button lands here -->
-        <div id="phonePushPanel" class="pocket-stack"></div>
-
         <div class="section-heading section-heading--tight">
           <p class="eyebrow">All Flights</p>
           <h2>Status at a glance</h2>
@@ -116,7 +109,7 @@
       <section class="panel-view" id="wallet" data-panel hidden>
         <div class="section-heading">
           <p class="eyebrow">Travel Documents</p>
-          <h2>Docs, apps &amp; checklists</h2>
+          <h2>Confirmations &amp; setup</h2>
         </div>
         <!-- Progress bar + needed alert rendered by JS -->
         <div id="docsProgressBar"></div>
@@ -126,18 +119,20 @@
               <div>
                 <span>Confirmations</span>
                 <strong>Ticket Wallet</strong>
+                <p>Hotel, flights, activities — all reference numbers in one place.</p>
               </div>
             </summary>
-            <div id="ticketList" class="action-list"></div>
+            <div id="ticketList"></div>
           </details>
           <details class="pocket-card" open>
             <summary class="pocket-card__summary">
               <div>
-                <span>Phone Setup</span>
-                <strong>Download Apps</strong>
+                <span>Before the Trip</span>
+                <strong>App Setup &amp; Alerts</strong>
+                <p>Install these before June 26 — one time, takes 5 minutes.</p>
               </div>
             </summary>
-            <div id="appDownloadList" class="app-download-list"></div>
+            <div id="appSetupPanel"></div>
           </details>
           <details class="pocket-card">
             <summary class="pocket-card__summary">
@@ -157,7 +152,6 @@
             </summary>
             <div id="packList" class="checklist"></div>
           </details>
-          <div id="bookingPanel"></div>
         </div>
       </section>
 
@@ -219,6 +213,6 @@
   </div><!-- /app-shell -->
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606111943"></script>
+  <script type="module" src="app.js?v=202606112041"></script>
 </body>
 </html>

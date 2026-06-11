@@ -645,14 +645,20 @@ const tickets = [
   },
   {
     label: "JetBlue — All 4 flights",
-    detail: "Confirmation: KDHSOU",
-    sub: "RDU→BOS→LHR outbound · LHR→JFK→RDU return · Open JetBlue app to check in",
+    detail: "RDU→BOS→LHR outbound · LHR→JFK→RDU return",
+    sub: "Open JetBlue app to check in and get boarding passes",
+    copyCode: "KDHSOU",
+    codeColor: "red",
+    codeLabel: "Confirmation",
     status: "confirmed"
   },
   {
     label: "Big Bus London hop-on hop-off",
     detail: "Friday, June 26 · 1 Day Hop-On Hop-Off Bus Only · 1 adult and 1 child",
-    sub: "Booking reference: VVXCH9SM · Use Download Apps, then tap Add Booking, enter the booking reference, and activate only on the day when ready to board",
+    copyCode: "VVXCH9SM",
+    codeColor: "amber",
+    codeLabel: "Booking ref",
+    instructions: ["Download the Big Bus Tours app (see App Setup below)", "Tap \"Add Booking\" → enter VVXCH9SM", "Activate only on the day when ready to board — not before"],
     href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner",
     status: "confirmed"
   },
@@ -760,12 +766,11 @@ const appDownloads = [
 ];
 
 const resourceGroups = [
-  { label: "Big Bus booking", href: "https://www.bigbustours.com/retrieve-booking/VVXCH9SM/Bediner", why: "Retrieve booking VVXCH9SM if the app needs the confirmation again" },
-  { label: "Official Tube map (PDF)", href: tubeMapUrl, why: "Offline backup — works without signal" },
-  { label: "TfL Journey Planner", href: "https://tfl.gov.uk/plan-a-journey/", why: "Live route planning with disruption alerts direct from TfL" },
-  { label: "Google Maps London", href: "https://www.google.com/maps/place/London,+UK", why: "Download offline so it works on weak signal" },
-  { label: "U.S. Embassy London", href: "https://uk.usembassy.gov/", why: "Lost passport, emergency consular help for US citizens" },
-  { label: "Transport for London lost property", href: "https://tfl.gov.uk/help-and-contact/lost-property", why: "Report and recover anything left on the Tube or bus" }
+  { label: "Uber — London", href: "https://www.uber.com/gb/en/", why: "Best backup when tired — works exactly like in the US" },
+  { label: "FREENOW — black cabs", href: "https://www.free-now.com/uk/", why: "Book official London black cabs from your phone" },
+  { label: "TfL Journey Planner", href: "https://tfl.gov.uk/plan-a-journey/", why: "Live route planning with real-time disruption alerts" },
+  { label: "Google Maps London", href: "https://www.google.com/maps/place/London,+UK", why: "Download offline before leaving — works without signal" },
+  { label: "Tube map (PDF)", href: tubeMapUrl, why: "Full network map — no signal or app needed" }
 ];
 
 const tubeBasics = [
@@ -1029,10 +1034,11 @@ function renderHotelActions() {
 }
 
 function renderRouteShortcuts() {
+  const modeIcon = { walking: "🚶", transit: "🚇", driving: "🚗" };
   document.querySelector("#routeShortcutList").innerHTML = routeShortcuts.map(route => `
     <article class="route-pocket">
       <div>
-        <span>${route.mode}</span>
+        <span>${modeIcon[route.mode] || ""} ${route.mode}</span>
         <strong>${route.label}</strong>
         <p>${route.note}</p>
       </div>
@@ -1145,31 +1151,39 @@ function renderInlineChecklist(items, key) {
 
 function renderTickets() {
   document.querySelector("#ticketList").innerHTML = tickets.map(ticket => {
-    const tag = ticket.href ? "a" : "div";
-    const attrs = ticket.href
-      ? `href="${ticket.href}" target="_blank" rel="noopener"`
-      : "";
-    // Action cue makes linked documents obvious on phones while keeping the whole card tappable.
-    const actionCue = ticket.actionLabel
-      ? `<span class="ticket-action-cue" aria-hidden="true">${ticket.actionLabel}</span>`
-      : "";
     const badge = ticket.status === "confirmed"
       ? `<span class="ticket-badge ticket-badge--confirmed">✓ Set</span>`
       : ticket.status === "pending"
       ? `<span class="ticket-badge ticket-badge--pending">Needed</span>`
       : `<span class="ticket-badge ticket-badge--action">To do</span>`;
+
+    const refChip = ticket.copyCode ? `
+      <div class="ref-row">
+        <span class="ref-chip ref-chip--${ticket.codeColor}">${ticket.copyCode}</span>
+        <button class="copy-btn" type="button" data-copy-ref="${ticket.copyCode}" aria-label="Copy ${ticket.codeLabel}">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>` : "";
+
+    const steps = ticket.instructions ? `
+      <ol class="ticket-steps">${ticket.instructions.map(s => `<li>${s}</li>`).join("")}</ol>` : "";
+
+    const linkEl = ticket.href ? `
+      <a class="ticket-item__link" href="${ticket.href}" target="_blank" rel="noopener">${ticket.actionLabel ? `${ticket.actionLabel} →` : "Open →"}</a>` : "";
+
     return `
-    <${tag} class="list-link ticket-card" ${attrs}>
-      <div class="ticket-card__body">
-        <strong>${ticket.label}</strong>
-        <span>${ticket.detail}</span>
-        ${ticket.sub ? `<span class="ticket-card__sub">${ticket.sub}</span>` : ""}
-      </div>
-      <div class="ticket-card__actions">
-        ${actionCue}
+    <div class="ticket-item">
+      <div class="ticket-item__header">
+        <span class="ticket-item__label">${ticket.label}</span>
         ${badge}
       </div>
-    </${tag}>`;
+      <p class="ticket-item__detail">${ticket.detail}</p>
+      ${ticket.sub ? `<p class="ticket-item__sub">${ticket.sub}</p>` : ""}
+      ${refChip}
+      ${steps}
+      ${linkEl}
+    </div>`;
   }).join("");
 }
 
@@ -1424,6 +1438,70 @@ function renderBooking() {
   `;
 }
 
+function renderAppSetup() {
+  document.querySelector("#appSetupPanel").innerHTML = `
+    <div class="setup-section">
+      <p class="setup-label">Flight alerts — ntfy</p>
+      <p class="setup-note">Trip reminders, departure nudges, and flight alerts come through ntfy.</p>
+      <div class="topic-row" style="margin-top:4px">
+        <code class="topic-code">${ntfyTopic}</code>
+        <button class="copy-btn" type="button" data-copy-topic aria-label="Copy topic">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </button>
+      </div>
+      <div class="button-row" style="margin-top:8px">
+        <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">App Store — iPhone</a>
+        <a class="button" href="${appLinks.ntfyAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
+      </div>
+      <ol class="ticket-steps" style="margin-top:8px">
+        <li>Install ntfy using the links above</li>
+        <li>Open ntfy → tap "+ Add topic" → paste the topic above → tap Save</li>
+        <li>Allow notifications when prompted</li>
+      </ol>
+    </div>
+
+    <div class="setup-section">
+      <p class="setup-label">JetBlue app</p>
+      <p class="setup-note">Check in, see boarding passes, and track flight status. Confirmation: <strong>KDHSOU</strong></p>
+      <div class="button-row" style="margin-top:8px">
+        <a class="button" href="${appLinks.jetBlueIos}" target="_blank" rel="noopener">App Store — iPhone</a>
+        <a class="button" href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
+      </div>
+    </div>
+
+    <div class="setup-section">
+      <p class="setup-label">TfL Go</p>
+      <p class="setup-note">Transport for London — plan every Tube move and see live departures.</p>
+      <div class="button-row" style="margin-top:8px">
+        <a class="button" href="${appLinks.tflIos}" target="_blank" rel="noopener">App Store — iPhone</a>
+        <a class="button" href="${appLinks.tflAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
+      </div>
+    </div>
+
+    <div class="setup-section">
+      <p class="setup-label">Big Bus Tours app</p>
+      <p class="setup-note">Store hop-on hop-off tickets and route maps. Booking ref: <strong>VVXCH9SM</strong></p>
+      <div class="button-row" style="margin-top:8px">
+        <a class="button" href="${appLinks.bigBusIos}" target="_blank" rel="noopener">App Store — iPhone</a>
+        <a class="button" href="${appLinks.bigBusAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
+      </div>
+    </div>
+
+    <div class="setup-section">
+      <p class="setup-label">Install this guide</p>
+      <p class="setup-note">Add to home screen — works offline once saved.</p>
+      <ol class="ticket-steps" style="margin-top:4px">
+        <li><strong>iPhone — Chrome:</strong> Tap share (⊡) → "Add to Home Screen"</li>
+        <li><strong>Android — Chrome:</strong> Tap ⋮ → "Add to Home Screen" or "Install App"</li>
+      </ol>
+      <div class="button-row" style="margin-top:8px">
+        <button class="button install-button" type="button" data-install-app hidden>📲 Install App</button>
+      </div>
+    </div>
+  `;
+}
+
 function renderEmergencyContacts() {
   const [emergency, police, nhs] = emergencyContacts;
   document.querySelector("#emergencyPanel").innerHTML = `
@@ -1577,13 +1655,19 @@ function wireEvents() {
       return;
     }
 
+    const copyRefButton = event.target.closest("[data-copy-ref]");
+    if (copyRefButton) {
+      await navigator.clipboard.writeText(copyRefButton.dataset.copyRef);
+      showToast("Copied");
+      return;
+    }
+
     const pushSetupButton = event.target.closest("[data-open-push-setup]");
     if (pushSetupButton) {
-      setActivePanel("flights");
-      // Reset scroll to top first so phonePushPanel (first element in panel) is visible
+      setActivePanel("wallet");
       window.scrollTo({ top: 0, behavior: "instant" });
       setTimeout(() => {
-        document.querySelector("#phonePushPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+        document.querySelector("#appSetupPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 60);
       return;
     }
@@ -1653,16 +1737,14 @@ renderRouteShortcuts();
 renderTubePockets();
 renderMaps();
 renderResources();
-renderAppDownloads();
 renderDocsProgressBar();
 renderTickets();
+renderAppSetup();
 renderChecklist("#todoList", todo, "londonTripTodo");
 renderChecklist("#packList", pack, "londonTripPack");
-renderBooking();
 renderEmergencyContacts();
 renderRecovery();
 renderDepartureGuard();
-renderPhonePush();
 renderFlights();
 renderDayIndicator();
 wireEvents();
