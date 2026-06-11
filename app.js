@@ -670,9 +670,8 @@ const tickets = [
   {
     label: "London Eye",
     detail: "Friday, June 26 at 6:00 PM · London Eye excursion · 2 standard tickets",
-    sub: "Order ID: 605056784 · 1 adult and 1 child · £55.00 total · This is order info, not the scannable ticket",
-    href: "https://www.google.com/maps/search/?api=1&query=Riverside+Building,+County+Hall,+Westminster+Bridge+Rd,+London+SE1+7PB",
-    status: "confirmed"
+    sub: "Order ID: 605056784 · 1 adult and 1 child · £55.00 total · Scannable entry ticket not yet added — check the London Eye confirmation email for a QR code or PDF",
+    status: "pending"
   },
   {
     label: "UK ETA — Tiffany",
@@ -1061,8 +1060,20 @@ function renderRouteShortcuts() {
 }
 
 function renderTubePockets() {
-  document.querySelector("#tubePocketList").innerHTML = `
-    <details class="pocket-card" open>
+  document.querySelector("#tubePocketList").innerHTML = tubeRoutes.map(route => `
+    <details class="pocket-card">
+      <summary class="pocket-card__summary">
+        <div>
+          <span>Route pocket</span>
+          <strong>${route.title}</strong>
+          <p>${route.backup}</p>
+        </div>
+      </summary>
+      <ol class="bullet-list">${route.steps.map(step => `<li>${step}</li>`).join("")}</ol>
+    </details>
+  `).join("");
+  document.querySelector("#tubeBasicsPanel").innerHTML = `
+    <details class="pocket-card">
       <summary class="pocket-card__summary">
         <div>
           <span>Tube rules</span>
@@ -1072,18 +1083,6 @@ function renderTubePockets() {
       </summary>
       <ul class="bullet-list">${tubeBasics.map(item => `<li>${item}</li>`).join("")}</ul>
     </details>
-    ${tubeRoutes.map(route => `
-      <details class="pocket-card">
-        <summary class="pocket-card__summary">
-          <div>
-            <span>Route pocket</span>
-            <strong>${route.title}</strong>
-            <p>${route.backup}</p>
-          </div>
-        </summary>
-        <ol class="bullet-list">${route.steps.map(step => `<li>${step}</li>`).join("")}</ol>
-      </details>
-    `).join("")}
   `;
 }
 

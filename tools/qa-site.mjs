@@ -58,6 +58,7 @@ assert.match(styles, /\.overview-grid/, "styles should define summary grids");
 assert.match(styles, /\.ref-chip/, "styles should define the wallet confirmation code chip");
 assert.match(styles, /\.setup-section/, "styles should define the app setup section layout");
 assert.match(index, /id="routeShortcutList"/, "index should include route shortcuts");
+assert.match(index, /id="tubeBasicsPanel"/, "move panel should include transit rules at the bottom");
 assert.match(index, /id="recoveryPanel"/, "index should include recovery guidance");
 assert.match(index, /id="appSetupPanel"/, "wallet should include the app setup mount");
 assert.match(worker, /networkFirst\(event\.request\)/, "flight status should use network-first caching");
