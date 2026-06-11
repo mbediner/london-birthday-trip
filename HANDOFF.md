@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `357e14d` - Make London Eye ticket clickable
-**Cache token:** `202606102034`
+**Last commit:** `71304fb` - Simplify safety page and nearest tube shortcut
+**Cache token:** `202606111418`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606102034
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606111418
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -29,6 +29,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 11, 2026 (Codex)
+
+- **Nearest Tube shortcut fixed** - top quick action now opens Google Maps walking directions to the nearest London Underground station from the phone's current location, without using the hotel as origin.
+- **Safety page simplified** - removed generic quick rules and redundant obvious guidance; added a merged U.S. Embassy card with address, phone, call button, map, and Travel.State.gov.
+- **Practical recovery actions added** - passport, phone, wallet/card, and lost property cards now include Find My Phone links, Transport for London lost property, Chase card services, American Express overseas support, and police report links.
+- **Release verified** - mobile UAT passed at 375x812, `npm run release:prepare` passed, pushed `71304fb`, GitHub Pages deploy `27353241976` was green, and handoff cache token was refreshed to `202606111418`.
 
 ---
 
