@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last commit:** `1e4d06f` - Reorganise Docs tab — confirmations, app setup, checklists
-**Cache token:** `202606112041`
+**Last release commit:** `d66b769` - Clarify hotel confirmation and clean setup UI
+**Cache token:** `202606141827`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606112041
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606141827
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,18 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 14, 2026 (Codex)
+
+- **Home guide simplified** - removed the Essentials/phone-setup strip from the Guide panel; the home page now opens straight into the day-by-day itinerary.
+- **Hotel confirmation made obvious** - Ticket Wallet hotel card now uses a full-width `Open Hotel PDF` button, and Directions now starts with a Hotel confirmation card showing Booking.com confirmation `6945.109.446`, PIN `4412`, and an `Open confirmation PDF` action.
+- **Download apps consolidated** - App Setup now begins with a single Download Apps block for JetBlue, Big Bus, TfL Go, ntfy, Google Maps, Uber, FREENOW / FreeNow taxis, and Booking.com with iPhone and Android links.
+- **Stale install guidance removed** - deleted the unused home-screen/install-app prompt path and stale "Finish the phone setup" data so iPhone users are not pointed at the unavailable install option.
+- **Flight mobile layout fixed** - flight status rows now split both `RDU -> BOS` and `RDU → BOS` route formats into separate airport codes and reserve mobile grid space so iPhone-width rows do not clip abbreviations.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the hotel PDF, FreeNow app links, no stale install prompts, and the mobile flight-code parser/layout guardrails.
+- **Release verified** - `npm run release:prepare` passed, mobile Browser UAT passed at 375x812, pushed `d66b769`, GitHub Pages deploy `27508087847` was green, live cache token `202606141827` is served, and the live hotel PDF returned `200` with `application/pdf`.
 
 ---
 
