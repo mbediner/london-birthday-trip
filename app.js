@@ -400,105 +400,6 @@ const departureGuardrails = [
   }
 ];
 
-const nextMoveTimeline = [
-  {
-    starts: "2026-06-01T00:00:00-04:00",
-    ends: "2026-06-25T10:00:00-04:00",
-    label: "Before departure",
-    title: "Finish the phone setup",
-    message: "Install JetBlue, TfL Go, ntfy, and save this guide to the phone home screen.",
-    detail: "Confirm passports, UK ETA, consent letter, and JetBlue confirmation KDHSOU are ready on both phones.",
-    actions: [
-      ["Download Apps", "panel:wallet"],
-      ["Open Docs", "panel:wallet"]
-    ]
-  },
-  {
-    starts: "2026-06-25T10:00:00-04:00",
-    ends: "2026-06-25T12:30:00-04:00",
-    label: "Outbound morning",
-    title: "Get to RDU",
-    message: "Leave enough margin to be at RDU by 12:30 PM EDT for B6 2184.",
-    detail: "Check JetBlue first, then use the site tracker and Google Status as backup.",
-    actions: [
-      ["RDU Map", "map:RDU Airport"],
-      ["Flights", "panel:flights"]
-    ]
-  },
-  {
-    starts: "2026-06-26T06:30:00+01:00",
-    ends: "2026-06-26T10:00:00+01:00",
-    label: "London arrival",
-    title: "Go to the hotel and drop bags",
-    message: "After immigration and bags, go straight to Holiday Inn Express London - Victoria.",
-    detail: "Check-in is later. Ask the front desk to store luggage, then keep passports, cards, chargers, tickets, and medicine with you.",
-    actions: [
-      ["Hotel Map", "map:Hotel"],
-      ["Move Panel", "panel:move"]
-    ]
-  },
-  {
-    starts: "2026-06-26T10:00:00+01:00",
-    ends: "2026-06-26T23:00:00+01:00",
-    label: "Day 1",
-    title: "Victoria, Westminster, South Bank",
-    message: "Easy food near the hotel, Big Bus loop, Westminster photos, London Eye, then Uber back.",
-    detail: "Night 1 return is Uber or black cab, not the Tube.",
-    actions: [
-      ["Open Day 1", "day:day-1"],
-      ["Hotel Map", "map:Hotel"]
-    ]
-  },
-  {
-    starts: "2026-06-27T07:00:00+01:00",
-    ends: "2026-06-27T23:00:00+01:00",
-    label: "Day 2",
-    title: "Tower Bridge, Borough Market, West End",
-    message: "Tube to Tower Hill, walk Tower Bridge, Borough Market lunch, then West End exploring.",
-    detail: "If tired or it is late, use Uber, FREENOW, or black cab back to the hotel.",
-    actions: [
-      ["Open Day 2", "day:day-2"],
-      ["Tube Routes", "panel:move"]
-    ]
-  },
-  {
-    starts: "2026-06-28T07:00:00+01:00",
-    ends: "2026-06-28T23:00:00+01:00",
-    label: "Day 3",
-    title: "Palace morning and Camden",
-    message: "Buckingham Palace photos, St. James's Park, Camden Market lunch, final dinner central.",
-    detail: "Keep Camden as a daytime stop and return central before final dinner.",
-    actions: [
-      ["Open Day 3", "day:day-3"],
-      ["Camden Map", "map:Camden Market"]
-    ]
-  },
-  {
-    starts: "2026-06-29T06:00:00+01:00",
-    ends: "2026-06-29T08:55:00+01:00",
-    label: "Departure morning",
-    title: "Leave for Heathrow",
-    message: "Leave the hotel around 7:00-7:15 AM BST. Target Heathrow arrival is 8:55 AM.",
-    detail: "Use JetBlue first. Keep passports and boarding passes accessible before leaving the hotel.",
-    actions: [
-      ["Heathrow Map", "map:London Heathrow Airport"],
-      ["Flights", "panel:flights"]
-    ]
-  },
-  {
-    starts: "2026-06-29T20:33:00-04:00",
-    ends: "2026-07-01T00:00:00-04:00",
-    label: "Back home",
-    title: "Trip complete",
-    message: "You made it back to Raleigh. Send Mom and Dad the best photos.",
-    detail: "Keep passports and important documents in the same safe spot after getting home.",
-    actions: [
-      ["Photo Mission", "panel:overview"],
-      ["Wallet", "panel:wallet"]
-    ]
-  }
-];
-
 const emergencyContacts = [
   {
     label: "Emergency services",
@@ -640,7 +541,7 @@ const tickets = [
     detail: "June 26-29, 2026 · Booking.com confirmation 6945.109.446",
     sub: "PIN 4412 · Lodging confirmation 88897847 · Tap for the Booking.com PDF",
     href: "assets/hotel-booking-confirmation.pdf",
-    actionLabel: "PDF",
+    buttonLabel: "Open Hotel PDF",
     status: "confirmed"
   },
   {
@@ -756,7 +657,7 @@ const appDownloads = [
     android: appLinks.uberAndroid
   },
   {
-    label: "FREENOW",
+    label: "FREENOW / FreeNow taxis",
     why: "Official London black cabs as a backup to Uber.",
     ios: appLinks.freenowIos,
     android: appLinks.freenowAndroid
@@ -771,7 +672,7 @@ const appDownloads = [
 
 const resourceGroups = [
   { label: "Uber — London", href: "https://www.uber.com/gb/en/", why: "Best backup when tired — works exactly like in the US" },
-  { label: "FREENOW — black cabs", href: "https://www.free-now.com/uk/", why: "Book official London black cabs from your phone" },
+  { label: "FREENOW / FreeNow — black cabs", href: "https://www.free-now.com/uk/", why: "Book official London black cabs from your phone" },
   { label: "TfL Journey Planner", href: "https://tfl.gov.uk/plan-a-journey/", why: "Live route planning with real-time disruption alerts" },
   { label: "Google Maps London", href: "https://www.google.com/maps/place/London,+UK", why: "Download offline before leaving — works without signal" },
   { label: "Tube map (PDF)", href: tubeMapUrl, why: "Full network map — no signal or app needed" }
@@ -820,7 +721,6 @@ const tubeRoutes = [
 ];
 
 let flightStatusData = null;
-let deferredInstallPrompt = null;
 
 function mapsUrl(name) {
   return buildMapsUrl(mapQueries, name);
@@ -882,56 +782,6 @@ function renderActionButton(action, className = "button button--secondary") {
   }
 
   return `<a class="${className}" href="${resolveActionHref(mapQueries, action)}" target="_blank" rel="noopener">${action[0]}</a>`;
-}
-
-function renderTodaySummary(date = new Date()) {
-  const nextMove = chooseNextMove(nextMoveTimeline, date);
-
-  document.querySelector("#todaySummary").innerHTML = `
-    <article class="hero-card">
-      <span>${nextMove.label}</span>
-      <strong>${nextMove.title}</strong>
-      <p>${nextMove.message}</p>
-      <p>${nextMove.detail}</p>
-      <div class="button-row">
-        ${nextMove.actions.map(action => renderActionButton(action, "button")).join("")}
-      </div>
-    </article>
-    <article class="info-card">
-      <span>Hotel pocket</span>
-      <strong>Holiday Inn Express London - Victoria</strong>
-      <p>106-110 Belgrave Road, London SW1V 2BJ</p>
-      <div class="button-row">
-        <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Open hotel</a>
-        <button class="button button--secondary" type="button" data-copy-hotel>Copy address</button>
-      </div>
-    </article>
-    <article class="info-card">
-      <span>Nearest tube</span>
-      <strong>Pimlico Station</strong>
-      <p>Use walking directions from the hotel instead of guessing the street.</p>
-      <div class="button-row">
-        <a class="button button--secondary" href="${directionsUrl("Hotel", "Pimlico Station", "walking")}" target="_blank" rel="noopener">Walk there</a>
-        <a class="button button--secondary" href="${directionsUrl("Hotel", "Victoria Station", "walking")}" target="_blank" rel="noopener">Walk to Victoria</a>
-      </div>
-    </article>
-    <article class="info-card">
-      <span>Push alerts</span>
-      <strong>Install ntfy before travel</strong>
-      <p>Trip reminders and flight alerts use phone push. Set it up before anyone is on airport Wi-Fi.</p>
-      <div class="button-row">
-        <button class="button button--secondary" type="button" data-open-push-setup>Set up alerts →</button>
-      </div>
-    </article>
-    <article class="info-card">
-      <span>Save this guide</span>
-      <strong>Works offline on your phone</strong>
-      <p>iPhone — Chrome: tap share (⊡) → Add to Home Screen. Android — Chrome: tap ⋮ → Install App.</p>
-      <div class="button-row">
-        <button class="button button--secondary install-button" type="button" data-install-app hidden>📲 Install App</button>
-      </div>
-    </article>
-  `;
 }
 
 function renderItinerary() {
@@ -1009,6 +859,15 @@ function renderItinerary() {
 
 function renderHotelActions() {
   document.querySelector("#hotelActionPanel").innerHTML = `
+    <article class="info-card">
+      <span>Hotel confirmation</span>
+      <strong>${booking.hotel}</strong>
+      <p>Booking.com confirmation ${booking.confirmation} · PIN ${booking.pin}</p>
+      <div class="button-row">
+        <a class="button" href="${booking.pdf}" target="_blank" rel="noopener">Open confirmation PDF</a>
+        <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
+      </div>
+    </article>
     <article class="info-card">
       <span>Hotel to Tube</span>
       <strong>Walk to Pimlico Station</strong>
@@ -1252,13 +1111,16 @@ function renderFlightStatusOverview() {
         All 4 Legs
         <span class="flight-status-overview__updated" id="overviewUpdated"></span>
       </div>
-      ${flights.map(f => `
+      ${flights.map(f => {
+        // Keep the airport abbreviations as separate tokens so narrow iPhone screens do not merge or clip them.
+        const [origin = "", destination = ""] = f.route.split(/\s*(?:→|->)\s*/);
+        return `
         <div class="flight-status-leg flight-status-leg--clickable" data-scroll-to-flight="${f.number}" role="button" tabindex="0" title="Tap to see details for B6 ${f.number}">
           <span class="status-dot ${statusDotClass(f)}"></span>
           <div class="flight-status-leg__route">
-            <span class="flight-leg-code">${f.route.replace(" → ", "").split(" ").slice(0,1)[0] || f.route}</span>
+            <span class="flight-leg-code">${origin || f.route}</span>
             <span class="flight-leg-arrow">→</span>
-            <span class="flight-leg-code">${f.route.split(" → ")[1] || ""}</span>
+            <span class="flight-leg-code">${destination}</span>
           </div>
           <span class="flight-status-leg__date">${f.day.split(",")[0]}</span>
           <span class="flight-status-leg__label" style="color:${
@@ -1268,7 +1130,7 @@ function renderFlightStatusOverview() {
           }">${statusLabel(f)}</span>
           <span class="flight-status-leg__cta">Details ›</span>
         </div>
-      `).join("")}
+      `}).join("")}
     </div>
   `;
 }
@@ -1374,55 +1236,6 @@ function renderDepartureGuard() {
   `).join("");
 }
 
-function renderPhonePush() {
-  document.querySelector("#phonePushPanel").innerHTML = `
-    <article class="hero-card">
-      <span>Push Alerts — Do this before the trip</span>
-      <strong>Install ntfy on each phone</strong>
-      <p>Trip reminders, departure nudges, and flight alerts all come through ntfy. Install it, subscribe to the topic below, done.</p>
-
-      <div class="topic-row">
-        <code class="topic-code">${ntfyTopic}</code>
-        <button class="copy-btn" type="button" data-copy-topic aria-label="Copy topic">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy
-        </button>
-      </div>
-
-      <div class="button-row">
-        <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">📱 App Store — iPhone</a>
-        <a class="button" href="${appLinks.ntfyAndroid}" target="_blank" rel="noopener">📱 Google Play — Android</a>
-        <a class="button button--secondary" href="https://ntfy.sh/${ntfyTopic}" target="_blank" rel="noopener">Open topic on web</a>
-      </div>
-
-      <ol class="bullet-list" style="margin-top:14px">
-        <li>Install ntfy from the Download Apps section</li>
-        <li>Open ntfy → tap "+ Add topic" → paste the topic above → tap Save</li>
-        <li>Allow notifications when prompted</li>
-        <li>Also install <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue (Android)</a> and allow its notifications too</li>
-      </ol>
-    </article>
-
-    <details class="pocket-card">
-      <summary class="pocket-card__summary">
-        <div>
-          <span>Save this guide</span>
-          <strong>Add to home screen (works offline)</strong>
-          <p>Install on iPhone or Android via Chrome — works without Wi-Fi once saved.</p>
-        </div>
-      </summary>
-      <ol class="bullet-list">
-        <li><strong>iPhone — Chrome:</strong> Tap the share button (⊡) at the bottom → "Add to Home Screen"</li>
-        <li><strong>Android — Chrome:</strong> Tap ⋮ (three dots) → "Add to Home Screen" or "Install App"</li>
-        <li>The guide works offline once installed — no signal required to read routes and plans</li>
-      </ol>
-      <div class="button-row">
-        <button class="button install-button" type="button" data-install-app hidden>📲 Install App (tap here)</button>
-      </div>
-    </details>
-  `;
-}
-
 function renderBooking() {
   document.querySelector("#bookingPanel").innerHTML = `
     <details class="pocket-card" open>
@@ -1455,6 +1268,25 @@ function renderBooking() {
 
 function renderAppSetup() {
   document.querySelector("#appSetupPanel").innerHTML = `
+    <div class="setup-section">
+      <p class="setup-label">Download Apps</p>
+      <p class="setup-note">One place for the phone apps that may be useful during the trip.</p>
+      <div class="app-download-list" style="margin-top:10px">
+        ${appDownloads.map(app => `
+          <article class="app-download-card">
+            <div class="ticket-card__body">
+              <strong>${app.label}</strong>
+              <span>${app.why}</span>
+            </div>
+            <div class="app-download-card__actions">
+              <a class="button button--secondary" href="${app.ios}" target="_blank" rel="noopener">iPhone</a>
+              <a class="button button--secondary" href="${app.android}" target="_blank" rel="noopener">Android</a>
+            </div>
+          </article>
+        `).join("")}
+      </div>
+    </div>
+
     <div class="setup-section">
       <p class="setup-label">Flight alerts — ntfy</p>
       <p class="setup-note">Trip reminders, departure nudges, and flight alerts come through ntfy.</p>
@@ -1687,31 +1519,6 @@ function wireEvents() {
 
   });
 
-  window.addEventListener("beforeinstallprompt", event => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-    document.querySelectorAll("[data-install-app]").forEach(button => {
-      button.hidden = false;
-    });
-  });
-
-  document.addEventListener("click", async event => {
-    const installButton = event.target.closest("[data-install-app]");
-    if (!installButton) return;
-
-    if (!deferredInstallPrompt) {
-      showToast("Use your browser menu to add this guide to the home screen");
-      return;
-    }
-
-    deferredInstallPrompt.prompt();
-    await deferredInstallPrompt.userChoice;
-    deferredInstallPrompt = null;
-    document.querySelectorAll("[data-install-app]").forEach(button => {
-      button.hidden = true;
-    });
-  });
-
   document.addEventListener("change", event => {
     if (!event.target.matches("input[type='checkbox'][data-key]")) return;
     const key = event.target.dataset.key;
@@ -1733,7 +1540,6 @@ function wireEvents() {
   window.addEventListener("popstate", syncPanelFromLocation);
 }
 
-renderTodaySummary();
 renderItinerary();
 renderHotelActions();
 renderRouteShortcuts();

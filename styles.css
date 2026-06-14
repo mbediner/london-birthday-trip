@@ -808,7 +808,6 @@ h3 {
   background: var(--danger);
   color: var(--text-primary);
 }
-.install-button[hidden] { display: none; }
 
 /* ═══════════════════════════════════════════════════════════
    LIST LINKS + CHECK ITEMS
@@ -1080,10 +1079,11 @@ h3 {
   font-weight: 400;
 }
 .flight-status-leg {
-  display: flex;
+  display: grid;
+  grid-template-columns: 8px minmax(76px, auto) minmax(38px, auto) minmax(64px, 1fr) auto;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
+  gap: 8px;
+  padding: 10px 12px;
   border-bottom: 1px solid var(--border);
 }
 .flight-status-leg:last-child { border-bottom: none; }
@@ -1100,28 +1100,30 @@ h3 {
   font-size: 0.6875rem;
   color: var(--accent);
   font-weight: 600;
-  flex-shrink: 0;
-  margin-left: auto;
+  justify-self: end;
+  white-space: nowrap;
 }
 .status-dot {
   width: 8px; height: 8px;
   border-radius: 50%;
-  flex-shrink: 0;
 }
 .status-dot--on-time { background: var(--success); }
 .status-dot--delayed { background: var(--warning); }
 .status-dot--cancelled { background: var(--danger); }
 .status-dot--upcoming { background: var(--text-secondary); opacity: 0.5; }
 .flight-status-leg__route {
-  flex: 1;
   display: flex;
   align-items: center;
   gap: 6px;
+  min-width: 76px;
 }
 .flight-leg-code {
+  display: inline-flex;
+  min-width: 3ch;
   font-size: 0.8125rem;
   font-weight: 700;
   color: var(--text-primary);
+  white-space: nowrap;
 }
 .flight-leg-arrow { font-size: 0.75rem; color: var(--text-secondary); }
 .flight-status-leg__date {
@@ -1134,6 +1136,9 @@ h3 {
   font-weight: 600;
   white-space: nowrap;
   color: var(--text-secondary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Flight pocket */
