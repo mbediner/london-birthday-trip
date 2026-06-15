@@ -20,6 +20,7 @@ assert.match(index, /<button class="nav-item is-active"[\s\S]*?data-target="over
 assert.match(index, /London Itinerary|Day-by-day guide|Itinerary first/, "guide should keep itinerary first");
 assert.match(index, /id="appSetupPanel"/, "index should include the app setup panel");
 assert.match(index, /id="hotelActionPanel"/, "index should include the move panel hotel actions");
+assert.doesNotMatch(index, /docsProgressBar/, "wallet should not show the pre-trip missing-items progress block");
 assert.match(index, /class="nav-item is-active"|class="tab-button is-active"/, "index should include a default active nav item");
 assert.match(app, /serviceWorker\.register\("sw\.js"\)/, "app should register the service worker");
 assert.match(app, /appLinks/, "app should define install targets for required apps");
@@ -53,6 +54,7 @@ assert.match(styles, /grid-template-columns: 8px minmax\(76px, auto\)/, "flight 
 assert.match(app, /buttonLabel.*Open (Hotel PDF|Bus Ticket|Letter)|Open (Hotel PDF|Bus Ticket|Letter).*buttonLabel/s, "prominent wallet documents should use buttonLabel for a big tap button");
 assert.match(app, /ticket-item__btn/, "prominent wallet buttons should use ticket-item__btn class");
 assert.match(app, /renderAppSetup/, "wallet should render the app setup and alerts section");
+assert.doesNotMatch(app, /renderDocsProgressBar|needed-alert|items missing/, "app should not render the old wallet missing-items banner");
 assert.match(pushReminders, /big-bus-activate-2026-06-26/, "push reminders should include Big Bus activation on June 26");
 assert.doesNotMatch(app, /Download JetBlue app|Download Big Bus Tours app|Download TfL Go|Download ntfy|Download Uber/, "pre-trip checklist should not contain dead-end download wording");
 assert.match(styles, /\.panel-view/, "styles should define compartment panels");

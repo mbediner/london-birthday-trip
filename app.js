@@ -1135,40 +1135,6 @@ function renderFlightStatusOverview() {
   `;
 }
 
-function renderDocsProgressBar() {
-  const el = document.querySelector("#docsProgressBar");
-  if (!el) return;
-  const total = tickets.length;
-  const confirmed = tickets.filter(t => t.status === "confirmed").length;
-  const needed = tickets.filter(t => t.status === "pending" || t.status === "action");
-  const pct = Math.round((confirmed / total) * 100);
-  const neededNames = needed.map(t => t.label.split(" — ")[0].split(" hop")[0]);
-  el.innerHTML = `
-    <div class="docs-progress">
-      <div class="docs-progress__text">
-        <span>Documents ready</span>
-        <strong>${confirmed} of ${total} confirmed</strong>
-      </div>
-      <div class="docs-progress__track">
-        <div class="docs-progress__fill" style="width:${pct}%"></div>
-      </div>
-    </div>
-    ${needed.length > 0 ? `
-    <div class="needed-alert">
-      <div class="needed-alert__label">Still needed</div>
-      <div class="needed-alert__title">${needed.length} item${needed.length !== 1 ? "s" : ""} missing</div>
-      <div class="needed-alert__items">
-        ${neededNames.map(name => `
-          <div class="needed-alert__item">
-            <span class="needed-dot"></span>${name}
-          </div>
-        `).join("")}
-      </div>
-    </div>
-    ` : ""}
-  `;
-}
-
 function renderDayIndicator() {
   const el = document.querySelector("#dayIndicator");
   const textEl = document.querySelector("#dayIndicatorText");
@@ -1546,7 +1512,6 @@ renderRouteShortcuts();
 renderTubePockets();
 renderMaps();
 renderResources();
-renderDocsProgressBar();
 renderTickets();
 renderAppSetup();
 renderChecklist("#todoList", todo, "londonTripTodo");
