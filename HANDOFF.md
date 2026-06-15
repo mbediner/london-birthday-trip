@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `d66b769` - Clarify hotel confirmation and clean setup UI
-**Cache token:** `202606141827`
+**Last release commit:** `a19e86b` - Remove pre-trip missing items banner
+**Cache token:** `202606151212`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606141827
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606151212
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,16 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 15, 2026 (Codex)
+
+- **Pre-Trip missing-items banner removed** - deleted the top wallet progress/missing-items block (`docsProgressBar`) so Pre-Trip goes directly from the page heading into Ticket Wallet.
+- **Dead CSS and renderer removed** - removed `renderDocsProgressBar()` plus `.docs-progress` and `.needed-alert` styles.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the old Pre-Trip progress/missing-items block does not return.
+- **Release verified** - `npm run release:prepare` passed, pushed `a19e86b`, GitHub Pages deploy `27545419792` was green, live cache token `202606151212` is served, and live source checks confirm the old progress mount/renderer are absent.
+- **Note** - Browser MCP became unavailable after an interrupted browser session, so visual UAT was limited to source/live verification plus the existing automated release QA for this small static removal.
 
 ---
 
