@@ -573,8 +573,8 @@ const tickets = [
   {
     label: "London Eye",
     detail: "Friday, June 26 at 6:00 PM · London Eye excursion · 2 standard tickets",
-    sub: "Order ID: 605056784 · 1 adult and 1 child · £55.00 total · Scannable entry ticket not yet added — check the London Eye confirmation email for a QR code or PDF",
-    status: "pending"
+    sub: "Order ID: 605056784 · Adult barcode 150018675054750217 · Child barcode 150018553500106457 · Go directly to the London Eye at 6:00 PM to join the queue.",
+    status: "confirmed"
   },
   {
     label: "UK ETA — Tiffany",
