@@ -27,6 +27,7 @@ const mapQueries = {
   "Gabriel's Wharf": "Gabriel's Wharf, London",
   "Hotel": "Holiday Inn Express London - Victoria, 106-110 Belgrave Road, London SW1V 2BJ",
   "JFK Airport": "John F. Kennedy International Airport",
+  "JFK Terminal 5": "JFK Terminal 5, Queens, NY",
   "Leicester Square Station": "Leicester Square Station, London",
   "London Bridge Station": "London Bridge Underground Station, London",
   "London Eye": "Riverside Building, County Hall, Westminster Bridge Rd, London SE1 7PB",
@@ -192,7 +193,16 @@ const days = [
     night: "Uber directly back to the hotel",
     snapshot: {
       summary: "Land, drop bags, keep the first day easy, then anchor the evening around the London Eye.",
-      path: ["Heathrow", "Hotel bag drop", "Victoria lunch", "Big Bus", "Westminster photos", "London Eye", "South Bank dinner", "Uber home"]
+      path: [
+        { label: "Heathrow", map: "London Heathrow Airport" },
+        { label: "Hotel bag drop", map: "Hotel" },
+        { label: "Victoria lunch", map: "Tachbrook Street Market" },
+        { label: "Big Bus", map: "Victoria Station" },
+        { label: "Westminster photos", map: "Westminster Bridge" },
+        { label: "London Eye", map: "London Eye" },
+        { label: "South Bank dinner", map: "Southbank Centre" },
+        { label: "Uber home", map: "Hotel" }
+      ]
     },
     launchRoute: ["Hotel", "Victoria Station", "walking"],
     steps: [
@@ -221,7 +231,16 @@ const days = [
     night: "Tube if early and comfortable; Uber or black cab if tired",
     snapshot: {
       summary: "Classic London sights first, food market for lunch, then an easy West End wander.",
-      path: ["Hotel breakfast", "Tower Hill", "Tower of London", "Tower Bridge", "Borough Market", "Covent Garden", "Soho / Chinatown", "Hotel"]
+      path: [
+        { label: "Hotel breakfast", map: "Hotel" },
+        { label: "Tower Hill", map: "Tower Hill Station" },
+        { label: "Tower of London", map: "Tower of London" },
+        { label: "Tower Bridge", map: "Tower Bridge" },
+        { label: "Borough Market", map: "Borough Market" },
+        { label: "Covent Garden", map: "Covent Garden" },
+        { label: "Soho / Chinatown", map: "Chinatown" },
+        { label: "Hotel", map: "Hotel" }
+      ]
     },
     launchRoute: ["Hotel", "Tower Hill Station", "transit"],
     steps: [
@@ -249,7 +268,16 @@ const days = [
     night: "Keep Camden as a daytime stop; return central before final dinner",
     snapshot: {
       summary: "Palace photos in the morning, Camden as the fun daytime stop, then return central for dinner.",
-      path: ["Hotel breakfast", "Buckingham Palace", "St. James's Park", "The Mall", "Camden Market", "Regent's Canal", "Central dinner", "Hotel"]
+      path: [
+        { label: "Hotel breakfast", map: "Hotel" },
+        { label: "Buckingham Palace", map: "Buckingham Palace" },
+        { label: "St. James's Park", map: "St. James's Park" },
+        { label: "The Mall", map: "The Mall" },
+        { label: "Camden Market", map: "Camden Market" },
+        { label: "Regent's Canal", map: "Regent's Canal" },
+        { label: "Central dinner", map: "Covent Garden" },
+        { label: "Hotel", map: "Hotel" }
+      ]
     },
     launchRoute: ["Hotel", "Buckingham Palace", "transit"],
     steps: [
@@ -277,7 +305,16 @@ const days = [
     night: "Back home in Raleigh by 8:33 PM EDT",
     snapshot: {
       summary: "This is a travel-protection day: leave early, get through Heathrow, then protect the JFK connection.",
-      path: ["Hotel checkout", "Uber to Heathrow", "Terminal 2", "Security", "B6 20 to JFK", "Find RDU gate", "B6 585 to RDU", "Home"]
+      path: [
+        { label: "Hotel checkout", map: "Hotel" },
+        { label: "Uber to Heathrow", map: "London Heathrow Airport" },
+        { label: "Terminal 2", map: "London Heathrow Airport" },
+        { label: "Security", map: "London Heathrow Airport" },
+        { label: "B6 20 to JFK", map: "JFK Terminal 5" },
+        { label: "Find RDU gate", map: "JFK Terminal 5" },
+        { label: "B6 585 to RDU", map: "RDU Airport" },
+        { label: "Home", map: "RDU Airport" }
+      ]
     },
     launchRoute: ["Hotel", "London Heathrow Airport", "driving"],
     steps: [
@@ -807,6 +844,22 @@ function renderActionButton(action, className = "button button--secondary") {
   return `<a class="${className}" href="${resolveActionHref(mapQueries, action)}" target="_blank" rel="noopener">${action[0]}</a>`;
 }
 
+function snapshotStopLabel(stop) {
+  return typeof stop === "string" ? stop : stop.label;
+}
+
+function renderSnapshotStop(stop) {
+  const label = snapshotStopLabel(stop);
+  const mapTarget = typeof stop === "string" ? stop : stop.map;
+  const content = `<span>${label}</span><small>Map</small>`;
+
+  if (mapTarget && mapQueries[mapTarget]) {
+    return `<li><a href="${mapsUrl(mapTarget)}" target="_blank" rel="noopener" aria-label="Open map for ${label}">${content}</a></li>`;
+  }
+
+  return `<li><span class="day-path__plain">${label}</span></li>`;
+}
+
 function renderItinerary() {
   document.querySelector("#itineraryList").innerHTML = days.map((day, index) => `
     <details class="pocket-card itinerary-pocket" id="${day.id}" data-day="${index + 1}">
@@ -819,7 +872,7 @@ function renderItinerary() {
           <span class="itinerary-summary__date">${day.date}</span>
           <strong>${day.title}</strong>
           <p class="itinerary-summary__area">${day.area}</p>
-          <p class="itinerary-summary__path">${day.snapshot.path.slice(0, 5).join(" → ")}</p>
+          <p class="itinerary-summary__path">${day.snapshot.path.slice(0, 5).map(snapshotStopLabel).join(" → ")}</p>
         </div>
       </summary>
       ${day.image ? `<div class="itinerary-pocket__media">
@@ -845,7 +898,7 @@ function renderItinerary() {
           <strong>How the day should flow</strong>
           <p>${day.snapshot.summary}</p>
           <ol class="day-path">
-            ${day.snapshot.path.map(stop => `<li>${stop}</li>`).join("")}
+            ${day.snapshot.path.map(renderSnapshotStop).join("")}
           </ol>
         </section>
         <div class="trip-facts">

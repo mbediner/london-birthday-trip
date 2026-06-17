@@ -607,13 +607,10 @@ h3 {
 .day-path li {
   position: relative;
   min-height: 24px;
-  padding: 4px 10px 4px 34px;
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
   border-radius: 8px;
-  font-size: 0.8125rem;
-  font-weight: 650;
-  color: var(--text-primary);
+  overflow: hidden;
 }
 .day-path li::before {
   content: counter(list-item);
@@ -630,6 +627,7 @@ h3 {
   color: #061426;
   font-size: 0.65rem;
   font-weight: 800;
+  z-index: 1;
 }
 .day-path li:not(:last-child)::after {
   content: "";
@@ -639,6 +637,30 @@ h3 {
   width: 2px;
   height: 9px;
   background: var(--border-active);
+}
+.day-path a,
+.day-path__plain {
+  min-height: 34px;
+  padding: 7px 10px 7px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  font-weight: 650;
+}
+.day-path a:active {
+  background: rgba(79,156,249,0.14);
+}
+.day-path a small {
+  flex: 0 0 auto;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 /* Sub-pocket (step-by-step, photos/fallbacks) */
