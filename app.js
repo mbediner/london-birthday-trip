@@ -190,6 +190,10 @@ const days = [
     transport: "Airport transfer + bag drop + walking + Big Bus + Uber home",
     food: "Casual lunch near hotel; casual dinner at Southbank Centre",
     night: "Uber directly back to the hotel",
+    snapshot: {
+      summary: "Land, drop bags, keep the first day easy, then anchor the evening around the London Eye.",
+      path: ["Heathrow", "Hotel bag drop", "Victoria lunch", "Big Bus", "Westminster photos", "London Eye", "South Bank dinner", "Uber home"]
+    },
     launchRoute: ["Hotel", "Victoria Station", "walking"],
     steps: [
       ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
@@ -215,6 +219,10 @@ const days = [
     transport: "Tube + walking; Uber or black cab back if tired",
     food: "Borough Market lunch; casual dinner in Soho, Chinatown, or Covent Garden",
     night: "Tube if early and comfortable; Uber or black cab if tired",
+    snapshot: {
+      summary: "Classic London sights first, food market for lunch, then an easy West End wander.",
+      path: ["Hotel breakfast", "Tower Hill", "Tower of London", "Tower Bridge", "Borough Market", "Covent Garden", "Soho / Chinatown", "Hotel"]
+    },
     launchRoute: ["Hotel", "Tower Hill Station", "transit"],
     steps: [
       ["Breakfast", "Start with breakfast at the hotel.", []],
@@ -239,6 +247,10 @@ const days = [
     transport: "Walking + Tube; Uber or Tube back depending on energy",
     food: "Camden Market lunch; final dinner in Covent Garden, Soho, or near the hotel",
     night: "Keep Camden as a daytime stop; return central before final dinner",
+    snapshot: {
+      summary: "Palace photos in the morning, Camden as the fun daytime stop, then return central for dinner.",
+      path: ["Hotel breakfast", "Buckingham Palace", "St. James's Park", "The Mall", "Camden Market", "Regent's Canal", "Central dinner", "Hotel"]
+    },
     launchRoute: ["Hotel", "Buckingham Palace", "transit"],
     steps: [
       ["Breakfast", "Start with breakfast at the hotel.", []],
@@ -263,6 +275,10 @@ const days = [
     transport: "Uber/taxi from hotel to Heathrow; B6 20 LHR→JFK then B6 585 JFK→RDU",
     food: "Hotel breakfast, then airport food at Heathrow before boarding",
     night: "Back home in Raleigh by 8:33 PM EDT",
+    snapshot: {
+      summary: "This is a travel-protection day: leave early, get through Heathrow, then protect the JFK connection.",
+      path: ["Hotel checkout", "Uber to Heathrow", "Terminal 2", "Security", "B6 20 to JFK", "Find RDU gate", "B6 585 to RDU", "Home"]
+    },
     launchRoute: ["Hotel", "London Heathrow Airport", "driving"],
     steps: [
       ["6:00 AM — wake up and final check", "Set alarms for 6:00 and 6:30 AM BST. Physical check before leaving: passports, wallet, phone, charger, medication, and all bags out of the safe.", ["Hotel"]],
@@ -803,6 +819,7 @@ function renderItinerary() {
           <span class="itinerary-summary__date">${day.date}</span>
           <strong>${day.title}</strong>
           <p class="itinerary-summary__area">${day.area}</p>
+          <p class="itinerary-summary__path">${day.snapshot.path.slice(0, 5).join(" → ")}</p>
         </div>
       </summary>
       ${day.image ? `<div class="itinerary-pocket__media">
@@ -822,6 +839,14 @@ function renderItinerary() {
             ${sameTabTravelLink(directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2]), `Directions → ${day.launchRoute[1]}`)}
             <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
           </div>
+        </section>
+        <section class="day-snapshot">
+          <span>Day snapshot</span>
+          <strong>How the day should flow</strong>
+          <p>${day.snapshot.summary}</p>
+          <ol class="day-path">
+            ${day.snapshot.path.map(stop => `<li>${stop}</li>`).join("")}
+          </ol>
         </section>
         <div class="trip-facts">
           <article><span>Main area</span><strong>${day.area}</strong></article>

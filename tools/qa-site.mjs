@@ -26,6 +26,8 @@ assert.match(app, /serviceWorker\.register\("sw\.js"\)/, "app should register th
 assert.match(app, /appLinks/, "app should define install targets for required apps");
 assert.match(app, /data-open-day/, "app should support opening itinerary pockets directly");
 assert.match(app, /setActivePanel/, "app should switch between compartment panels");
+assert.match(app, /Day snapshot/, "guide day cards should include a quick daily flow snapshot");
+assert.match(app, /day\.snapshot\.path/, "guide day snapshots should render the planned stop path");
 assert.match(app, /App Store.*iPhone|Download for iPhone/s, "app should provide iPhone install guidance");
 assert.match(app, /Google Play.*Android|Download for Android/s, "app should provide Android install guidance");
 assert.doesNotMatch(index, /todaySummary|Essentials/, "guide home should stay itinerary-only");
