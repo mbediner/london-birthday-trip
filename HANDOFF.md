@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `74525bb` - Add daily guide snapshots
-**Cache token:** `202606171927`
+**Last release commit:** `1bd0cc8` - Link daily snapshot stops to maps
+**Cache token:** `202606171939`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171927
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171939
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 17, 2026 (Codex)
+
+- **Daily snapshot stops linked** - each open Guide day snapshot now renders every stop as a tappable map row with a `Map` cue.
+- **Snapshot destinations mapped** - added practical map targets for all 4 days, including hotel, Heathrow, Tower Hill, London Eye, Camden, JFK Terminal 5, and RDU.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the snapshot stop map renderer remains present.
+- **Release verified** - mobile Guide UAT passed at 375x812, `npm run release:prepare` passed, pushed `1bd0cc8`, GitHub Pages deploy `27715112703` was green, and cache token refreshed to `202606171939`.
 
 ---
 
