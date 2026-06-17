@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `62c1b9c` - Show London Eye barcodes
-**Cache token:** `202606171915`
+**Last release commit:** `74525bb` - Add daily guide snapshots
+**Cache token:** `202606171927`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171915
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171927
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 17, 2026 (Codex)
+
+- **Daily guide snapshots added** - each Guide day now has a compact closed-card route preview plus an open-card "Day snapshot" path showing the day flow before step-by-step details.
+- **Snapshot copy added for all 4 days** - Day 1 arrival/London Eye flow, Day 2 Tower/Borough/West End flow, Day 3 palace/Camden flow, and Day 4 Heathrow/JFK/RDU travel flow.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the day snapshot renderer remains present.
+- **Release verified** - mobile Guide UAT passed at 375x812, `npm run release:prepare` passed, pushed `74525bb`, GitHub Pages deploy `27714339118` was green, and cache token refreshed to `202606171927`.
 
 ---
 
