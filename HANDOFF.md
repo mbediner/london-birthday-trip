@@ -6,24 +6,32 @@
 
 ## Current State
 
-**Last release commit:** `a19e86b` - Remove pre-trip missing items banner
-**Cache token:** `202606151212`
+**Last release commit:** `8f252f7` - Add Tiffany UK ETA approval
+**Cache token:** `202606171533`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606151212
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171533
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
 
 | Item | Variable in app.js | Status |
 |---|---|---|
-| UK ETA — Tiffany | `tickets` array | ⏳ apply at gov.uk, add authorisation number |
+| None | — | Current known fill-ins complete |
 
 ---
 
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 17, 2026 (Codex)
+
+- **Tiffany ETA approved** - Ticket Wallet now shows Tiffany's UK ETA reference `2021-2606-1655-7845`, valid until June 17, 2028, linked to passport ending `1893`.
+- **ETA requirements updated** - Pre-Trip checklist and packing list now say the linked passports are the travel requirement and printed ETA emails are not needed.
+- **Release verified** - mobile Wallet UAT passed at 375x812, `npm run release:prepare` passed, pushed `8f252f7`, GitHub Pages deploy `27700837755` was green, and cache token refreshed to `202606171533`.
 
 ---
 
