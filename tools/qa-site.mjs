@@ -39,7 +39,7 @@ assert.match(tripPushWorkflow, /update-trip-push-reminders\.mjs/, "trip reminder
 assert.match(app, /Walk hotel to Pimlico Station/, "app should expose direct hotel-to-tube walking guidance");
 assert.match(app, /routeShortcuts/, "app should define one-tap direction shortcuts");
 assert.match(app, /buildDirectionsUrl/, "app should build Google Maps direction URLs through shared helpers");
-assert.match(app, /sameTabTravelLink\(directionsUrl\(day\.launchRoute/, "primary itinerary route launches should not use popup/new-tab behavior");
+assert.doesNotMatch(app, /Best next tap|Start with directions, not reading|day-command-card/, "guide day cards should not show the confusing best-next-tap card");
 assert.match(app, /sameTabTravelLink\(directionsUrl\(route\.from/, "route shortcut launches should not use popup/new-tab behavior");
 assert.doesNotMatch(app, /Launch day route<\/a>[\s\S]{0,80}target="_blank"/, "Launch day route should stay in the same browser context");
 assert.match(app, /emergencyContacts/, "app should define emergency contact cards");

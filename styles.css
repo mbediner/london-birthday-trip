@@ -537,37 +537,6 @@ h3 {
   padding: 0 16px 16px;
 }
 
-/* "Best Next Tap" callout */
-.day-command-card {
-  margin: 0 0 14px;
-  background: rgba(79,156,249,0.12);
-  border: 1px solid rgba(79,156,249,0.3);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius-inner) var(--radius-inner) 0;
-  padding: 14px;
-}
-.day-command-card > div > span {
-  display: block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  margin-bottom: 4px;
-}
-.day-command-card > div > strong {
-  display: block;
-  font-size: 0.9375rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-.day-command-card > div > p {
-  font-size: 0.8125rem;
-  color: var(--text-secondary);
-  margin: 0 0 10px;
-}
-
 .day-snapshot {
   margin: 0 0 12px;
   padding: 14px;

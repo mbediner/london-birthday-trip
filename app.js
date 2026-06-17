@@ -204,7 +204,6 @@ const days = [
         { label: "Uber home", map: "Hotel" }
       ]
     },
-    launchRoute: ["Hotel", "Victoria Station", "walking"],
     steps: [
       ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
       ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
@@ -242,7 +241,6 @@ const days = [
         { label: "Hotel", map: "Hotel" }
       ]
     },
-    launchRoute: ["Hotel", "Tower Hill Station", "transit"],
     steps: [
       ["Breakfast", "Start with breakfast at the hotel.", []],
       ["Tube to Tower Hill", "Walk to Pimlico Station. Take Pimlico to Victoria, change at Victoria, then Victoria to Tower Hill. Confirm the easiest route that morning.", ["Pimlico Station", "Tower Hill Station"]],
@@ -279,7 +277,6 @@ const days = [
         { label: "Hotel", map: "Hotel" }
       ]
     },
-    launchRoute: ["Hotel", "Buckingham Palace", "transit"],
     steps: [
       ["Breakfast", "Start with breakfast at the hotel.", []],
       ["Palace photos", "Walk or take short transit to Buckingham Palace. See the exterior and gates.", ["Buckingham Palace"]],
@@ -316,7 +313,6 @@ const days = [
         { label: "Home", map: "RDU Airport" }
       ]
     },
-    launchRoute: ["Hotel", "London Heathrow Airport", "driving"],
     steps: [
       ["6:00 AM — wake up and final check", "Set alarms for 6:00 and 6:30 AM BST. Physical check before leaving: passports, wallet, phone, charger, medication, and all bags out of the safe.", ["Hotel"]],
       ["Leave hotel by 7:15 AM", "Book Uber or FREENOW to Heathrow Terminal 2. Target arrival at Heathrow by 8:55 AM. Allow extra time — London morning traffic is unpredictable.", ["London Heathrow Airport"]],
@@ -882,17 +878,6 @@ function renderItinerary() {
         </picture>
       </div>` : ""}
       <div class="itinerary-pocket__body">
-        <section class="day-command-card">
-          <div>
-            <span>Best next tap</span>
-            <strong>Start with directions, not reading</strong>
-            <p>${day.transport}</p>
-          </div>
-          <div class="button-row">
-            ${sameTabTravelLink(directionsUrl(day.launchRoute[0], day.launchRoute[1], day.launchRoute[2]), `Directions → ${day.launchRoute[1]}`)}
-            <a class="button button--secondary" href="${mapsUrl("Hotel")}" target="_blank" rel="noopener">Hotel map</a>
-          </div>
-        </section>
         <section class="day-snapshot">
           <span>Day snapshot</span>
           <strong>How the day should flow</strong>
