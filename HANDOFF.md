@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `1bd0cc8` - Link daily snapshot stops to maps
-**Cache token:** `202606171939`
+**Last release commit:** `5c57bc1` - Remove best next tap cards
+**Cache token:** `202606172004`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171939
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606172004
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 17, 2026 (Codex)
+
+- **Best-next-tap cards removed** - Guide day cards now open directly into the day snapshot instead of the confusing "Best next tap" directions card.
+- **Hotel map preserved** - top quick-action Hotel Map remains available while day snapshots and step-by-step map chips stay in place.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the old best-next-tap card does not return.
+- **Release verified** - mobile Guide UAT passed at 375x812, `npm run release:prepare` passed, pushed `5c57bc1`, GitHub Pages deploy `27716136218` was green, and final cache token refreshed to `202606172004`.
 
 ---
 
