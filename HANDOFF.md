@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `0389369` - Confirm London Eye tickets
-**Cache token:** `202606171828`
+**Last release commit:** `62c1b9c` - Show London Eye barcodes
+**Cache token:** `202606171915`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171828
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171915
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,14 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 17, 2026 (Codex)
+
+- **London Eye barcodes added** - Ticket Wallet now renders scannable Code 128 barcode graphics for adult `150018675054750217` and child `150018553500106457`, with printed numbers underneath.
+- **Mobile UAT verified** - captured a 375x812 full-page wallet screenshot and confirmed both barcode panels display correctly.
+- **Release verified** - `npm run release:prepare` passed, pushed `62c1b9c`, GitHub Pages deploy `27713723712` was green, and cache token refreshed to `202606171915`.
 
 ---
 
