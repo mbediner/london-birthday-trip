@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `8f252f7` - Add Tiffany UK ETA approval
-**Cache token:** `202606171533`
+**Last release commit:** `0389369` - Confirm London Eye tickets
+**Cache token:** `202606171828`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171533
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606171828
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,14 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 17, 2026 (Codex)
+
+- **London Eye tickets confirmed** - Ticket Wallet now marks London Eye as set with order `605056784`, adult barcode `150018675054750217`, and child barcode `150018553500106457`.
+- **Old ticket warning removed** - replaced the missing scannable ticket warning with the 6:00 PM queue arrival instruction from the tickets.
+- **Release verified** - mobile Wallet UAT passed at 375x812, `npm run release:prepare` passed, pushed `0389369`, GitHub Pages deploy `27711147054` was green, and cache token refreshed to `202606171828`.
 
 ---
 
