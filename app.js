@@ -498,8 +498,9 @@ const todo = [
     section: "Marianna",
     items: [
       "Order British pounds from Chase",
-      "Apply for UK ETA for Tiffany at gov.uk",
+      "Tiffany's UK ETA is approved, reference 2021-2606-1655-7845, valid until June 17, 2028, linked to passport ending 1893",
       "Collin's UK ETA is approved, reference 2021-2606-1009-0807, linked to passport ending 1892",
+      "For UK travel, Tiffany and Collin need the passports linked to their ETAs; they do not need to print or show the ETA emails",
       "Confirm Big Bus booking VVXCH9SM appears in the Big Bus Tours app; activate only on Friday, June 26 when ready to board",
       "London Eye order 605056784 is confirmed for Friday, June 26 at 6:00 PM",
       "Buy portable chargers for Tiffany and Collin's phones",
@@ -523,7 +524,8 @@ const todo = [
 const pack = [
   "Passports",
   "International chargers and UK plug adapters",
-  "Copies of UK ETA confirmations",
+  "Passports linked to approved UK ETAs (Tiffany ending 1893, Collin ending 1892)",
+  "Saved UK ETA confirmations as backup only; no printed ETA email required",
   "Copy of parental travel consent letter",
   "Printed hotel confirmation",
   "Printed return flight confirmation",
@@ -576,9 +578,10 @@ const tickets = [
   },
   {
     label: "UK ETA — Tiffany",
-    detail: "Electronic Travel Authorisation required for US citizens entering UK — authorisation number needed",
-    href: "https://www.gov.uk/apply-uk-visa",
-    status: "pending"
+    detail: "Approved · Reference: 2021-2606-1655-7845 · Valid until June 17, 2028",
+    sub: "Linked to passport ending 1893. This is an ETA approval, not a printed visa; passport is what she needs at travel. No need to print or show the confirmation email.",
+    href: "https://www.gov.uk/check-eta",
+    status: "confirmed"
   },
   {
     label: "UK ETA — Collin",
