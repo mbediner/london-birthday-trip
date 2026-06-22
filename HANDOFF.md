@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `5c57bc1` - Remove best next tap cards
-**Cache token:** `202606172004`
+**Last release commit:** `01939f2` - Add Heathrow airport fast track details
+**Cache token:** `202606221707`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606172004
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606221707
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,16 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 22, 2026 (Codex)
+
+- **Heathrow Fast Track added** - Ticket Wallet now links the Terminal 2 Fast Track Departures confirmation PDF and shows booking reference `AHA2OC`.
+- **Departure day updated** - Day 4 now includes Fast Track security in the snapshot and step-by-step route, with the 12:00 entry-time warning and departures-only limitation.
+- **Arrival guidance added** - Day 1 and the arrival guardrail now point Tiffany and Collin toward passport control eGates for eligible biometric U.S. passports.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the Fast Track PDF, booking reference, departures-only limitation, and eGate guidance remain present.
+- **Release verified** - mobile Guide and Wallet UAT passed at 375x812, `npm run release:prepare` passed, pushed `01939f2`, GitHub Pages deploy `27970100220` was green, and final cache token refreshed to `202606221707`.
 
 ---
 
