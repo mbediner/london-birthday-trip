@@ -195,6 +195,7 @@ const days = [
       summary: "Land, drop bags, keep the first day easy, then anchor the evening around the London Eye.",
       path: [
         { label: "Heathrow", map: "London Heathrow Airport" },
+        { label: "Passport control eGates", map: "London Heathrow Airport" },
         { label: "Hotel bag drop", map: "Hotel" },
         { label: "Victoria lunch", map: "Tachbrook Street Market" },
         { label: "Big Bus", map: "Victoria Station" },
@@ -206,6 +207,7 @@ const days = [
     },
     steps: [
       ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
+      ["Use passport control eGates", "Tiffany and Collin should be able to use the UK eGates with eligible biometric U.S. passports because they are 10 or older and traveling with an adult. Follow eGates signage first. If the gates refer them to an officer, stay together and use the staffed passport-control line.", ["London Heathrow Airport"]],
       ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
       ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
       ["Start the bus loop", "Open the Big Bus Tours app, retrieve booking VVXCH9SM, and activate the ticket only when you are ready to board on Friday, June 26. Walk to Victoria Station / Buckingham Palace Road entrance and board the Hop-On / Hop-Off Big Bus.", ["Victoria Station"]],
@@ -306,7 +308,7 @@ const days = [
         { label: "Hotel checkout", map: "Hotel" },
         { label: "Uber to Heathrow", map: "London Heathrow Airport" },
         { label: "Terminal 2", map: "London Heathrow Airport" },
-        { label: "Security", map: "London Heathrow Airport" },
+        { label: "Fast Track security", map: "London Heathrow Airport" },
         { label: "B6 20 to JFK", map: "JFK Terminal 5" },
         { label: "Find RDU gate", map: "JFK Terminal 5" },
         { label: "B6 585 to RDU", map: "RDU Airport" },
@@ -316,8 +318,9 @@ const days = [
     steps: [
       ["6:00 AM — wake up and final check", "Set alarms for 6:00 and 6:30 AM BST. Physical check before leaving: passports, wallet, phone, charger, medication, and all bags out of the safe.", ["Hotel"]],
       ["Leave hotel by 7:15 AM", "Book Uber or FREENOW to Heathrow Terminal 2. Target arrival at Heathrow by 8:55 AM. Allow extra time — London morning traffic is unpredictable.", ["London Heathrow Airport"]],
-      ["Check in at Terminal 2", "B6 20 departs from Terminal 2. Use the JetBlue app for boarding passes. Queue for bag drop and security early.", ["London Heathrow Airport"]],
-      ["Clear security and find the gate", "Security lines at Heathrow can be long. Go straight to the gate after clearing. Eat and charge phones airside before boarding.", []],
+      ["Check in at Terminal 2", "B6 20 departs from Terminal 2. Use the JetBlue app for boarding passes. Queue for bag drop early.", ["London Heathrow Airport"]],
+      ["Use Heathrow Fast Track", "Fast Track Departures is booked for Terminal 2 for 2 passengers, reference AHA2OC. The Fast Track security entrance is next to the main security entrances. Follow Fast Track signs or ask airport staff. The PDF is only for departures security, not arrivals passport control or flight connections. The confirmation shows a 12:00 entry time, which is after the 11:55 flight, so do not wait until noon. Ask staff right away whether they can use the Fast Track lane before the flight.", ["London Heathrow Airport"]],
+      ["Clear security and find the gate", "Security lines at Heathrow can be long even with Fast Track. Go straight to the gate after clearing. Eat and charge phones airside before boarding.", []],
       ["Board B6 20 LHR → JFK", "Flight B6 20 departs 11:55 AM BST. Arrives JFK 3:25 PM EDT. Update the parent group text before boarding.", []],
       ["JFK connection — find gate first", "After landing at JFK, stay airside. Find the Raleigh gate before food or charging. If delayed or confused, talk to a JetBlue gate agent.", ["JFK Terminal 5"]],
       ["Board B6 585 JFK → RDU", "Departs 6:30 PM EDT from Terminal 5. Arrives Raleigh 8:33 PM EDT. Keep parent group text updated from JFK.", []]
@@ -420,6 +423,7 @@ const departureGuardrails = [
     anchor: "B6 1620 BOS -> LHR, arrives 6:30 AM BST",
     bullets: [
       "After immigration and bags, go to the hotel before sightseeing.",
+      "Use the passport control eGates if available. Eligible biometric U.S. passports can use eGates for travelers age 10 and older when accompanied by an adult.",
       "Ask Holiday Inn Express London - Victoria to store luggage because check-in is later.",
       "Keep passports, cards, chargers, medicine, and tickets with you.",
       "Do not book a timed London activity before late morning."
@@ -433,6 +437,7 @@ const departureGuardrails = [
       "Set phone alarms for 6:00 AM and 6:30 AM London time.",
       "Leave the hotel around 7:00-7:15 AM.",
       "Target Heathrow arrival is 8:55 AM.",
+      "Heathrow Fast Track Departures is booked for Terminal 2, reference AHA2OC. It is for departures security only, not arrivals or connections. Confirmation shows 12:00 entry, so ask staff at security rather than waiting.",
       "Use JetBlue app first, then Google Status and the site tracker as backups."
     ]
   },
@@ -552,6 +557,8 @@ const todo = [
       "For UK travel, Tiffany and Collin need the passports linked to their ETAs; they do not need to print or show the ETA emails",
       "Confirm Big Bus booking VVXCH9SM appears in the Big Bus Tours app; activate only on Friday, June 26 when ready to board",
       "London Eye order 605056784 is confirmed for Friday, June 26 at 6:00 PM",
+      "Heathrow Fast Track Departures is confirmed for Monday, June 29 at Terminal 2, booking reference AHA2OC",
+      "If possible, amend Heathrow Fast Track entry earlier than 12:00 because B6 20 departs at 11:55 AM",
       "Buy portable chargers for Tiffany and Collin's phones",
       "Confirm hotel can store bags on arrival morning before check-in"
     ]
@@ -578,6 +585,7 @@ const pack = [
   "Copy of parental travel consent letter",
   "Printed hotel confirmation",
   "Printed return flight confirmation",
+  "Saved Heathrow Fast Track confirmation PDF for Terminal 2 departure security",
   "Portable phone charger",
   "Comfortable shoes",
   "Rain jacket or small umbrella",
@@ -627,6 +635,14 @@ const tickets = [
       { label: "Adult", value: "150018675054750217" },
       { label: "Child", value: "150018553500106457" }
     ],
+    status: "confirmed"
+  },
+  {
+    label: "Heathrow Fast Track Departures",
+    detail: "Monday, June 29 · Terminal 2 departures · 2 passengers",
+    sub: "Booking reference AHA2OC · Use the Fast Track security entrance next to the main Terminal 2 security entrances. This is only valid for departures security, not arrivals passport control or flight connections. PDF shows entry at 12:00, which is after the 11:55 AM flight, so ask staff right away.",
+    href: "assets/heathrow-fast-track-confirmation.pdf",
+    buttonLabel: "Open Fast Track PDF",
     status: "confirmed"
   },
   {

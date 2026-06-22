@@ -48,6 +48,11 @@ assert.match(app, /resolvePanelFromHash/, "app should resolve panel routing from
 assert.match(app, /assets\/parental-travel-consent-letter\.pdf/, "wallet should link to the parental travel consent PDF");
 assert.match(app, /assets\/hotel-booking-confirmation\.pdf/, "wallet should link to the hotel Booking.com PDF");
 assert.match(app, /assets\/big-bus-ticket\.pdf/, "wallet should link to the Big Bus ticket PDF");
+assert.match(app, /Heathrow Fast Track Departures/, "wallet should include the Heathrow Fast Track booking");
+assert.match(app, /AHA2OC/, "Heathrow Fast Track booking reference should be present");
+assert.match(app, /departures security, not arrivals passport control or flight connections/, "Heathrow Fast Track should be clearly limited to departures security");
+assert.match(app, /passport control eGates/, "arrival guide should include Heathrow passport control eGate guidance");
+assert.match(app, /assets\/heathrow-fast-track-confirmation\.pdf/, "wallet should link to the Heathrow Fast Track PDF");
 assert.match(app, /Booking\.com confirmation \$\{booking\.confirmation\}/, "hotel pocket should show the Booking.com confirmation number");
 assert.match(app, /Open confirmation PDF/, "hotel pocket should expose a direct confirmation PDF button");
 assert.match(app, /FREENOW \/ FreeNow taxis/, "download apps should include FreeNow taxi links");
@@ -77,6 +82,7 @@ assert.match(worker, /const CACHE_NAME = "london-trip-v\d+"/, "service worker ca
 assert.match(worker, /"\.\/styles\.css\?v=\d+"/, "service worker should cache-bust styles");
 assert.match(worker, /"\.\/app\.js\?v=\d+"/, "service worker should cache-bust the app shell");
 assert.match(worker, /"\.\/assets\/big-bus-ticket\.pdf"/, "service worker should cache the Big Bus ticket PDF");
+assert.match(worker, /"\.\/assets\/heathrow-fast-track-confirmation\.pdf"/, "service worker should cache the Heathrow Fast Track PDF");
 assert.match(worker, /"\.\/assets\/hotel-booking-confirmation\.pdf"/, "service worker should cache the hotel confirmation PDF");
 assert.match(worker, /"\.\/assets\/parental-travel-consent-letter\.pdf"/, "service worker should cache the parental travel consent PDF");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");
@@ -93,6 +99,7 @@ for (const file of [
   "assets/camden_market.webp",
   "assets/flight_itinerary.jpg",
   "assets/big-bus-ticket.pdf",
+  "assets/heathrow-fast-track-confirmation.pdf",
   "assets/hotel-booking-confirmation.pdf",
   "assets/parental-travel-consent-letter.pdf",
   "data/flight-status.json"
