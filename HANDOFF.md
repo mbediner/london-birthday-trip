@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `aee1579` - Rework wallet and flight travel docs
-**Cache token:** `202606241512`
+**Last release commit:** `99ce51e` - Tighten guide day details
+**Cache token:** `202606241527`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241512
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241527
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -27,11 +27,21 @@ Newest first. Agents prepend a new entry here at the end of every session.
 
 ---
 
+### Session - June 24, 2026 follow-up (Codex)
+
+- **Guide fallback pocket removed** - deleted the "Photos and fallbacks" pocket from every Guide day and removed the unused supporting CSS/data fields.
+- **Departure guide corrected** - Day 4 snapshot and step-by-step route now say `JetBlue B6 20` and `JetBlue B6 585`, and Fast Track copy uses the 9:30-10:30 AM window.
+- **Nearest Tube fixed** - top quick action now opens a Google Maps `Tube station near me` search so the phone can use current location instead of stale destination wording.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts no fallback pocket, correct return-flight labels, 9:30-10:30 Fast Track copy, and current-location Tube search.
+- **Release verified** - mobile Guide UAT passed at 375x812, `npm run release:prepare` passed, pushed `99ce51e`, GitHub Pages deploy `28109867318` was green, and live source checks confirmed cache token `202606241527`.
+
+---
+
 ### Session - June 24, 2026 (Codex)
 
 - **Wallet renamed and simplified** - bottom nav now says Wallet; completed app setup, pre-trip checklist, and packing list sections were removed.
 - **Flight documents consolidated** - JetBlue confirmation, both UK ETA references, Heathrow eGates guidance, and Heathrow Fast Track now live in Flights with yellow reference chips and copy buttons.
-- **Fast Track instructions amended** - Flights and Day 4 now show the 9:00-10:00 AM Fast Track window, 8:45 AM Terminal 2 target arrival, security entrance location, and airside buffer guidance.
+- **Fast Track instructions amended** - Flights and Day 4 originally showed the 9:00-10:00 AM Fast Track window, 8:45 AM Terminal 2 target arrival, security entrance location, and airside buffer guidance; follow-up above changed this to 9:30-10:30 AM.
 - **Flight clutter removed** - per-leg "Before this leg" checklists and the four informational guardrail cards were deleted; flight status rows were rechecked at 375x812 with no abbreviation clipping.
 - **Trip push reminders updated** - added JetBlue check-in, offline maps, Heathrow eGates, Big Bus, London Eye, return check-in, and Fast Track ntfy reminders; removed completed phone-setup reminder.
 - **QA strengthened** - `tools/qa-site.mjs` and `tools/qa-trip-push-reminders.mjs` now assert the new Flights/Wallet structure and reminder schedule.
