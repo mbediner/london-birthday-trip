@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `01939f2` - Add Heathrow airport fast track details
-**Cache token:** `202606221707`
+**Last release commit:** `aee1579` - Rework wallet and flight travel docs
+**Cache token:** `202606241512`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606221707
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241512
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,18 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 24, 2026 (Codex)
+
+- **Wallet renamed and simplified** - bottom nav now says Wallet; completed app setup, pre-trip checklist, and packing list sections were removed.
+- **Flight documents consolidated** - JetBlue confirmation, both UK ETA references, Heathrow eGates guidance, and Heathrow Fast Track now live in Flights with yellow reference chips and copy buttons.
+- **Fast Track instructions amended** - Flights and Day 4 now show the 9:00-10:00 AM Fast Track window, 8:45 AM Terminal 2 target arrival, security entrance location, and airside buffer guidance.
+- **Flight clutter removed** - per-leg "Before this leg" checklists and the four informational guardrail cards were deleted; flight status rows were rechecked at 375x812 with no abbreviation clipping.
+- **Trip push reminders updated** - added JetBlue check-in, offline maps, Heathrow eGates, Big Bus, London Eye, return check-in, and Fast Track ntfy reminders; removed completed phone-setup reminder.
+- **QA strengthened** - `tools/qa-site.mjs` and `tools/qa-trip-push-reminders.mjs` now assert the new Flights/Wallet structure and reminder schedule.
+- **Release verified** - mobile Flights and Wallet UAT passed at 375x812, `npm run release:prepare` passed, pushed `aee1579`, GitHub Pages deploy `28108896360` was green, and live source checks confirmed cache token `202606241512`.
 
 ---
 
