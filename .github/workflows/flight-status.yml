@@ -92,5 +92,9 @@ jobs:
         if: steps.commit_status.outputs.changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          timeout: 1800000
+        continue-on-error: true
+
+      - name: Retry GitHub Pages deploy
+        if: steps.commit_status.outputs.changed == 'true' && steps.deployment.outcome == 'failure'
+        id: deployment_retry
+        uses: actions/deploy-pages@v4
