@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `99ce51e` - Tighten guide day details
-**Cache token:** `202606241527`
+**Last release commit:** `b195f70` - Update Fast Track PDF and flight confirmations
+**Cache token:** `202606241547`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241527
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241547
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 24, 2026 PDF/flight confirmation follow-up (Codex)
+
+- **Fast Track PDF replaced** - `assets/heathrow-fast-track-confirmation.pdf` now uses the amended 3-page Heathrow confirmation PDF from June 24, 2026.
+- **Flight confirmations moved into flight cards** - removed the standalone "All four JetBlue flights" document card and added a yellow copyable `KDHSOU` chip to each individual flight detail.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the amended PDF asset size, per-flight confirmation block, and absence of the old standalone JetBlue card.
+- **Release verified** - updated PDF rendered cleanly, mobile Flights UAT passed at 375x812, `npm run release:prepare` passed, pushed `b195f70`, GitHub Pages deploy `28111107549` was green, live PDF returned `200 application/pdf` with content length `436339`, and live source checks confirmed cache token `202606241547`.
 
 ---
 
