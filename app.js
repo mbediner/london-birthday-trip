@@ -983,52 +983,6 @@ function renderFlightStatusBox(status) {
   `;
 }
 
-function renderFlightStatusOverview() {
-  const el = document.querySelector("#flightStatusOverview");
-  if (!el) return;
-  const statusDotClass = (flight) => {
-    const s = statusForFlight(flight);
-    if (!s) return "status-dot--upcoming";
-    const kind = (s.statusKind || "").toLowerCase();
-    if (kind === "ok") return "status-dot--on-time";
-    if (kind === "delayed" || kind === "cancelled" || kind === "alert") return "status-dot--delayed";
-    return "status-dot--upcoming";
-  };
-  const statusLabel = (flight) => {
-    const s = statusForFlight(flight);
-    if (!s) return "Upcoming";
-    return s.status || "Upcoming";
-  };
-  el.innerHTML = `
-    <div class="flight-status-overview">
-      <div class="flight-status-overview__header">
-        All 4 Legs
-        <span class="flight-status-overview__updated" id="overviewUpdated"></span>
-      </div>
-      ${flights.map(f => {
-        // Keep the airport abbreviations as separate tokens so narrow iPhone screens do not merge or clip them.
-        const [origin = "", destination = ""] = f.route.split(/\s*(?:→|->)\s*/);
-        return `
-        <div class="flight-status-leg flight-status-leg--clickable" data-scroll-to-flight="${f.number}" role="button" tabindex="0" title="Tap to see details for B6 ${f.number}">
-          <span class="status-dot ${statusDotClass(f)}"></span>
-          <div class="flight-status-leg__route">
-            <span class="flight-leg-code">${origin || f.route}</span>
-            <span class="flight-leg-arrow">→</span>
-            <span class="flight-leg-code">${destination}</span>
-          </div>
-          <span class="flight-status-leg__date">${f.day.split(",")[0]}</span>
-          <span class="flight-status-leg__label" style="color:${
-            (statusForFlight(f)?.statusKind || "") === "ok" ? "var(--success)" :
-            ["delayed","cancelled","alert"].includes((statusForFlight(f)?.statusKind || "").toLowerCase()) ? "var(--warning)" :
-            "var(--text-secondary)"
-          }">${statusLabel(f)}</span>
-          <span class="flight-status-leg__cta">Details ›</span>
-        </div>
-      `}).join("")}
-    </div>
-  `;
-}
-
 function renderFlightReference(label, value) {
   // Keep critical travel numbers visually consistent and copyable across the flight pocket.
   return `
@@ -1107,9 +1061,8 @@ function renderDayIndicator() {
 }
 
 function renderFlights() {
-  renderFlightStatusOverview();
+  document.querySelector("#flightDocumentsPanel").innerHTML = renderFlightEssentials();
   document.querySelector("#flightPanel").innerHTML = `
-    ${renderFlightEssentials()}
     ${flights.map(flight => `
     <details class="pocket-card" id="flight-${flight.number}" ${flight.number === "2184" ? "open" : ""}>
       <summary class="pocket-card__summary">

@@ -68,6 +68,9 @@ assert.match(app, /JetBlue B6 585 to RDU/, "Day 4 snapshot should include the re
 assert.match(app, /class="flight-confirmation"/, "each flight detail should show a copyable confirmation block");
 assert.match(app, /JetBlue confirmation for B6 \$\{flight\.number\}/, "flight confirmation copy button should be scoped to the flight");
 assert.doesNotMatch(app, /All four JetBlue flights/, "standalone JetBlue confirmation card should be removed from flight documents");
+assert.doesNotMatch(index, /Status at a glance|flightStatusOverview/, "flights should not render the old status-at-a-glance overview");
+assert.match(index, /<h2>Flight documents<\/h2>[\s\S]*id="flightDocumentsPanel"[\s\S]*Live tracker[\s\S]*id="flightPanel"/, "flights should show documents, then live tracker, then flight cards");
+assert.match(app, /#flightDocumentsPanel[\s\S]*renderFlightEssentials\(\)/, "flight documents should render into the top documents panel");
 assert.match(app, /Tube%20station%20near%20me/, "top Nearest Tube action should use current-location map search");
 assert.doesNotMatch(app, /nearest%20London%20Underground%20station/, "top Nearest Tube action should not use stale fixed-destination wording");
 assert.doesNotMatch(app, /RDUBOS|replace\(" → ", ""\)/, "flight route display should not merge airport abbreviations on mobile");
