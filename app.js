@@ -139,7 +139,7 @@ const routeShortcuts = [
     from: "Hotel",
     to: "London Heathrow Airport",
     mode: "driving",
-    note: "Departure morning backup. Leave around 7:00-7:15 AM for the 11:55 AM flight."
+    note: "Departure morning route. Aim for Terminal 2 around 8:45 AM for the 11:55 AM flight."
   },
   {
     label: "Hotel to Tower Hill",
@@ -317,10 +317,10 @@ const days = [
     },
     steps: [
       ["6:00 AM — wake up and final check", "Set alarms for 6:00 and 6:30 AM BST. Physical check before leaving: passports, wallet, phone, charger, medication, and all bags out of the safe.", ["Hotel"]],
-      ["Leave hotel by 7:15 AM", "Book Uber or FREENOW to Heathrow Terminal 2. Target arrival at Heathrow by 8:55 AM. Allow extra time — London morning traffic is unpredictable.", ["London Heathrow Airport"]],
-      ["Check in at Terminal 2", "B6 20 departs from Terminal 2. Use the JetBlue app for boarding passes. Queue for bag drop early.", ["London Heathrow Airport"]],
-      ["Use Heathrow Fast Track", "Fast Track Departures is booked for Terminal 2 for 2 passengers, reference AHA2OC. The Fast Track security entrance is next to the main security entrances. Follow Fast Track signs or ask airport staff. The PDF is only for departures security, not arrivals passport control or flight connections. The confirmation shows a 12:00 entry time, which is after the 11:55 flight, so do not wait until noon. Ask staff right away whether they can use the Fast Track lane before the flight.", ["London Heathrow Airport"]],
-      ["Clear security and find the gate", "Security lines at Heathrow can be long even with Fast Track. Go straight to the gate after clearing. Eat and charge phones airside before boarding.", []],
+      ["Leave hotel by 7:15 AM", "Book Uber or FREENOW to Heathrow Terminal 2. Plan to arrive around 8:45 AM. Allow extra time because London morning traffic is unpredictable.", ["London Heathrow Airport"]],
+      ["Check in at Terminal 2", "B6 20 departs from Terminal 2 at 11:55 AM. Use the JetBlue app for boarding passes. Budget 30-45 minutes for check-in, passport verification, and bag drop.", ["London Heathrow Airport"]],
+      ["Use Heathrow Fast Track", "Fast Track is being amended to the 9:00-10:00 AM one-hour window. Enter near the beginning of the window. Terminal 2 Fast Track Departures has its own security entrance next to the main security entrances inside the terminal. Follow Fast Track wayfinding or ask airport staff. Booking reference AHA2OC.", ["London Heathrow Airport"]],
+      ["Clear security and find the gate", "After Fast Track security, go airside first. The plan leaves roughly 90 minutes or more before departure for food, charging phones, and finding the gate.", []],
       ["Board B6 20 LHR → JFK", "Flight B6 20 departs 11:55 AM BST. Arrives JFK 3:25 PM EDT. Update the parent group text before boarding.", []],
       ["JFK connection — find gate first", "After landing at JFK, stay airside. Find the Raleigh gate before food or charging. If delayed or confused, talk to a JetBlue gate agent.", ["JFK Terminal 5"]],
       ["Board B6 585 JFK → RDU", "Departs 6:30 PM EDT from Terminal 5. Arrives Raleigh 8:33 PM EDT. Keep parent group text updated from JFK.", []]
@@ -378,81 +378,40 @@ const flights = [
   }
 ];
 
-const flightReadiness = {
-  "2184": [
-    "Passport and JetBlue confirmation KDHSOU are saved and easy to open.",
-    "Phone is charged, ntfy and JetBlue alerts are on, and parent group text is updated.",
-    "At RDU by 12:30 PM EDT.",
-    "Gate is confirmed on JetBlue app and airport screens before food."
-  ],
-  "1620": [
-    "BOS arrival gate and London departure gate are checked before food.",
-    "Stay airside unless JetBlue staff says otherwise.",
-    "Passport, wallet, phone, charger, and medication are with you.",
-    "Parent group text is updated before boarding London flight."
-  ],
-  "20": [
-    "Leave hotel around 7:00-7:15 AM BST.",
-    "Passport, phone, charger, wallet, and medication are physically checked before leaving.",
-    "JetBlue app confirms Terminal 2 and current flight status.",
-    "At Heathrow by 8:55 AM and through security before food."
-  ],
-  "585": [
-    "After landing at JFK, find the Raleigh gate before food.",
-    "Stay airside unless JetBlue staff says otherwise.",
-    "If delayed or confused, talk to a JetBlue gate agent immediately.",
-    "Parent group text is updated from JFK."
-  ]
-};
-
-const departureGuardrails = [
-  {
-    title: "Outbound: leave Raleigh safely",
-    date: "Thursday, June 25",
-    anchor: "B6 2184 RDU -> BOS, 2:34 PM EDT",
-    bullets: [
-      "Set phone alarms for 10:00 AM and 11:00 AM.",
-      "Be at RDU by 12:30 PM for the 2:34 PM departure.",
-      "JetBlue confirmation is KDHSOU. Check the JetBlue app before leaving home.",
-      "Use airport screens and gate agents as the source of truth if the website, Google, and JetBlue disagree."
-    ]
+const flightEssentials = {
+  jetblue: {
+    label: "JetBlue confirmation",
+    code: "KDHSOU",
+    note: "Use the JetBlue app for check-in, boarding passes, gates, and status."
   },
-  {
-    title: "London arrival: bags first",
-    date: "Friday, June 26",
-    anchor: "B6 1620 BOS -> LHR, arrives 6:30 AM BST",
-    bullets: [
-      "After immigration and bags, go to the hotel before sightseeing.",
-      "Use the passport control eGates if available. Eligible biometric U.S. passports can use eGates for travelers age 10 and older when accompanied by an adult.",
-      "Ask Holiday Inn Express London - Victoria to store luggage because check-in is later.",
-      "Keep passports, cards, chargers, medicine, and tickets with you.",
-      "Do not book a timed London activity before late morning."
-    ]
+  etas: [
+    {
+      person: "Tiffany",
+      reference: "2021-2606-1655-7845",
+      passport: "1893",
+      validUntil: "June 17, 2028"
+    },
+    {
+      person: "Collin",
+      reference: "2021-2606-1009-0807",
+      passport: "1892",
+      validUntil: "March 7, 2028"
+    }
+  ],
+  arrival: {
+    title: "Heathrow arrival passport control",
+    note: "Use the passport control eGates / biometric line if available. Eligible biometric U.S. passports can use eGates for travelers age 10 and older when accompanied by an adult."
   },
-  {
-    title: "Return: protect Heathrow morning",
-    date: "Monday, June 29",
-    anchor: "B6 20 LHR -> JFK, 11:55 AM BST",
-    bullets: [
-      "Set phone alarms for 6:00 AM and 6:30 AM London time.",
-      "Leave the hotel around 7:00-7:15 AM.",
-      "Target Heathrow arrival is 8:55 AM.",
-      "Heathrow Fast Track Departures is booked for Terminal 2, reference AHA2OC. It is for departures security only, not arrivals or connections. Confirmation shows 12:00 entry, so ask staff at security rather than waiting.",
-      "Use JetBlue app first, then Google Status and the site tracker as backups."
-    ]
-  },
-  {
-    title: "Connection: JFK to Raleigh",
-    date: "Monday, June 29",
-    anchor: "B6 585 JFK -> RDU, 6:30 PM EDT",
-    bullets: [
-      "After landing at JFK, stay airside unless JetBlue or airport staff says otherwise.",
-      "Find the next gate before food.",
-      "If delayed or confused, talk to a JetBlue gate agent immediately.",
-      "Keep parent group text updated at JFK."
-    ]
+  fastTrack: {
+    title: "Heathrow Fast Track Departures",
+    reference: "AHA2OC",
+    pdf: "assets/heathrow-fast-track-confirmation.pdf",
+    window: "Amend Fast Track to the 9:00-10:00 AM one-hour window.",
+    arrival: "Plan to arrive at Terminal 2 around 8:45 AM.",
+    location: "Terminal 2 Fast Track Departures passengers have their own security entrance next to the main security entrances inside the terminal. Follow Fast Track wayfinding or ask airport staff.",
+    reason: "That gives 30-45 minutes for check-in, passport verification, and bag drop; entry near the beginning of the window; buffer if the JetBlue counter moves slowly; and roughly 90 minutes or more airside before the 11:55 AM departure."
   }
-];
+};
 
 const emergencyContacts = [
   {
@@ -547,53 +506,6 @@ const flightScreenshot = "assets/flight_itinerary.jpg";
 const ntfyTopic = "london-birthday-trip-2026-a9x4m2q7";
 const tubeMapUrl = "https://content.tfl.gov.uk/standard-tube-map.pdf";
 
-const todo = [
-  {
-    section: "Marianna",
-    items: [
-      "Order British pounds from Chase",
-      "Tiffany's UK ETA is approved, reference 2021-2606-1655-7845, valid until June 17, 2028, linked to passport ending 1893",
-      "Collin's UK ETA is approved, reference 2021-2606-1009-0807, linked to passport ending 1892",
-      "For UK travel, Tiffany and Collin need the passports linked to their ETAs; they do not need to print or show the ETA emails",
-      "Confirm Big Bus booking VVXCH9SM appears in the Big Bus Tours app; activate only on Friday, June 26 when ready to board",
-      "London Eye order 605056784 is confirmed for Friday, June 26 at 6:00 PM",
-      "Heathrow Fast Track Departures is confirmed for Monday, June 29 at Terminal 2, booking reference AHA2OC",
-      "If possible, amend Heathrow Fast Track entry earlier than 12:00 because B6 20 departs at 11:55 AM",
-      "Buy portable chargers for Tiffany and Collin's phones",
-      "Confirm hotel can store bags on arrival morning before check-in"
-    ]
-  },
-  {
-    section: "Tiffany & Collin",
-    items: [
-      "Use the Download Apps section to install JetBlue, Big Bus, TfL Go, ntfy, Google Maps, Uber, FREENOW, and Booking.com",
-      "Confirm JetBlue booking KDHSOU appears in the JetBlue app",
-      "Confirm Big Bus booking VVXCH9SM appears in the Big Bus Tours app",
-      "Subscribe to the ntfy trip alert topic",
-      "Save offline Google Maps for London",
-      "Set up Uber and FREENOW payment before leaving",
-      "Save parent travel consent letter as PDF on both phones"
-    ]
-  }
-];
-
-const pack = [
-  "Passports",
-  "International chargers and UK plug adapters",
-  "Passports linked to approved UK ETAs (Tiffany ending 1893, Collin ending 1892)",
-  "Saved UK ETA confirmations as backup only; no printed ETA email required",
-  "Copy of parental travel consent letter",
-  "Printed hotel confirmation",
-  "Printed return flight confirmation",
-  "Saved Heathrow Fast Track confirmation PDF for Terminal 2 departure security",
-  "Portable phone charger",
-  "Comfortable shoes",
-  "Rain jacket or small umbrella",
-  "Small amount of cash",
-  "Credit or debit card",
-  "Medication, if applicable"
-];
-
 const tickets = [
   {
     label: "Hotel — Holiday Inn Express Victoria",
@@ -604,22 +516,13 @@ const tickets = [
     status: "confirmed"
   },
   {
-    label: "JetBlue — All 4 flights",
-    detail: "RDU→BOS→LHR outbound · LHR→JFK→RDU return",
-    sub: "Open JetBlue app to check in and get boarding passes",
-    copyCode: "KDHSOU",
-    codeColor: "red",
-    codeLabel: "Confirmation",
-    status: "confirmed"
-  },
-  {
     label: "Big Bus London hop-on hop-off",
     detail: "Friday, June 26 · 1 Day Hop-On Hop-Off Bus Only · 1 adult and 1 child",
     copyCode: "VVXCH9SM",
     codeColor: "amber",
     codeLabel: "Booking ref",
     instructions: [
-      "Get the Big Bus Tours app (see App Setup below) → tap 'Add Booking' → enter VVXCH9SM",
+      "Open the Big Bus Tours app → tap 'Add Booking' → enter VVXCH9SM",
       "On the morning of travel: open the app, tap your ticket, press 'Activate' — ticket countdown starts",
       "Show the activated screen to the driver to board"
     ],
@@ -635,28 +538,6 @@ const tickets = [
       { label: "Adult", value: "150018675054750217" },
       { label: "Child", value: "150018553500106457" }
     ],
-    status: "confirmed"
-  },
-  {
-    label: "Heathrow Fast Track Departures",
-    detail: "Monday, June 29 · Terminal 2 departures · 2 passengers",
-    sub: "Booking reference AHA2OC · Use the Fast Track security entrance next to the main Terminal 2 security entrances. This is only valid for departures security, not arrivals passport control or flight connections. PDF shows entry at 12:00, which is after the 11:55 AM flight, so ask staff right away.",
-    href: "assets/heathrow-fast-track-confirmation.pdf",
-    buttonLabel: "Open Fast Track PDF",
-    status: "confirmed"
-  },
-  {
-    label: "UK ETA — Tiffany",
-    detail: "Approved · Reference: 2021-2606-1655-7845 · Valid until June 17, 2028",
-    sub: "Linked to passport ending 1893. This is an ETA approval, not a printed visa; passport is what she needs at travel. No need to print or show the confirmation email.",
-    href: "https://www.gov.uk/check-eta",
-    status: "confirmed"
-  },
-  {
-    label: "UK ETA — Collin",
-    detail: "Approved · Reference: 2021-2606-1009-0807 · Valid until March 7, 2028",
-    sub: "Linked to passport ending 1892. This is an ETA approval, not a printed visa; passport is what he needs at travel.",
-    href: "https://www.gov.uk/check-eta",
     status: "confirmed"
   },
   {
@@ -690,57 +571,6 @@ const booking = {
   ],
   fillIns: []
 };
-
-const appDownloads = [
-  {
-    label: "JetBlue",
-    why: "Check in, boarding passes, gate changes, and flight status for KDHSOU.",
-    ios: appLinks.jetBlueIos,
-    android: appLinks.jetBlueAndroid
-  },
-  {
-    label: "Big Bus Tours",
-    why: "Add booking VVXCH9SM, routes, stops, and live bus arrivals.",
-    ios: appLinks.bigBusIos,
-    android: appLinks.bigBusAndroid
-  },
-  {
-    label: "TfL Go",
-    why: "Tube routes, live departures, disruption alerts, and station details.",
-    ios: appLinks.tflIos,
-    android: appLinks.tflAndroid
-  },
-  {
-    label: "ntfy",
-    why: "Trip reminders and flight push alerts from this guide.",
-    ios: appLinks.ntfyIos,
-    android: appLinks.ntfyAndroid
-  },
-  {
-    label: "Google Maps",
-    why: "Save offline London maps and open every trip destination.",
-    ios: appLinks.googleMapsIos,
-    android: appLinks.googleMapsAndroid
-  },
-  {
-    label: "Uber",
-    why: "Best tired or late fallback for getting back to the hotel.",
-    ios: appLinks.uberIos,
-    android: appLinks.uberAndroid
-  },
-  {
-    label: "FREENOW / FreeNow taxis",
-    why: "Official London black cabs as a backup to Uber.",
-    ios: appLinks.freenowIos,
-    android: appLinks.freenowAndroid
-  },
-  {
-    label: "Booking.com",
-    why: "Open and manage the hotel reservation from the phone.",
-    ios: appLinks.bookingIos,
-    android: appLinks.bookingAndroid
-  }
-];
 
 const resourceGroups = [
   { label: "Uber — London", href: "https://www.uber.com/gb/en/", why: "Best backup when tired — works exactly like in the US" },
@@ -1054,58 +884,6 @@ function renderResources() {
   `).join("");
 }
 
-function renderAppDownloads() {
-  document.querySelector("#appDownloadList").innerHTML = appDownloads.map(app => `
-    <article class="app-download-card">
-      <div class="ticket-card__body">
-        <strong>${app.label}</strong>
-        <span>${app.why}</span>
-      </div>
-      <div class="app-download-card__actions">
-        <a class="button button--secondary" href="${app.ios}" target="_blank" rel="noopener">iPhone</a>
-        <a class="button button--secondary" href="${app.android}" target="_blank" rel="noopener">Android</a>
-      </div>
-    </article>
-  `).join("");
-}
-
-function renderChecklist(selector, items, key) {
-  const saved = JSON.parse(localStorage.getItem(key) || "{}");
-  // Support both flat string arrays and sectioned arrays [{section, items}]
-  if (items.length && typeof items[0] === "object" && items[0].section) {
-    let html = "";
-    let idx = 0;
-    for (const group of items) {
-      html += `<p class="checklist-section__label">${group.section}</p>`;
-      for (const item of group.items) {
-        html += `<label class="check-item">
-          <input type="checkbox" data-key="${key}" data-index="${idx}" ${saved[idx] ? "checked" : ""}>
-          <span>${item}</span>
-        </label>`;
-        idx++;
-      }
-    }
-    document.querySelector(selector).innerHTML = html;
-  } else {
-    document.querySelector(selector).innerHTML = items.map((item, index) => `
-      <label class="check-item">
-        <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
-        <span>${item}</span>
-      </label>
-    `).join("");
-  }
-}
-
-function renderInlineChecklist(items, key) {
-  const saved = JSON.parse(localStorage.getItem(key) || "{}");
-  return items.map((item, index) => `
-    <label class="check-item check-item--compact">
-      <input type="checkbox" data-key="${key}" data-index="${index}" ${saved[index] ? "checked" : ""}>
-      <span>${item}</span>
-    </label>
-  `).join("");
-}
-
 const code128Patterns = [
   "212222", "222122", "222221", "121223", "121322", "131222", "122213", "122312", "132212", "221213",
   "221312", "231212", "112232", "122132", "122231", "113222", "123122", "123221", "223211", "221132",
@@ -1279,6 +1057,64 @@ function renderFlightStatusOverview() {
   `;
 }
 
+function renderFlightReference(label, value) {
+  // Keep critical travel numbers visually consistent and copyable across the flight pocket.
+  return `
+    <div class="ref-row">
+      <span class="ref-chip ref-chip--amber">${value}</span>
+      <button class="copy-btn" type="button" data-copy-ref="${value}" aria-label="Copy ${label}">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        Copy
+      </button>
+    </div>`;
+}
+
+function renderFlightEssentials() {
+  const etaCards = flightEssentials.etas.map(eta => `
+    <article class="flight-doc-card">
+      <span>UK ETA — ${eta.person}</span>
+      <strong>Passport ending ${eta.passport}</strong>
+      ${renderFlightReference(`${eta.person} ETA reference`, eta.reference)}
+      <p>ETA is passport-linked and should be automated at travel. No printed email or separate display should be needed.</p>
+      <small>Approved · valid until ${eta.validUntil}</small>
+    </article>
+  `).join("");
+
+  return `
+    <details class="pocket-card flight-docs-pocket" open>
+      <summary class="pocket-card__summary">
+        <div>
+          <span>Flight documents</span>
+          <strong>Confirmations, ETAs, Fast Track</strong>
+          <p>Open this first for flight-day numbers and Heathrow instructions.</p>
+        </div>
+      </summary>
+      <div class="flight-docs-grid">
+        <article class="flight-doc-card flight-doc-card--primary">
+          <span>${flightEssentials.jetblue.label}</span>
+          <strong>All four JetBlue flights</strong>
+          ${renderFlightReference("JetBlue confirmation", flightEssentials.jetblue.code)}
+          <p>${flightEssentials.jetblue.note}</p>
+        </article>
+        ${etaCards}
+        <article class="flight-doc-card">
+          <span>${flightEssentials.arrival.title}</span>
+          <strong>Use eGates / biometric line if available</strong>
+          <p>${flightEssentials.arrival.note}</p>
+        </article>
+        <article class="flight-doc-card flight-doc-card--fast-track">
+          <span>${flightEssentials.fastTrack.title}</span>
+          <strong>9:00-10:00 AM window · arrive around 8:45 AM</strong>
+          ${renderFlightReference("Heathrow Fast Track reference", flightEssentials.fastTrack.reference)}
+          <p>${flightEssentials.fastTrack.window} ${flightEssentials.fastTrack.arrival}</p>
+          <p>${flightEssentials.fastTrack.location}</p>
+          <p>${flightEssentials.fastTrack.reason}</p>
+          <a class="button ticket-item__btn" href="${flightEssentials.fastTrack.pdf}" target="_blank" rel="noopener">Open Fast Track PDF</a>
+        </article>
+      </div>
+    </details>`;
+}
+
 function renderDayIndicator() {
   const el = document.querySelector("#dayIndicator");
   const textEl = document.querySelector("#dayIndicatorText");
@@ -1306,7 +1142,9 @@ function renderDayIndicator() {
 
 function renderFlights() {
   renderFlightStatusOverview();
-  document.querySelector("#flightPanel").innerHTML = flights.map(flight => `
+  document.querySelector("#flightPanel").innerHTML = `
+    ${renderFlightEssentials()}
+    ${flights.map(flight => `
     <details class="pocket-card" id="flight-${flight.number}" ${flight.number === "2184" ? "open" : ""}>
       <summary class="pocket-card__summary">
         <div>
@@ -1320,30 +1158,13 @@ function renderFlights() {
         <p><strong>${flight.terminal}</strong></p>
         <p>${flight.arrive}</p>
         ${renderFlightStatusBox(statusForFlight(flight))}
-        <section class="flight-pocket__checklist">
-          <strong>Before this leg</strong>
-          <div class="checklist">
-            ${renderInlineChecklist(flightReadiness[flight.number] || [], `flightReady:b6-${flight.number}`)}
-          </div>
-        </section>
         <div class="button-row">
           ${flightTrackers(flight).map(([label, url]) => `<a class="button button--secondary" href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
         </div>
         <p class="flight-pocket__note">Use the <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (Android)</a> for the most direct airline updates. The Live Status link above opens a Google search for real-time status.</p>
       </div>
     </details>
-  `).join("");
-}
-
-function renderDepartureGuard() {
-  document.querySelector("#departureGuardPanel").innerHTML = departureGuardrails.map(item => `
-    <article class="info-card info-card--dark">
-      <span>${item.date}</span>
-      <strong>${item.title}</strong>
-      <p>${item.anchor}</p>
-      <ul class="bullet-list">${item.bullets.map(bullet => `<li>${bullet}</li>`).join("")}</ul>
-    </article>
-  `).join("");
+  `).join("")}`;
 }
 
 function renderBooking() {
@@ -1373,77 +1194,6 @@ function renderBooking() {
       </div>
       <ul class="bullet-list">${booking.actionItems.map(item => `<li>${item}</li>`).join("")}</ul>
     </details>
-  `;
-}
-
-function renderAppSetup() {
-  document.querySelector("#appSetupPanel").innerHTML = `
-    <div class="setup-section">
-      <p class="setup-label">Download Apps</p>
-      <p class="setup-note">One place for the phone apps that may be useful during the trip.</p>
-      <div class="app-download-list" style="margin-top:10px">
-        ${appDownloads.map(app => `
-          <article class="app-download-card">
-            <div class="ticket-card__body">
-              <strong>${app.label}</strong>
-              <span>${app.why}</span>
-            </div>
-            <div class="app-download-card__actions">
-              <a class="button button--secondary" href="${app.ios}" target="_blank" rel="noopener">iPhone</a>
-              <a class="button button--secondary" href="${app.android}" target="_blank" rel="noopener">Android</a>
-            </div>
-          </article>
-        `).join("")}
-      </div>
-    </div>
-
-    <div class="setup-section">
-      <p class="setup-label">Flight alerts — ntfy</p>
-      <p class="setup-note">Trip reminders, departure nudges, and flight alerts come through ntfy.</p>
-      <div class="topic-row" style="margin-top:4px">
-        <code class="topic-code">${ntfyTopic}</code>
-        <button class="copy-btn" type="button" data-copy-topic aria-label="Copy topic">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy
-        </button>
-      </div>
-      <div class="button-row" style="margin-top:8px">
-        <a class="button" href="${appLinks.ntfyIos}" target="_blank" rel="noopener">App Store — iPhone</a>
-        <a class="button" href="${appLinks.ntfyAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
-      </div>
-      <ol class="ticket-steps" style="margin-top:8px">
-        <li>Install ntfy using the links above</li>
-        <li>Open ntfy → tap "+ Add topic" → paste the topic above → tap Save</li>
-        <li>Allow notifications when prompted</li>
-      </ol>
-    </div>
-
-    <div class="setup-section">
-      <p class="setup-label">JetBlue app</p>
-      <p class="setup-note">Check in, see boarding passes, and track flight status. Confirmation: <strong>KDHSOU</strong></p>
-      <div class="button-row" style="margin-top:8px">
-        <a class="button" href="${appLinks.jetBlueIos}" target="_blank" rel="noopener">App Store — iPhone</a>
-        <a class="button" href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
-      </div>
-    </div>
-
-    <div class="setup-section">
-      <p class="setup-label">TfL Go</p>
-      <p class="setup-note">Transport for London — plan every Tube move and see live departures.</p>
-      <div class="button-row" style="margin-top:8px">
-        <a class="button" href="${appLinks.tflIos}" target="_blank" rel="noopener">App Store — iPhone</a>
-        <a class="button" href="${appLinks.tflAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
-      </div>
-    </div>
-
-    <div class="setup-section">
-      <p class="setup-label">Big Bus Tours app</p>
-      <p class="setup-note">Install before June 26 → tap 'Add Booking' → enter <strong>VVXCH9SM</strong> → activate on the day when boarding.</p>
-      <div class="button-row" style="margin-top:8px">
-        <a class="button" href="${appLinks.bigBusIos}" target="_blank" rel="noopener">App Store — iPhone</a>
-        <a class="button" href="${appLinks.bigBusAndroid}" target="_blank" rel="noopener">Google Play — Android</a>
-      </div>
-    </div>
   `;
 }
 
@@ -1607,16 +1357,6 @@ function wireEvents() {
       return;
     }
 
-    const pushSetupButton = event.target.closest("[data-open-push-setup]");
-    if (pushSetupButton) {
-      setActivePanel("wallet");
-      window.scrollTo({ top: 0, behavior: "instant" });
-      setTimeout(() => {
-        document.querySelector("#appSetupPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 60);
-      return;
-    }
-
     const flightLeg = event.target.closest("[data-scroll-to-flight]");
     if (flightLeg) {
       const pocket = document.querySelector(`#flight-${flightLeg.dataset.scrollToFlight}`);
@@ -1627,15 +1367,6 @@ function wireEvents() {
       return;
     }
 
-  });
-
-  document.addEventListener("change", event => {
-    if (!event.target.matches("input[type='checkbox'][data-key]")) return;
-    const key = event.target.dataset.key;
-    const index = event.target.dataset.index;
-    const saved = JSON.parse(localStorage.getItem(key) || "{}");
-    saved[index] = event.target.checked;
-    localStorage.setItem(key, JSON.stringify(saved));
   });
 
   document.querySelector("#mapSearch").addEventListener("input", event => {
@@ -1657,12 +1388,8 @@ renderTubePockets();
 renderMaps();
 renderResources();
 renderTickets();
-renderAppSetup();
-renderChecklist("#todoList", todo, "londonTripTodo");
-renderChecklist("#packList", pack, "londonTripPack");
 renderEmergencyContacts();
 renderRecovery();
-renderDepartureGuard();
 renderFlights();
 renderDayIndicator();
 wireEvents();

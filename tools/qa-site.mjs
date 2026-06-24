@@ -17,8 +17,8 @@ assert.match(index, /app\.js\?v=\d+/, "index should include a cache-busted app U
 assert.match(index, /data-target="overview"/, "index should start from the itinerary panel");
 assert.match(index, /London (Birthday Trip|Travel Guide)/, "site should present itself as a travel guide");
 assert.match(index, /<button class="nav-item is-active"[\s\S]*?data-target="overview"[\s\S]*?Guide[\s\S]*?<\/button>/, "primary bottom nav item should be the guide");
+assert.match(index, /data-target="wallet"[\s\S]*?Wallet[\s\S]*?<\/button>/, "bottom nav should label the documents section as Wallet");
 assert.match(index, /London Itinerary|Day-by-day guide|Itinerary first/, "guide should keep itinerary first");
-assert.match(index, /id="appSetupPanel"/, "index should include the app setup panel");
 assert.match(index, /id="hotelActionPanel"/, "index should include the move panel hotel actions");
 assert.doesNotMatch(index, /docsProgressBar/, "wallet should not show the pre-trip missing-items progress block");
 assert.match(index, /class="nav-item is-active"|class="tab-button is-active"/, "index should include a default active nav item");
@@ -29,11 +29,9 @@ assert.match(app, /setActivePanel/, "app should switch between compartment panel
 assert.match(app, /Day snapshot/, "guide day cards should include a quick daily flow snapshot");
 assert.match(app, /day\.snapshot\.path/, "guide day snapshots should render the planned stop path");
 assert.match(app, /renderSnapshotStop/, "guide day snapshot stops should render as map targets");
-assert.match(app, /App Store.*iPhone|Download for iPhone/s, "app should provide iPhone install guidance");
-assert.match(app, /Google Play.*Android|Download for Android/s, "app should provide Android install guidance");
 assert.doesNotMatch(index, /todaySummary|Essentials/, "guide home should stay itinerary-only");
-assert.doesNotMatch(index, /data-enable-flight-alerts|Browser Alerts|photoModal|photo-reminder\.ics/, "site should not expose browser or calendar reminder controls");
-assert.doesNotMatch(app, /Notification\.requestPermission|new Notification|maybeNotifyFlightStatus|openPhotoReminder|photoMission|beforeinstallprompt|data-install-app|renderPhonePush|Install ntfy before travel|Works offline|Finish the phone setup/, "app should not use browser notification reminders or stale install prompts");
+assert.doesNotMatch(index, /Pre-Trip|Download Apps|App Setup|Pre-Trip Checklist|Packing List|data-enable-flight-alerts|Browser Alerts|photoModal|photo-reminder\.ics/, "site should not expose completed pre-trip setup/checklist sections");
+assert.doesNotMatch(app, /Notification\.requestPermission|new Notification|maybeNotifyFlightStatus|openPhotoReminder|photoMission|beforeinstallprompt|data-install-app|renderPhonePush|renderAppSetup|renderChecklist|renderInlineChecklist|appDownloads|Install ntfy before travel|Works offline|Finish the phone setup|Download Apps|Pre-Trip Checklist|Packing List/, "app should not use browser notification reminders or stale install/checklist prompts");
 assert.match(tripPushWorkflow, /ntfy\.sh\/\$NTFY_TOPIC/, "trip reminders should send through ntfy phone push");
 assert.match(tripPushWorkflow, /update-trip-push-reminders\.mjs/, "trip reminder workflow should generate due push reminders");
 assert.match(app, /Walk hotel to Pimlico Station/, "app should expose direct hotel-to-tube walking guidance");
@@ -48,22 +46,39 @@ assert.match(app, /resolvePanelFromHash/, "app should resolve panel routing from
 assert.match(app, /assets\/parental-travel-consent-letter\.pdf/, "wallet should link to the parental travel consent PDF");
 assert.match(app, /assets\/hotel-booking-confirmation\.pdf/, "wallet should link to the hotel Booking.com PDF");
 assert.match(app, /assets\/big-bus-ticket\.pdf/, "wallet should link to the Big Bus ticket PDF");
-assert.match(app, /Heathrow Fast Track Departures/, "wallet should include the Heathrow Fast Track booking");
+assert.match(app, /Heathrow Fast Track Departures/, "flights should include the Heathrow Fast Track booking");
 assert.match(app, /AHA2OC/, "Heathrow Fast Track booking reference should be present");
-assert.match(app, /departures security, not arrivals passport control or flight connections/, "Heathrow Fast Track should be clearly limited to departures security");
+assert.match(app, /9:00-10:00 AM one-hour window/, "Heathrow Fast Track should show the amended one-hour window");
+assert.match(app, /Plan to arrive at Terminal 2 around 8:45 AM/, "Heathrow Fast Track should show the Terminal 2 arrival target");
+assert.match(app, /own security entrance next to the main security entrances/, "Heathrow Fast Track should explain the Terminal 2 security entrance");
 assert.match(app, /passport control eGates/, "arrival guide should include Heathrow passport control eGate guidance");
 assert.match(app, /assets\/heathrow-fast-track-confirmation\.pdf/, "wallet should link to the Heathrow Fast Track PDF");
 assert.match(app, /Booking\.com confirmation \$\{booking\.confirmation\}/, "hotel pocket should show the Booking.com confirmation number");
 assert.match(app, /Open confirmation PDF/, "hotel pocket should expose a direct confirmation PDF button");
-assert.match(app, /FREENOW \/ FreeNow taxis/, "download apps should include FreeNow taxi links");
-assert.match(app, /appLinks\.freenowIos[\s\S]*appLinks\.freenowAndroid|appLinks\.freenowAndroid[\s\S]*appLinks\.freenowIos/, "FreeNow should include iPhone and Android app targets");
+assert.match(app, /person: "Tiffany"[\s\S]*reference: "2021-2606-1655-7845"/, "flights should include Tiffany UK ETA data");
+assert.match(app, /person: "Collin"[\s\S]*reference: "2021-2606-1009-0807"/, "flights should include Collin UK ETA data");
+assert.match(app, /<span>UK ETA — \$\{eta\.person\}<\/span>/, "flights should render UK ETA cards");
+assert.match(app, /2021-2606-1655-7845/, "Tiffany ETA reference should be present");
+assert.match(app, /2021-2606-1009-0807/, "Collin ETA reference should be present");
+assert.match(app, /ETA is passport-linked and should be automated at travel/, "ETA copy should explain no separate display is normally needed");
+assert.doesNotMatch(app, /gov\.uk\/check-eta|gov\.uk\/apply-uk-visa/, "ETA cards should not link out to GOV.UK");
 assert.doesNotMatch(app, /RDUBOS|replace\(" → ", ""\)/, "flight route display should not merge airport abbreviations on mobile");
 assert.match(styles, /grid-template-columns: 8px minmax\(76px, auto\)/, "flight status rows should reserve mobile space for airport abbreviations");
 assert.match(app, /buttonLabel.*Open (Hotel PDF|Bus Ticket|Letter)|Open (Hotel PDF|Bus Ticket|Letter).*buttonLabel/s, "prominent wallet documents should use buttonLabel for a big tap button");
 assert.match(app, /ticket-item__btn/, "prominent wallet buttons should use ticket-item__btn class");
-assert.match(app, /renderAppSetup/, "wallet should render the app setup and alerts section");
 assert.doesNotMatch(app, /renderDocsProgressBar|needed-alert|items missing/, "app should not render the old wallet missing-items banner");
+assert.doesNotMatch(app, /Before this leg|flightReadiness|departureGuardrails|renderDepartureGuard/, "flights should not show completed before-this-leg or guardrail cards");
 assert.match(pushReminders, /big-bus-activate-2026-06-26/, "push reminders should include Big Bus activation on June 26");
+for (const id of [
+  "jetblue-checkin-outbound-2026-06-24",
+  "offline-london-maps-2026-06-24",
+  "heathrow-egates-2026-06-26",
+  "london-eye-2026-06-26",
+  "return-checkin-2026-06-28",
+  "heathrow-fast-track-2026-06-29"
+]) {
+  assert.match(pushReminders, new RegExp(id), `${id} reminder should be scheduled`);
+}
 assert.doesNotMatch(app, /Download JetBlue app|Download Big Bus Tours app|Download TfL Go|Download ntfy|Download Uber/, "pre-trip checklist should not contain dead-end download wording");
 assert.match(styles, /\.panel-view/, "styles should define compartment panels");
 assert.match(styles, /\.bottom-nav|\.tab-bar/, "styles should define the section navigation");
@@ -71,11 +86,10 @@ assert.match(styles, /\.pocket-card/, "styles should define tucked-away pocket c
 assert.match(styles, /\.route-pocket/, "styles should define direct route pockets");
 assert.match(styles, /\.overview-grid/, "styles should define summary grids");
 assert.match(styles, /\.ref-chip/, "styles should define the wallet confirmation code chip");
-assert.match(styles, /\.setup-section/, "styles should define the app setup section layout");
+assert.match(styles, /\.flight-doc-card/, "styles should define the flight document cards");
 assert.match(index, /id="routeShortcutList"/, "index should include route shortcuts");
 assert.match(index, /id="tubeBasicsPanel"/, "move panel should include transit rules at the bottom");
 assert.match(index, /id="recoveryPanel"/, "index should include recovery guidance");
-assert.match(index, /id="appSetupPanel"/, "wallet should include the app setup mount");
 assert.match(worker, /networkFirst\(event\.request\)/, "flight status should use network-first caching");
 assert.match(worker, /cacheFirst\(event\.request\)/, "static shell should use cache-first caching");
 assert.match(worker, /const CACHE_NAME = "london-trip-v\d+"/, "service worker cache name should change per release");

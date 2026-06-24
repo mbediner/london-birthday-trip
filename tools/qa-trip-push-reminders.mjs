@@ -24,18 +24,32 @@ function runAt(iso) {
   });
 }
 
-assert.ok(tripReminders.length >= 10, "trip push should cover setup, travel, day, photo, and return reminders");
+assert.ok(tripReminders.length >= 16, "trip push should cover check-in, maps, travel, tickets, photo, and return reminders");
 assert.equal(
   tripReminders.every(reminder => reminder.title.startsWith("Mom and Dad")),
   true,
   "every reminder should clearly come from Mom and Dad"
 );
 
+const reminderIds = tripReminders.map(reminder => reminder.id);
+for (const id of [
+  "jetblue-checkin-outbound-2026-06-24",
+  "offline-london-maps-2026-06-24",
+  "heathrow-egates-2026-06-26",
+  "big-bus-activate-2026-06-26",
+  "london-eye-2026-06-26",
+  "return-checkin-2026-06-28",
+  "heathrow-fast-track-2026-06-29"
+]) {
+  assert.ok(reminderIds.includes(id), `${id} should be scheduled`);
+}
+assert.equal(reminderIds.includes("phone-setup-2026-06-24"), false, "completed phone setup reminder should be removed");
+
 const beforeTrip = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T12:00:00-04:00"));
 assert.equal(beforeTrip.length, 0, "nothing should send before the first reminder time");
 
-const firstDue = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T20:05:00-04:00"));
-assert.deepEqual(firstDue.map(reminder => reminder.id), ["phone-setup-2026-06-24"]);
+const firstDue = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T14:05:00-04:00"));
+assert.deepEqual(firstDue.map(reminder => reminder.id), ["jetblue-checkin-outbound-2026-06-24"]);
 
 const stateAfterFirst = markSent({ sent: {} }, firstDue, new Date("2026-06-24T20:05:00-04:00"));
 assert.equal(
@@ -43,6 +57,9 @@ assert.equal(
   0,
   "already-sent reminders should not repeat"
 );
+
+const mapsDue = dueReminders(tripReminders, stateAfterFirst, new Date("2026-06-24T21:05:00-04:00"));
+assert.deepEqual(mapsDue.map(reminder => reminder.id), ["offline-london-maps-2026-06-24"]);
 
 runAt("2026-06-26T20:05:00+01:00");
 const firstRun = JSON.parse(await fs.readFile(notificationsOutput, "utf8"));

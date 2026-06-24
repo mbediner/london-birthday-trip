@@ -10,7 +10,7 @@
   <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/icon.svg">
   <link rel="preload" as="image" href="assets/london_eye.webp" type="image/webp">
-  <link rel="stylesheet" href="styles.css?v=202606221707">
+  <link rel="stylesheet" href="styles.css?v=202606241512">
 </head>
 <body>
   <div class="app-shell">
@@ -98,14 +98,13 @@
           </div>
         </div>
         <div id="flightPanel" class="pocket-stack"></div>
-        <div id="departureGuardPanel" class="overview-grid"></div>
       </section>
 
       <!-- Documents / Wallet -->
       <section class="panel-view" id="wallet" data-panel hidden>
         <div class="section-heading">
-          <p class="eyebrow">Travel Documents</p>
-          <h2>Confirmations &amp; setup</h2>
+          <p class="eyebrow">Wallet</p>
+          <h2>Tickets &amp; confirmations</h2>
         </div>
         <div class="pocket-stack">
           <details class="pocket-card" open>
@@ -117,34 +116,6 @@
               </div>
             </summary>
             <div id="ticketList"></div>
-          </details>
-          <details class="pocket-card" open>
-            <summary class="pocket-card__summary">
-              <div>
-                <span>Before the Trip</span>
-                <strong>App Setup &amp; Alerts</strong>
-                <p>Install these before June 26 — one time, takes 5 minutes.</p>
-              </div>
-            </summary>
-            <div id="appSetupPanel"></div>
-          </details>
-          <details class="pocket-card">
-            <summary class="pocket-card__summary">
-              <div>
-                <span>Before You Go</span>
-                <strong>Pre-Trip Checklist</strong>
-              </div>
-            </summary>
-            <div id="todoList" class="checklist"></div>
-          </details>
-          <details class="pocket-card">
-            <summary class="pocket-card__summary">
-              <div>
-                <span>What to Pack</span>
-                <strong>Packing List</strong>
-              </div>
-            </summary>
-            <div id="packList" class="checklist"></div>
           </details>
         </div>
       </section>
@@ -189,7 +160,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
         </svg>
-        Pre-Trip
+        Wallet
       </button>
       <button class="nav-item" type="button" data-target="safety" aria-pressed="false">
         <!-- shield icon -->
@@ -207,6 +178,6 @@
   </div><!-- /app-shell -->
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="app.js?v=202606221707"></script>
+  <script type="module" src="app.js?v=202606241512"></script>
 </body>
 </html>

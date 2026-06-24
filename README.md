@@ -100,20 +100,16 @@ Day object shape:
 | Variable | What to update |
 |---|---|
 | `flights` | Flight legs — number, route, times, terminal |
-| `flightReadiness` | Per-leg checklist items |
-| `departureGuardrails` | Departure day reminders |
+| `flightEssentials` | Flight-tab confirmations, UK ETA references, Heathrow eGates guidance, and Fast Track PDF/instructions |
 | `nextMoveTimeline` | Date-aware "next step" cards on Guide tab |
-| `todo` | Pre-trip checklist — sectioned by owner `[{section, items}]`; do not put dead-end app download tasks here |
-| `pack` | Packing list |
 | `tickets` | Wallet confirmations and PDF links — hotel belongs first |
 | `booking` | Hotel booking details, confirmation numbers, check-in/out, and PDF confirmation link |
-| `appDownloads` | Dedicated iPhone / Android app download buttons on Docs tab |
 | `emergencyContacts` / `embassyHelp` | Safety tab numbers, embassy address, map, and passport help |
 | `recoveryPlans` | Practical passport, phone, wallet/card, and lost property actions |
 | `mapQueries` | Named map targets used by buttons throughout the site |
 | `routeShortcuts` | One-tap direction shortcuts on Directions tab |
-| `resourceGroups` | Reference links on Directions tab; app downloads belong in `appDownloads` |
-| `ntfyTopic` | ntfy push topic string |
+| `resourceGroups` | Reference links on Directions tab |
+| `ntfyTopic` | ntfy push topic string used by the scheduled trip reminder workflow |
 
 ---
 

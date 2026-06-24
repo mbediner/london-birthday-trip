@@ -4,12 +4,20 @@ import { fileURLToPath } from "node:url";
 
 export const tripReminders = [
   {
-    id: "phone-setup-2026-06-24",
-    sendAt: "2026-06-24T20:00:00-04:00",
-    title: "Mom and Dad: finish phone setup",
-    message: "Install ntfy, JetBlue, and TfL Go on both phones. Subscribe to the London trip ntfy topic before travel day.",
+    id: "jetblue-checkin-outbound-2026-06-24",
+    sendAt: "2026-06-24T14:00:00-04:00",
+    title: "Mom and Dad: check in on JetBlue",
+    message: "Open the JetBlue app and check in for B6 2184 / B6 1620. Confirmation KDHSOU. Save boarding passes on both phones.",
     priority: "default",
     tags: "bell,airplane"
+  },
+  {
+    id: "offline-london-maps-2026-06-24",
+    sendAt: "2026-06-24T21:00:00-04:00",
+    title: "Mom and Dad: download offline London maps",
+    message: "Open Google Maps tonight and download offline London maps before travel day. Keep the trip guide link handy too.",
+    priority: "default",
+    tags: "world_map,iphone"
   },
   {
     id: "rdu-departure-2026-06-25",
@@ -18,6 +26,14 @@ export const tripReminders = [
     message: "Target RDU by 12:30 PM EDT for B6 2184. Keep passports, consent letter, chargers, and JetBlue confirmation KDHSOU handy.",
     priority: "high",
     tags: "warning,airplane"
+  },
+  {
+    id: "heathrow-egates-2026-06-26",
+    sendAt: "2026-06-26T04:30:00+01:00",
+    title: "Mom and Dad: use Heathrow eGates",
+    message: "When you arrive at Heathrow, use passport control eGates / biometric line if available. Eligible biometric U.S. passports can use eGates for travelers 10+ with an adult.",
+    priority: "high",
+    tags: "passport_control,airplane"
   },
   {
     id: "london-arrival-2026-06-26",
@@ -31,7 +47,7 @@ export const tripReminders = [
     id: "big-bus-activate-2026-06-26",
     sendAt: "2026-06-26T09:30:00+01:00",
     title: "Mom and Dad: activate your bus ticket now",
-    message: "Open the Big Bus Tours app → tap your ticket → press Activate. Ticket countdown starts. Walk to Victoria Station / Buckingham Palace Road entrance and board. Booking ref: VVXCH9SM.",
+    message: "Open the Big Bus Tours app → tap your ticket → press Activate. Ticket countdown starts. Walk to Victoria Station / Buckingham Palace Road entrance and board. Booking ref VVXCH9SM. If needed, open Wallet → Big Bus ticket PDF.",
     priority: "high",
     tags: "bus,ticket"
   },
@@ -42,6 +58,14 @@ export const tripReminders = [
     message: "Open Day 1 in the trip guide. Keep it simple: Victoria, Westminster photos, South Bank, then Uber or black cab back.",
     priority: "default",
     tags: "cityscape,camera"
+  },
+  {
+    id: "london-eye-2026-06-26",
+    sendAt: "2026-06-26T15:00:00+01:00",
+    title: "Mom and Dad: London Eye tickets at 6 PM",
+    message: "London Eye is 6:00 PM. Open Wallet → London Eye for barcodes. Go to Riverside Building, County Hall, Westminster Bridge Rd and join the queue at the timeslot.",
+    priority: "high",
+    tags: "ferris_wheel,ticket"
   },
   {
     id: "photo-mission-2026-06-26",
@@ -76,6 +100,14 @@ export const tripReminders = [
     tags: "crown,map"
   },
   {
+    id: "return-checkin-2026-06-28",
+    sendAt: "2026-06-28T11:55:00+01:00",
+    title: "Mom and Dad: check in for return flights",
+    message: "24 hours before B6 20. Open JetBlue app and check in for LHR→JFK and JFK→RDU. Confirmation KDHSOU. Save boarding passes.",
+    priority: "high",
+    tags: "airplane,ticket"
+  },
+  {
     id: "photo-mission-2026-06-28",
     sendAt: "2026-06-28T20:00:00+01:00",
     title: "Mom and Dad: photo mission",
@@ -87,9 +119,17 @@ export const tripReminders = [
     id: "heathrow-departure-2026-06-29",
     sendAt: "2026-06-29T06:45:00+01:00",
     title: "Mom and Dad: leave for Heathrow",
-    message: "Leave the hotel around 7:00-7:15 AM BST. Keep passports and flight screenshots out before leaving.",
+    message: "Leave the hotel around 7:00-7:15 AM BST and target Terminal 2 around 8:45 AM. Keep passports, boarding passes, and Fast Track reference AHA2OC handy.",
     priority: "high",
     tags: "warning,airplane"
+  },
+  {
+    id: "heathrow-fast-track-2026-06-29",
+    sendAt: "2026-06-29T09:00:00+01:00",
+    title: "Mom and Dad: use Heathrow Fast Track",
+    message: "Fast Track window is being amended to 9:00-10:00 AM. At Terminal 2, follow Fast Track wayfinding next to main security entrances. Reference AHA2OC. Open Flights → Fast Track or the PDF.",
+    priority: "high",
+    tags: "lock,ticket"
   },
   {
     id: "home-photo-wrap-2026-06-29",

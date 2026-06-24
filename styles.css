@@ -884,26 +884,14 @@ h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   LIST LINKS + CHECK ITEMS
+   LIST LINKS
    ═══════════════════════════════════════════════════════════ */
-.action-list,
-.checklist,
-.app-download-list {
+.action-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
   padding: 0 0 4px;
 }
-.checklist-section__label {
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  padding: 10px 4px 2px;
-  margin: 0;
-}
-.checklist-section__label:first-child { padding-top: 2px; }
 
 .list-link {
   display: flex;
@@ -953,25 +941,6 @@ h3 {
   text-transform: uppercase;
 }
 
-.app-download-card {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 12px 16px;
-  background: var(--bg-card-hover);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-inner);
-}
-.app-download-card__actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.app-download-card__actions .button {
-  min-height: 36px;
-  padding: 8px 10px;
-}
-
 /* Ticket badges */
 .ticket-badge {
   flex: 0 0 auto;
@@ -999,38 +968,6 @@ h3 {
   background: rgba(255,255,255,0.08);
   border: 1px solid var(--border);
   color: var(--text-secondary) !important;
-}
-
-/* Checklist items */
-.check-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 14px;
-  background: var(--bg-card-hover);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-inner);
-  cursor: pointer;
-  font-size: 0.875rem;
-  color: var(--text-primary);
-  line-height: 1.4;
-}
-.check-item input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--accent);
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.check-item:has(input:checked) {
-  color: var(--text-secondary);
-  background: var(--bg-base);
-}
-.check-item--compact {
-  padding: 8px 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -1151,27 +1088,52 @@ h3 {
 .flight-pocket__body { padding: 0 16px 16px; }
 .flight-pocket__body p { font-size: 0.875rem; color: var(--text-secondary); margin: 4px 0; }
 .flight-pocket__body p strong { color: var(--text-primary); font-size: 0.875rem; }
-
-.flight-pocket__checklist {
-  margin-top: 12px;
-  padding: 12px 14px;
-  background: rgba(79,156,249,0.06);
-  border: 1px solid rgba(79,156,249,0.2);
-  border-radius: var(--radius-inner);
-}
-.flight-pocket__checklist strong {
-  display: block;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
 .flight-pocket__note {
   margin: 10px 0 0;
   font-size: 0.8125rem;
   color: var(--text-secondary);
+}
+
+.flight-docs-grid {
+  display: grid;
+  gap: 10px;
+  padding: 0 16px 16px;
+}
+.flight-doc-card {
+  display: grid;
+  gap: 7px;
+  padding: 12px;
+  background: var(--bg-card-hover);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-inner);
+  min-width: 0;
+}
+.flight-doc-card span:not(.ref-chip) {
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.flight-doc-card strong {
+  font-size: 0.9375rem;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+.flight-doc-card p,
+.flight-doc-card small {
+  margin: 0;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+.flight-doc-card--primary {
+  border-color: rgba(79,156,249,0.32);
+  background: rgba(79,156,249,0.08);
+}
+.flight-doc-card--fast-track {
+  border-color: rgba(245,158,11,0.38);
+  background: rgba(245,158,11,0.08);
 }
 
 /* Status box (live flight data) */
@@ -1466,12 +1428,5 @@ h3 {
 .ref-chip { display:inline-flex; align-items:center; padding:5px 12px; border-radius:8px; font-family:monospace; font-size:1rem; font-weight:800; letter-spacing:0.06em; border:1.5px solid; flex-shrink:0; }
 .ref-chip--red { background:rgba(230,57,70,0.18); border-color:rgba(230,57,70,0.4); color:#f08090; }
 .ref-chip--amber { background:rgba(245,158,11,0.18); border-color:rgba(245,158,11,0.4); color:#fbbf24; }
+.flight-doc-card .ref-chip--amber { color:#fbbf24; }
 .ticket-steps { margin:4px 0 0; padding:0 0 0 18px; font-size:0.8rem; color:var(--text-secondary); line-height:1.6; }
-
-/* ═══════════════════════════════════════════════════════════
-   APP SETUP SECTION
-   ═══════════════════════════════════════════════════════════ */
-.setup-section { padding:14px 16px; border-bottom:1px solid var(--border); display:flex; flex-direction:column; gap:8px; }
-.setup-section:last-child { border-bottom:none; }
-.setup-label { font-size:0.8rem; font-weight:700; color:var(--text-primary); margin:0; text-transform:uppercase; letter-spacing:0.05em; }
-.setup-note { font-size:0.8rem; color:var(--text-secondary); margin:0; line-height:1.4; }
