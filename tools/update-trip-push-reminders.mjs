@@ -127,7 +127,7 @@ export const tripReminders = [
     id: "heathrow-fast-track-2026-06-29",
     sendAt: "2026-06-29T09:00:00+01:00",
     title: "Mom and Dad: use Heathrow Fast Track",
-    message: "Fast Track window is being amended to 9:00-10:00 AM. At Terminal 2, follow Fast Track wayfinding next to main security entrances. Reference AHA2OC. Open Flights → Fast Track or the PDF.",
+    message: "Fast Track window is 9:30-10:30 AM. At Terminal 2, follow Fast Track wayfinding next to main security entrances. Reference AHA2OC. Open Flights → Fast Track or the PDF.",
     priority: "high",
     tags: "lock,ticket"
   },

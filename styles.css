@@ -293,12 +293,6 @@ h3 {
   font-weight: 600;
   color: var(--text-primary);
 }
-.callout-grid {
-  display: grid;
-  gap: 8px;
-  grid-template-columns: repeat(3, 1fr);
-}
-
 /* ═══════════════════════════════════════════════════════════
    BASE CARD
    ═══════════════════════════════════════════════════════════ */
@@ -678,7 +672,6 @@ h3 {
   transform: rotate(-135deg);
 }
 .sub-pocket .step-list,
-.sub-pocket .callout-grid,
 .sub-pocket .bullet-list { padding: 0 14px 14px; margin: 0; }
 
 /* Step list */
@@ -745,36 +738,6 @@ h3 {
   white-space: nowrap;
 }
 .map-chip:hover { border-color: var(--border-active); }
-
-/* Callout cards (photos, fallbacks) */
-.callout-card {
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-inner);
-  background: var(--bg-base);
-}
-.callout-card span {
-  display: block;
-  font-size: 0.6rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-secondary);
-  margin-bottom: 3px;
-}
-.callout-card strong {
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-bottom: 4px;
-}
-.callout-card p {
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.4;
-}
 
 /* ═══════════════════════════════════════════════════════════
    ROUTE SHORTCUTS
@@ -1396,13 +1359,11 @@ h3 {
 @media (min-width: 600px) {
   .app-main { padding: 20px 20px 80px; }
   .overview-grid { grid-template-columns: repeat(2, 1fr); }
-  .callout-grid { grid-template-columns: repeat(3, 1fr); }
   .trip-facts { grid-template-columns: repeat(2, 1fr); }
   .trip-facts--single { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 400px) {
-  .callout-grid { grid-template-columns: 1fr; }
   .overview-grid { grid-template-columns: 1fr; }
   /* emergency-grid stays 2-col even at 375px — numbers fit fine */
   .itinerary-summary__text strong { font-size: 0.875rem; }

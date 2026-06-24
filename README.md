@@ -86,10 +86,7 @@ Day object shape:
   food: "...",
   night: "...",
   launchRoute: ["From", "To", "walking|transit|driving"],
-  steps: [["Title", "Description", ["MapName", ...]], ...],
-  photo: "...",
-  tired: "...",
-  rain: "..."
+  steps: [["Title", "Description", ["MapName", ...]], ...]
 }
 ```
 

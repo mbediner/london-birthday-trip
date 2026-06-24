@@ -216,9 +216,6 @@ const days = [
       ["Dinner and river walk", "Walk along Queen's Walk. Eat around Southbank Centre / Royal Festival Hall. If energy is good, continue toward Gabriel's Wharf or Oxo Tower.", ["Southbank Centre", "Gabriel's Wharf", "Oxo Tower"]],
       ["Go home", "Take Uber directly back to the hotel. Night 1 return is Uber or black cab, not the Tube.", ["Hotel"]]
     ],
-    photo: "Big Ben from Westminster Bridge, London Eye from Westminster Bridge, Queen's Walk river views.",
-    tired: "If tired after the London Eye, skip the longer Queen's Walk and eat near Southbank Centre, then Uber directly back.",
-    rain: "Still do the London Eye if tickets are booked, then use Southbank Centre or Royal Festival Hall for food and indoor cover."
   },
   {
     id: "day-2",
@@ -252,9 +249,6 @@ const days = [
       ["West End exploring", "Take the Northern line from London Bridge to Leicester Square. Walk Leicester Square to Covent Garden to Seven Dials to Neal's Yard to Soho to Carnaby Street to Chinatown.", ["Leicester Square Station", "Covent Garden", "Seven Dials", "Neal's Yard", "Soho", "Carnaby Street", "Chinatown"]],
       ["Dinner and return", "Dinner in Soho, Chinatown, or Covent Garden. Use the Tube if it is early and comfortable; use Uber or black cab if tired, late, or pickup is easier.", ["Hotel"]]
     ],
-    photo: "Tower Bridge from the south side of the Thames, Neal's Yard, Chinatown gate, Carnaby Street.",
-    tired: "If tired after Borough Market, skip the full Soho / Carnaby Street walk and go straight to Covent Garden and Neal's Yard.",
-    rain: "Spend more time around Borough Market, Covent Garden, covered shops, cafes, and Chinatown."
   },
   {
     id: "day-3",
@@ -288,9 +282,6 @@ const days = [
       ["Regent's Canal", "If weather and energy are good, take a short Regent's Canal walk near Camden Lock.", ["Regent's Canal"]],
       ["Final dinner", "Return toward central London for final dinner in Covent Garden, Soho, or near the hotel. Use Uber or the Tube depending on timing and energy.", ["Covent Garden", "Soho", "Hotel"]]
     ],
-    photo: "Buckingham Palace gates, Camden Market signs, Regent's Canal near Camden Lock.",
-    tired: "Skip Regent's Canal and spend only 1 to 2 hours at Camden Market before returning toward the hotel.",
-    rain: "Shorten the park walk and spend more time in Camden Market covered areas, cafes, and shops."
   },
   {
     id: "day-4",
@@ -309,25 +300,22 @@ const days = [
         { label: "Uber to Heathrow", map: "London Heathrow Airport" },
         { label: "Terminal 2", map: "London Heathrow Airport" },
         { label: "Fast Track security", map: "London Heathrow Airport" },
-        { label: "B6 20 to JFK", map: "JFK Terminal 5" },
+        { label: "JetBlue B6 20 to JFK", map: "JFK Terminal 5" },
         { label: "Find RDU gate", map: "JFK Terminal 5" },
-        { label: "B6 585 to RDU", map: "RDU Airport" },
+        { label: "JetBlue B6 585 to RDU", map: "RDU Airport" },
         { label: "Home", map: "RDU Airport" }
       ]
     },
     steps: [
       ["6:00 AM — wake up and final check", "Set alarms for 6:00 and 6:30 AM BST. Physical check before leaving: passports, wallet, phone, charger, medication, and all bags out of the safe.", ["Hotel"]],
       ["Leave hotel by 7:15 AM", "Book Uber or FREENOW to Heathrow Terminal 2. Plan to arrive around 8:45 AM. Allow extra time because London morning traffic is unpredictable.", ["London Heathrow Airport"]],
-      ["Check in at Terminal 2", "B6 20 departs from Terminal 2 at 11:55 AM. Use the JetBlue app for boarding passes. Budget 30-45 minutes for check-in, passport verification, and bag drop.", ["London Heathrow Airport"]],
-      ["Use Heathrow Fast Track", "Fast Track is being amended to the 9:00-10:00 AM one-hour window. Enter near the beginning of the window. Terminal 2 Fast Track Departures has its own security entrance next to the main security entrances inside the terminal. Follow Fast Track wayfinding or ask airport staff. Booking reference AHA2OC.", ["London Heathrow Airport"]],
+      ["Check in at Terminal 2", "JetBlue B6 20 departs from Terminal 2 at 11:55 AM. Use the JetBlue app for boarding passes. Budget 30-45 minutes for check-in, passport verification, and bag drop.", ["London Heathrow Airport"]],
+      ["Use Heathrow Fast Track", "Book the Fast Track window for 9:30-10:30 AM. Enter near the beginning of the window. Terminal 2 Fast Track Departures has its own security entrance next to the main security entrances inside the terminal. Follow Fast Track wayfinding or ask airport staff. Booking reference AHA2OC.", ["London Heathrow Airport"]],
       ["Clear security and find the gate", "After Fast Track security, go airside first. The plan leaves roughly 90 minutes or more before departure for food, charging phones, and finding the gate.", []],
-      ["Board B6 20 LHR → JFK", "Flight B6 20 departs 11:55 AM BST. Arrives JFK 3:25 PM EDT. Update the parent group text before boarding.", []],
+      ["Board JetBlue B6 20 LHR → JFK", "JetBlue B6 20 departs 11:55 AM BST. Arrives JFK 3:25 PM EDT. Update the parent group text before boarding.", []],
       ["JFK connection — find gate first", "After landing at JFK, stay airside. Find the Raleigh gate before food or charging. If delayed or confused, talk to a JetBlue gate agent.", ["JFK Terminal 5"]],
-      ["Board B6 585 JFK → RDU", "Departs 6:30 PM EDT from Terminal 5. Arrives Raleigh 8:33 PM EDT. Keep parent group text updated from JFK.", []]
+      ["Board JetBlue B6 585 JFK → RDU", "JetBlue B6 585 departs 6:30 PM EDT from Terminal 5. Arrives Raleigh 8:33 PM EDT. Keep parent group text updated from JFK.", []]
     ],
-    photo: "Last view of London from the plane if you get a window seat. Take it.",
-    tired: "Skip any last-minute airport shopping and go to the gate early to rest before the long flight.",
-    rain: "Airport day — weather doesn't change the plan."
   }
 ];
 
@@ -406,7 +394,7 @@ const flightEssentials = {
     title: "Heathrow Fast Track Departures",
     reference: "AHA2OC",
     pdf: "assets/heathrow-fast-track-confirmation.pdf",
-    window: "Amend Fast Track to the 9:00-10:00 AM one-hour window.",
+    window: "Book the Fast Track window for 9:30-10:30 AM.",
     arrival: "Plan to arrive at Terminal 2 around 8:45 AM.",
     location: "Terminal 2 Fast Track Departures passengers have their own security entrance next to the main security entrances inside the terminal. Follow Fast Track wayfinding or ask airport staff.",
     reason: "That gives 30-45 minutes for check-in, passport verification, and bag drop; entry near the beginning of the window; buffer if the JetBlue counter moves slowly; and roughly 90 minutes or more airside before the 11:55 AM departure."
@@ -757,17 +745,6 @@ function renderItinerary() {
             `).join("")}
           </ol>
         </details>
-        <details class="sub-pocket">
-          <summary class="sub-pocket__summary">
-            <strong>Photos and fallbacks</strong>
-            <span>Open only when useful</span>
-          </summary>
-          <div class="callout-grid">
-            <article class="callout-card"><span>Photos</span><strong>Capture this</strong><p>${day.photo}</p></article>
-            <article class="callout-card"><span>If tired</span><strong>Shorten it</strong><p>${day.tired}</p></article>
-            <article class="callout-card"><span>If it rains</span><strong>Pivot cleanly</strong><p>${day.rain}</p></article>
-          </div>
-        </details>
       </div>
     </details>
   `).join("");
@@ -1104,7 +1081,7 @@ function renderFlightEssentials() {
         </article>
         <article class="flight-doc-card flight-doc-card--fast-track">
           <span>${flightEssentials.fastTrack.title}</span>
-          <strong>9:00-10:00 AM window · arrive around 8:45 AM</strong>
+          <strong>9:30-10:30 AM window · arrive around 8:45 AM</strong>
           ${renderFlightReference("Heathrow Fast Track reference", flightEssentials.fastTrack.reference)}
           <p>${flightEssentials.fastTrack.window} ${flightEssentials.fastTrack.arrival}</p>
           <p>${flightEssentials.fastTrack.location}</p>
@@ -1321,7 +1298,7 @@ function wireEvents() {
     link.href = mapsUrl(link.dataset.map);
   });
 
-  document.querySelector("#heroTubeDirections").href = "https://www.google.com/maps/dir/?api=1&destination=nearest%20London%20Underground%20station&travelmode=walking";
+  document.querySelector("#heroTubeDirections").href = "https://www.google.com/maps/search/?api=1&query=Tube%20station%20near%20me";
 
   document.addEventListener("click", async event => {
     const targetButton = event.target.closest("[data-target]");

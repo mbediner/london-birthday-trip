@@ -48,7 +48,8 @@ assert.match(app, /assets\/hotel-booking-confirmation\.pdf/, "wallet should link
 assert.match(app, /assets\/big-bus-ticket\.pdf/, "wallet should link to the Big Bus ticket PDF");
 assert.match(app, /Heathrow Fast Track Departures/, "flights should include the Heathrow Fast Track booking");
 assert.match(app, /AHA2OC/, "Heathrow Fast Track booking reference should be present");
-assert.match(app, /9:00-10:00 AM one-hour window/, "Heathrow Fast Track should show the amended one-hour window");
+assert.match(app, /9:30-10:30 AM/, "Heathrow Fast Track should show the booked one-hour window");
+assert.doesNotMatch(app, /9:00-10:00 AM one-hour window|Photos and fallbacks|day\.photo|day\.tired|day\.rain/, "guide should not render old fallback pocket or stale Fast Track window");
 assert.match(app, /Plan to arrive at Terminal 2 around 8:45 AM/, "Heathrow Fast Track should show the Terminal 2 arrival target");
 assert.match(app, /own security entrance next to the main security entrances/, "Heathrow Fast Track should explain the Terminal 2 security entrance");
 assert.match(app, /passport control eGates/, "arrival guide should include Heathrow passport control eGate guidance");
@@ -62,6 +63,10 @@ assert.match(app, /2021-2606-1655-7845/, "Tiffany ETA reference should be presen
 assert.match(app, /2021-2606-1009-0807/, "Collin ETA reference should be present");
 assert.match(app, /ETA is passport-linked and should be automated at travel/, "ETA copy should explain no separate display is normally needed");
 assert.doesNotMatch(app, /gov\.uk\/check-eta|gov\.uk\/apply-uk-visa/, "ETA cards should not link out to GOV.UK");
+assert.match(app, /JetBlue B6 20 to JFK/, "Day 4 snapshot should include the return LHR to JFK flight number");
+assert.match(app, /JetBlue B6 585 to RDU/, "Day 4 snapshot should include the return JFK to RDU flight number");
+assert.match(app, /Tube%20station%20near%20me/, "top Nearest Tube action should use current-location map search");
+assert.doesNotMatch(app, /nearest%20London%20Underground%20station/, "top Nearest Tube action should not use stale fixed-destination wording");
 assert.doesNotMatch(app, /RDUBOS|replace\(" → ", ""\)/, "flight route display should not merge airport abbreviations on mobile");
 assert.match(styles, /grid-template-columns: 8px minmax\(76px, auto\)/, "flight status rows should reserve mobile space for airport abbreviations");
 assert.match(app, /buttonLabel.*Open (Hotel PDF|Bus Ticket|Letter)|Open (Hotel PDF|Bus Ticket|Letter).*buttonLabel/s, "prominent wallet documents should use buttonLabel for a big tap button");
