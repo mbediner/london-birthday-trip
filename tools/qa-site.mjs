@@ -65,6 +65,9 @@ assert.match(app, /ETA is passport-linked and should be automated at travel/, "E
 assert.doesNotMatch(app, /gov\.uk\/check-eta|gov\.uk\/apply-uk-visa/, "ETA cards should not link out to GOV.UK");
 assert.match(app, /JetBlue B6 20 to JFK/, "Day 4 snapshot should include the return LHR to JFK flight number");
 assert.match(app, /JetBlue B6 585 to RDU/, "Day 4 snapshot should include the return JFK to RDU flight number");
+assert.match(app, /class="flight-confirmation"/, "each flight detail should show a copyable confirmation block");
+assert.match(app, /JetBlue confirmation for B6 \$\{flight\.number\}/, "flight confirmation copy button should be scoped to the flight");
+assert.doesNotMatch(app, /All four JetBlue flights/, "standalone JetBlue confirmation card should be removed from flight documents");
 assert.match(app, /Tube%20station%20near%20me/, "top Nearest Tube action should use current-location map search");
 assert.doesNotMatch(app, /nearest%20London%20Underground%20station/, "top Nearest Tube action should not use stale fixed-destination wording");
 assert.doesNotMatch(app, /RDUBOS|replace\(" → ", ""\)/, "flight route display should not merge airport abbreviations on mobile");
@@ -92,6 +95,7 @@ assert.match(styles, /\.route-pocket/, "styles should define direct route pocket
 assert.match(styles, /\.overview-grid/, "styles should define summary grids");
 assert.match(styles, /\.ref-chip/, "styles should define the wallet confirmation code chip");
 assert.match(styles, /\.flight-doc-card/, "styles should define the flight document cards");
+assert.match(styles, /\.flight-confirmation/, "styles should define per-flight confirmation chips");
 assert.match(index, /id="routeShortcutList"/, "index should include route shortcuts");
 assert.match(index, /id="tubeBasicsPanel"/, "move panel should include transit rules at the bottom");
 assert.match(index, /id="recoveryPanel"/, "index should include recovery guidance");
@@ -104,6 +108,8 @@ assert.match(worker, /"\.\/assets\/big-bus-ticket\.pdf"/, "service worker should
 assert.match(worker, /"\.\/assets\/heathrow-fast-track-confirmation\.pdf"/, "service worker should cache the Heathrow Fast Track PDF");
 assert.match(worker, /"\.\/assets\/hotel-booking-confirmation\.pdf"/, "service worker should cache the hotel confirmation PDF");
 assert.match(worker, /"\.\/assets\/parental-travel-consent-letter\.pdf"/, "service worker should cache the parental travel consent PDF");
+// The amended Heathrow confirmation is a 3-page Gmail-export PDF; this prevents the older 287 KB confirmation from coming back.
+assert.ok((await fs.stat("assets/heathrow-fast-track-confirmation.pdf")).size > 400000, "Heathrow Fast Track PDF should be the amended confirmation");
 assert.equal(manifest.display, "standalone", "manifest should install as a standalone app");
 assert.equal(manifest.start_url, "./", "manifest should start at the site root");
 assert.match(packageJson.scripts["release:prepare"], /bust-cache/, "package should define a cache-busting release prep script");

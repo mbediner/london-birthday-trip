@@ -367,11 +367,6 @@ const flights = [
 ];
 
 const flightEssentials = {
-  jetblue: {
-    label: "JetBlue confirmation",
-    code: "KDHSOU",
-    note: "Use the JetBlue app for check-in, boarding passes, gates, and status."
-  },
   etas: [
     {
       person: "Tiffany",
@@ -1067,12 +1062,6 @@ function renderFlightEssentials() {
         </div>
       </summary>
       <div class="flight-docs-grid">
-        <article class="flight-doc-card flight-doc-card--primary">
-          <span>${flightEssentials.jetblue.label}</span>
-          <strong>All four JetBlue flights</strong>
-          ${renderFlightReference("JetBlue confirmation", flightEssentials.jetblue.code)}
-          <p>${flightEssentials.jetblue.note}</p>
-        </article>
         ${etaCards}
         <article class="flight-doc-card">
           <span>${flightEssentials.arrival.title}</span>
@@ -1135,6 +1124,10 @@ function renderFlights() {
         <p><strong>${flight.terminal}</strong></p>
         <p>${flight.arrive}</p>
         ${renderFlightStatusBox(statusForFlight(flight))}
+        <div class="flight-confirmation">
+          <span>JetBlue confirmation</span>
+          ${renderFlightReference(`JetBlue confirmation for B6 ${flight.number}`, flight.confirmation)}
+        </div>
         <div class="button-row">
           ${flightTrackers(flight).map(([label, url]) => `<a class="button button--secondary" href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
         </div>
