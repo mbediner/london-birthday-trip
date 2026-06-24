@@ -910,11 +910,7 @@ function renderCode128Barcode(value, label) {
 
 function renderTickets() {
   document.querySelector("#ticketList").innerHTML = tickets.map(ticket => {
-    const badge = ticket.status === "confirmed"
-      ? `<span class="ticket-badge ticket-badge--confirmed">✓ Set</span>`
-      : ticket.status === "pending"
-      ? `<span class="ticket-badge ticket-badge--pending">Needed</span>`
-      : `<span class="ticket-badge ticket-badge--action">To do</span>`;
+    const badge = "";
 
     const refChip = ticket.copyCode ? `
       <div class="ref-row">

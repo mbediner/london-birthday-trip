@@ -77,6 +77,8 @@ assert.doesNotMatch(app, /RDUBOS|replace\(" → ", ""\)/, "flight route display 
 assert.match(styles, /grid-template-columns: 8px minmax\(76px, auto\)/, "flight status rows should reserve mobile space for airport abbreviations");
 assert.match(app, /buttonLabel.*Open (Hotel PDF|Bus Ticket|Letter)|Open (Hotel PDF|Bus Ticket|Letter).*buttonLabel/s, "prominent wallet documents should use buttonLabel for a big tap button");
 assert.match(app, /ticket-item__btn/, "prominent wallet buttons should use ticket-item__btn class");
+assert.doesNotMatch(app, /✓ Set|ticket-badge--confirmed|ticket-badge--pending|ticket-badge--action/, "wallet cards should not show status badge pills");
+assert.doesNotMatch(styles, /ticket-badge/, "styles should not keep unused wallet status badge pills");
 assert.doesNotMatch(app, /renderDocsProgressBar|needed-alert|items missing/, "app should not render the old wallet missing-items banner");
 assert.doesNotMatch(app, /Before this leg|flightReadiness|departureGuardrails|renderDepartureGuard/, "flights should not show completed before-this-leg or guardrail cards");
 assert.match(pushReminders, /big-bus-activate-2026-06-26/, "push reminders should include Big Bus activation on June 26");

@@ -876,7 +876,7 @@ h3 {
   font-weight: 700;
   color: var(--text-primary);
 }
-.list-link span:not(.ticket-badge) {
+.list-link span {
   font-size: 0.75rem;
   color: var(--text-secondary);
 }
@@ -902,35 +902,6 @@ h3 {
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-/* Ticket badges */
-.ticket-badge {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.ticket-badge--confirmed {
-  background: rgba(45,158,107,0.2);
-  border: 1px solid rgba(45,158,107,0.35);
-  color: #5dcba0 !important;
-}
-.ticket-badge--pending {
-  background: rgba(245,158,11,0.2);
-  border: 1px solid rgba(245,158,11,0.35);
-  color: var(--warning) !important;
-}
-.ticket-badge--action {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid var(--border);
-  color: var(--text-secondary) !important;
 }
 
 /* ═══════════════════════════════════════════════════════════
