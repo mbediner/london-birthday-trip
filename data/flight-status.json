@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-06T20:56:44.722Z",
+  "updatedAt": "2026-06-24T22:46:00.387Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
@@ -9,14 +9,29 @@
       "route": "RDU -> BOS",
       "departureIso": "2026-06-25T18:34:00Z",
       "arrivalIso": "2026-06-25T20:34:00Z",
-      "status": "Not in monitoring window",
-      "statusKind": "inactive",
+      "status": "Status unavailable",
+      "statusKind": "unknown",
+      "departure": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "arrival": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/2184",
+      "lastCheckedAt": "2026-06-24T22:46:00.387Z",
+      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-24T18:34:00.000Z",
         "ends": "2026-06-25T23:34:00.000Z"
-      },
-      "lastCheckedAt": null,
-      "message": "Checks start 24 hours before departure."
+      }
     },
     {
       "id": "b6-1620",
@@ -24,14 +39,29 @@
       "route": "BOS -> LHR",
       "departureIso": "2026-06-25T22:39:00Z",
       "arrivalIso": "2026-06-26T05:30:00Z",
-      "status": "Not in monitoring window",
-      "statusKind": "inactive",
+      "status": "Status unavailable",
+      "statusKind": "unknown",
+      "departure": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "arrival": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/1620",
+      "lastCheckedAt": "2026-06-24T22:46:00.387Z",
+      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-24T22:39:00.000Z",
         "ends": "2026-06-26T08:30:00.000Z"
-      },
-      "lastCheckedAt": null,
-      "message": "Checks start 24 hours before departure."
+      }
     },
     {
       "id": "b6-20",
