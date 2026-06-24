@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `b195f70` - Update Fast Track PDF and flight confirmations
-**Cache token:** `202606241547`
+**Last release commit:** `55a455c` - Reorder flights panel
+**Cache token:** `202606241623`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241547
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241623
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 24, 2026 Flights panel reorder (Codex)
+
+- **Status overview removed** - deleted the old "Status at a glance" summary block from Flights.
+- **Flights order simplified** - Flights now starts with Flight documents, then Live tracker, then the four individual flight cards.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts the old overview stays gone and the new Flights order is preserved.
+- **Release verified** - mobile Flights UAT passed at 375x812, `npm run release:prepare` passed, pushed `55a455c`, GitHub Pages deploy `28112771284` was green, and final handoff cache token `202606241623` was prepared.
 
 ---
 
