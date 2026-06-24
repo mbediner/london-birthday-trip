@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `55a455c` - Reorder flights panel
-**Cache token:** `202606241623`
+**Last release commit:** `8dc0b30` - Retry Pages deploy on queue timeout
+**Cache token:** `202606242216`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606241623
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606242216
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,16 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 24, 2026 Wallet badge cleanup and CI retry (Codex)
+
+- **Wallet status pills removed** - removed the `Set`/status badge pills from wallet ticket cards while preserving document buttons, references, and copy chips.
+- **Unused badge CSS removed** - deleted the old ticket-badge styling so the wallet markup and styles stay aligned.
+- **QA strengthened** - `tools/qa-site.mjs` now asserts wallet status badge pills and unused badge styles do not return.
+- **Pages deploy made more resilient** - added a one-time retry for the normal Pages deploy and flight-status Pages deploy after GitHub Pages queue timeouts.
+- **Release verified** - mobile Wallet UAT passed at 375x812, `npm run release:prepare` passed, pushed `69d82fe`, `0ac0ac9`, and `8dc0b30`, GitHub Pages deploy `28115888007` was green, merged automated reminder commit `a9bc2c8`, and final handoff cache token `202606242216` was prepared.
 
 ---
 
