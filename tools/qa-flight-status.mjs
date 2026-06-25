@@ -30,8 +30,8 @@ await fs.writeFile(output, JSON.stringify({
   updatedAt: "stable-outside-window",
   source: "scheduled-flightstats",
   flights: [
-    { id: "b6-2184", statusKind: "inactive" },
-    { id: "b6-1620", statusKind: "inactive" },
+    { id: "ua-3520", statusKind: "inactive" },
+    { id: "ua-924", statusKind: "inactive" },
     { id: "b6-20", statusKind: "inactive" },
     { id: "b6-585", statusKind: "inactive" }
   ]
@@ -45,12 +45,14 @@ assert.equal(outsideRun.notifications.notifications.length, 0, "outside windows 
 
 const firstTravelWindowRun = await runAt("2026-06-25T19:00:00Z");
 const firstTravelWindow = firstTravelWindowRun.status;
-const outboundDomestic = firstTravelWindow.flights.find(flight => flight.id === "b6-2184");
-const outboundInternational = firstTravelWindow.flights.find(flight => flight.id === "b6-1620");
+const outboundDomestic = firstTravelWindow.flights.find(flight => flight.id === "ua-3520");
+const outboundInternational = firstTravelWindow.flights.find(flight => flight.id === "ua-924");
 const returnInternational = firstTravelWindow.flights.find(flight => flight.id === "b6-20");
 assert.notEqual(firstTravelWindow.updatedAt, "stable-outside-window", "active windows should update updatedAt");
-assert.ok(outboundDomestic.lastCheckedAt, "active RDU -> BOS should be checked");
-assert.ok(outboundInternational.lastCheckedAt, "active BOS -> LHR should be checked");
+assert.equal(outboundDomestic.carrier, "UA", "active RDU -> IAD should use United tracking");
+assert.equal(outboundInternational.carrier, "UA", "active IAD -> LHR should use United tracking");
+assert.ok(outboundDomestic.lastCheckedAt, "active RDU -> IAD should be checked");
+assert.ok(outboundInternational.lastCheckedAt, "active IAD -> LHR should be checked");
 assert.equal(returnInternational.statusKind, "inactive", "return flight should remain inactive during outbound window");
 assert.ok(firstTravelWindowRun.notifications.notifications.length >= 1, "entering an active window should generate at least one phone notification");
 assert.equal(

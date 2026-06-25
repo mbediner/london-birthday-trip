@@ -112,12 +112,12 @@ Day object shape:
 
 ## Flights
 
-All on confirmation **KDHSOU**:
+Outbound is on United confirmation **I77CEV**. Return is on JetBlue confirmation **KDHSOU**:
 
 | Flight | Route | Date | Departs | Arrives |
 |---|---|---|---|---|
-| B6 2184 | RDU → BOS | Thu Jun 25 | 2:34 PM EDT (T2) | 4:34 PM EDT |
-| B6 1620 | BOS → LHR | Thu Jun 25 | 6:39 PM EDT (T-C) | Fri Jun 26, 6:30 AM BST |
+| UA 3520 | RDU → IAD | Thu Jun 25 | 7:45 PM EDT (RDU T2, Gate D15) | 9:06 PM EDT |
+| UA 924 | IAD → LHR | Thu Jun 25 | 10:15 PM EDT | Fri Jun 26, 10:40 AM BST |
 | B6 20 | LHR → JFK | Mon Jun 29 | 11:55 AM BST (T2) | 3:25 PM EDT |
 | B6 585 | JFK → RDU | Mon Jun 29 | 6:30 PM EDT (T5) | 8:33 PM EDT |
 

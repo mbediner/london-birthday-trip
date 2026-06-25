@@ -3,21 +3,27 @@ import path from "node:path";
 
 const flights = [
   {
-    id: "b6-2184",
-    number: "2184",
-    route: "RDU -> BOS",
-    departureIso: "2026-06-25T18:34:00Z",
-    arrivalIso: "2026-06-25T20:34:00Z"
+    id: "ua-3520",
+    carrier: "UA",
+    appName: "United app",
+    number: "3520",
+    route: "RDU -> IAD",
+    departureIso: "2026-06-25T23:45:00Z",
+    arrivalIso: "2026-06-26T01:06:00Z"
   },
   {
-    id: "b6-1620",
-    number: "1620",
-    route: "BOS -> LHR",
-    departureIso: "2026-06-25T22:39:00Z",
-    arrivalIso: "2026-06-26T05:30:00Z"
+    id: "ua-924",
+    carrier: "UA",
+    appName: "United app",
+    number: "924",
+    route: "IAD -> LHR",
+    departureIso: "2026-06-26T02:15:00Z",
+    arrivalIso: "2026-06-26T09:40:00Z"
   },
   {
     id: "b6-20",
+    carrier: "B6",
+    appName: "JetBlue app",
     number: "20",
     route: "LHR -> JFK",
     departureIso: "2026-06-29T10:55:00Z",
@@ -25,6 +31,8 @@ const flights = [
   },
   {
     id: "b6-585",
+    carrier: "B6",
+    appName: "JetBlue app",
     number: "585",
     route: "JFK -> RDU",
     departureIso: "2026-06-29T22:30:00Z",
@@ -78,7 +86,7 @@ function parseFlightStats(text, flight) {
     .map(line => line.trim())
     .filter(Boolean);
 
-  const flightIndex = lines.findIndex(line => line === `B6 ${flight.number}`);
+  const flightIndex = lines.findIndex(line => line === `${flight.carrier} ${flight.number}`);
   const routeStart = flightIndex >= 0 ? lines.slice(flightIndex, flightIndex + 90) : lines;
   const statusWindowEnd = routeStart.findIndex(line => line === "Flight Departure Times");
   const statusWindow = statusWindowEnd >= 0 ? routeStart.slice(0, statusWindowEnd) : routeStart.slice(0, 40);
@@ -100,7 +108,7 @@ function parseFlightStats(text, flight) {
 }
 
 async function fetchFlight(flight) {
-  const url = `https://www.flightstats.com/v2/flight-tracker/B6/${flight.number}`;
+  const url = `https://www.flightstats.com/v2/flight-tracker/${flight.carrier}/${flight.number}`;
   const readerUrl = `https://r.jina.ai/${url}`;
   let response = await fetch(readerUrl, {
     headers: { "user-agent": "london-birthday-trip flight status checker" }
@@ -122,7 +130,7 @@ async function fetchFlight(flight) {
     lastCheckedAt: now.toISOString(),
     message: parsed.statusKind === "ok"
       ? "FlightStats currently reports this flight as okay."
-      : "Check JetBlue app, Google Status, and airport screens before acting."
+      : `Check ${flight.appName}, Google Status, and airport screens before acting.`
   };
 }
 
@@ -171,7 +179,7 @@ async function build() {
           ends: window.ends.toISOString()
         },
         lastCheckedAt: now.toISOString(),
-        message: `${error.message}. Use JetBlue app or Google Status for live status.`
+        message: `${error.message}. Use ${flight.appName} or Google Status for live status.`
       });
     }
   }
@@ -219,7 +227,7 @@ function buildNotifications(previousFlights, nextFlights) {
 
     notifications.push({
       id: next.id,
-      title: alert ? `Mom and Dad alert: B6 ${next.number}` : `Mom and Dad check: B6 ${next.number}`,
+      title: alert ? `Mom and Dad alert: ${next.carrier} ${next.number}` : `Mom and Dad check: ${next.carrier} ${next.number}`,
       message: [
         `${next.route}: ${next.status}.`,
         `Departure: ${next.departure?.estimated || next.departure?.scheduled || "not available"}.`,

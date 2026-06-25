@@ -206,7 +206,7 @@ const days = [
       ]
     },
     steps: [
-      ["Arrive and get to the hotel", "Land at Heathrow at 6:30 AM BST. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
+      ["Arrive and get to the hotel", "Land at Heathrow at 10:40 AM BST on United UA 924. After immigration and bags, go straight to Holiday Inn Express London - Victoria. Check-in is later, so the goal is to drop bags before sightseeing.", ["London Heathrow Airport", "Hotel"]],
       ["Use passport control eGates", "Tiffany and Collin should be able to use the UK eGates with eligible biometric U.S. passports because they are 10 or older and traveling with an adult. Follow eGates signage first. If the gates refer them to an officer, stay together and use the staffed passport-control line.", ["London Heathrow Airport"]],
       ["Drop bags before check-in", "Ask the front desk to store luggage until check-in. Keep passports, wallets, phones, chargers, tickets, and medication with you.", ["Hotel"]],
       ["Eat near the hotel", "After the bags are stored, walk to Tachbrook Street / Warwick Way for an easy cafe or casual restaurant.", ["Tachbrook Street Market"]],
@@ -323,24 +323,38 @@ const flights = [
   {
     day: "Thursday, June 25",
     dateQuery: "June 25 2026",
-    time: "2:34 PM EDT",
-    route: "RDU -> BOS",
-    number: "2184",
-    airline: "JetBlue B6 2184",
-    confirmation: "KDHSOU",
+    time: "7:45 PM EDT",
+    route: "RDU -> IAD",
+    number: "3520",
+    carrier: "UA",
+    airline: "United UA 3520",
+    operator: "Operated by Republic dba United Express",
+    confirmation: "I77CEV",
+    confirmationLabel: "United confirmation",
     terminal: "Depart Terminal 2",
-    arrive: "Arrive 4:34 PM EDT"
+    gate: "Gate D15",
+    arrive: "Arrive 9:06 PM EDT at IAD Concourse C",
+    timeline: [
+      "5:00 PM: leave home.",
+      "5:45-5:55 PM: arrive at RDU Terminal 2.",
+      "5:55-6:00 PM: enter terminal and go straight to security.",
+      "6:00-6:30 PM: clear standard security.",
+      "6:30-6:45 PM: walk to Gate D15.",
+      "By 6:45 PM: be at the gate. Boarding is likely around 7:05 PM."
+    ]
   },
   {
     day: "Thursday, June 25",
     dateQuery: "June 25 2026",
-    time: "6:39 PM EDT",
-    route: "BOS -> LHR",
-    number: "1620",
-    airline: "JetBlue B6 1620",
-    confirmation: "KDHSOU",
-    terminal: "Depart Terminal C",
-    arrive: "Arrive Friday, June 26 at 6:30 AM BST"
+    time: "10:15 PM EDT",
+    route: "IAD -> LHR",
+    number: "924",
+    carrier: "UA",
+    airline: "United UA 924",
+    confirmation: "I77CEV",
+    confirmationLabel: "United confirmation",
+    terminal: "Depart IAD after 1h 9m connection",
+    arrive: "Arrive Friday, June 26 at 10:40 AM BST"
   },
   {
     day: "Monday, June 29",
@@ -348,8 +362,10 @@ const flights = [
     time: "11:55 AM BST",
     route: "LHR -> JFK",
     number: "20",
+    carrier: "B6",
     airline: "JetBlue B6 20",
     confirmation: "KDHSOU",
+    confirmationLabel: "JetBlue confirmation",
     terminal: "Depart Terminal 2",
     arrive: "Arrive 3:25 PM EDT"
   },
@@ -359,8 +375,10 @@ const flights = [
     time: "6:30 PM EDT",
     route: "JFK -> RDU",
     number: "585",
+    carrier: "B6",
     airline: "JetBlue B6 585",
     confirmation: "KDHSOU",
+    confirmationLabel: "JetBlue confirmation",
     terminal: "Depart Terminal 5",
     arrive: "Arrive 8:33 PM EDT"
   }
@@ -616,7 +634,8 @@ function directionsUrl(from, to, mode = "transit") {
 }
 
 function flightTrackers(flight) {
-  const googleQuery = encodeURIComponent(`B6 ${flight.number} ${flight.dateQuery} flight status`);
+  const carrier = flight.carrier || "B6";
+  const googleQuery = encodeURIComponent(`${carrier} ${flight.number} ${flight.dateQuery} flight status`);
   return [
     ["Live status", `https://www.google.com/search?q=${googleQuery}`]
   ];
@@ -952,7 +971,8 @@ function renderTickets() {
 }
 
 function statusForFlight(flight) {
-  return flightStatusData?.flights?.find(item => item.id === `b6-${flight.number}`) || null;
+  const carrier = (flight.carrier || "B6").toLowerCase();
+  return flightStatusData?.flights?.find(item => item.id === `${carrier}-${flight.number}`) || null;
 }
 
 function renderFlightStatusBox(status) {
@@ -1059,8 +1079,15 @@ function renderDayIndicator() {
 function renderFlights() {
   document.querySelector("#flightDocumentsPanel").innerHTML = renderFlightEssentials();
   document.querySelector("#flightPanel").innerHTML = `
-    ${flights.map(flight => `
-    <details class="pocket-card" id="flight-${flight.number}" ${flight.number === "2184" ? "open" : ""}>
+    ${flights.map(flight => {
+      const confirmationLabel = flight.confirmationLabel || "Flight confirmation";
+      const carrier = flight.carrier || "B6";
+      const appNote = carrier === "UA"
+        ? "Use the United app for boarding passes, gate changes, and status. The Live Status link above opens a Google search for real-time status."
+        : `Use the <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (Android)</a> for the most direct airline updates. The Live Status link above opens a Google search for real-time status.`;
+
+      return `
+    <details class="pocket-card" id="flight-${flight.number}" ${flight.number === "3520" ? "open" : ""}>
       <summary class="pocket-card__summary">
         <div>
           <span>${flight.time}</span>
@@ -1071,19 +1098,23 @@ function renderFlights() {
       </summary>
       <div class="flight-pocket__body">
         <p><strong>${flight.terminal}</strong></p>
+        ${flight.operator ? `<p>${flight.operator}</p>` : ""}
+        ${flight.gate ? `<p><strong>${flight.gate}</strong></p>` : ""}
         <p>${flight.arrive}</p>
         ${renderFlightStatusBox(statusForFlight(flight))}
         <div class="flight-confirmation">
-          <span>JetBlue confirmation</span>
-          ${renderFlightReference(`JetBlue confirmation for B6 ${flight.number}`, flight.confirmation)}
+          <span>${confirmationLabel}</span>
+          ${renderFlightReference(`${confirmationLabel} for ${carrier} ${flight.number}`, flight.confirmation)}
         </div>
+        ${flight.timeline ? `<ul class="bullet-list flight-timeline">${flight.timeline.map(item => `<li>${item}</li>`).join("")}</ul>` : ""}
         <div class="button-row">
           ${flightTrackers(flight).map(([label, url]) => `<a class="button button--secondary" href="${url}" target="_blank" rel="noopener">${label}</a>`).join("")}
         </div>
-        <p class="flight-pocket__note">Use the <a href="${appLinks.jetBlueIos}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (iPhone)</a> or <a href="${appLinks.jetBlueAndroid}" target="_blank" rel="noopener" style="color:var(--accent)">JetBlue app (Android)</a> for the most direct airline updates. The Live Status link above opens a Google search for real-time status.</p>
+        <p class="flight-pocket__note">${appNote}</p>
       </div>
     </details>
-  `).join("")}`;
+  `;
+    }).join("")}`;
 }
 
 function renderBooking() {

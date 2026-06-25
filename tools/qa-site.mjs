@@ -65,8 +65,17 @@ assert.match(app, /ETA is passport-linked and should be automated at travel/, "E
 assert.doesNotMatch(app, /gov\.uk\/check-eta|gov\.uk\/apply-uk-visa/, "ETA cards should not link out to GOV.UK");
 assert.match(app, /JetBlue B6 20 to JFK/, "Day 4 snapshot should include the return LHR to JFK flight number");
 assert.match(app, /JetBlue B6 585 to RDU/, "Day 4 snapshot should include the return JFK to RDU flight number");
+assert.match(app, /United UA 3520/, "outbound RDU to IAD flight should show the United replacement flight");
+assert.match(app, /United UA 924/, "outbound IAD to LHR flight should show the United replacement flight");
+assert.match(app, /I77CEV/, "United trip confirmation should be visible in the app");
+assert.match(app, /Gate D15/, "RDU departure gate should be visible for the United replacement flight");
+assert.match(app, /Republic dba United Express/, "United Express operator should be shown for UA 3520");
+assert.match(app, /10:40 AM BST/, "London arrival should reflect the updated United arrival time");
+assert.match(app, /5:00 PM: leave home/, "United outbound timeline should show the leave-home timing");
+assert.match(app, /flight\.carrier/, "flight rendering should support multiple airlines");
+assert.doesNotMatch(app, /JetBlue B6 2184|JetBlue B6 1620|RDU -> BOS|BOS -> LHR/, "cancelled outbound JetBlue legs should be removed");
 assert.match(app, /class="flight-confirmation"/, "each flight detail should show a copyable confirmation block");
-assert.match(app, /JetBlue confirmation for B6 \$\{flight\.number\}/, "flight confirmation copy button should be scoped to the flight");
+assert.match(app, /\$\{confirmationLabel\} for \$\{carrier\} \$\{flight\.number\}/, "flight confirmation copy button should be scoped to each airline and flight");
 assert.doesNotMatch(app, /All four JetBlue flights/, "standalone JetBlue confirmation card should be removed from flight documents");
 assert.doesNotMatch(index, /Status at a glance|flightStatusOverview/, "flights should not render the old status-at-a-glance overview");
 assert.match(index, /<h2>Flight documents<\/h2>[\s\S]*id="flightDocumentsPanel"[\s\S]*Live tracker[\s\S]*id="flightPanel"/, "flights should show documents, then live tracker, then flight cards");
@@ -83,8 +92,12 @@ assert.doesNotMatch(app, /renderDocsProgressBar|needed-alert|items missing/, "ap
 assert.doesNotMatch(app, /Before this leg|flightReadiness|departureGuardrails|renderDepartureGuard/, "flights should not show completed before-this-leg or guardrail cards");
 assert.match(pushReminders, /big-bus-activate-2026-06-26/, "push reminders should include Big Bus activation on June 26");
 for (const id of [
-  "jetblue-checkin-outbound-2026-06-24",
   "offline-london-maps-2026-06-24",
+  "united-leave-home-2026-06-25",
+  "united-arrive-rdu-2026-06-25",
+  "united-security-2026-06-25",
+  "united-gate-d15-2026-06-25",
+  "united-boarding-2026-06-25",
   "heathrow-egates-2026-06-26",
   "london-eye-2026-06-26",
   "return-checkin-2026-06-28",
@@ -92,6 +105,7 @@ for (const id of [
 ]) {
   assert.match(pushReminders, new RegExp(id), `${id} reminder should be scheduled`);
 }
+assert.doesNotMatch(pushReminders, /jetblue-checkin-outbound-2026-06-24|B6 2184|B6 1620/, "old outbound JetBlue reminder should be removed");
 assert.doesNotMatch(app, /Download JetBlue app|Download Big Bus Tours app|Download TfL Go|Download ntfy|Download Uber/, "pre-trip checklist should not contain dead-end download wording");
 assert.match(styles, /\.panel-view/, "styles should define compartment panels");
 assert.match(styles, /\.bottom-nav|\.tab-bar/, "styles should define the section navigation");

@@ -1,70 +1,76 @@
 {
-  "updatedAt": "2026-06-25T10:23:28.190Z",
-  "source": "scheduled-flightstats",
+  "updatedAt": "2026-06-25T14:28:41.000Z",
+  "source": "united-rebook-screenshot",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
     {
-      "id": "b6-2184",
-      "number": "2184",
-      "route": "RDU -> BOS",
-      "departureIso": "2026-06-25T18:34:00Z",
-      "arrivalIso": "2026-06-25T20:34:00Z",
-      "status": "Status unavailable",
-      "statusKind": "unknown",
+      "id": "ua-3520",
+      "carrier": "UA",
+      "appName": "United app",
+      "number": "3520",
+      "route": "RDU -> IAD",
+      "departureIso": "2026-06-25T23:45:00Z",
+      "arrivalIso": "2026-06-26T01:06:00Z",
+      "status": "On time",
+      "statusKind": "ok",
       "departure": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
-        "gate": null
+        "date": "25-Jun-2026",
+        "scheduled": "7:45 PM",
+        "estimated": "7:45 PM",
+        "terminal": "Terminal 2",
+        "gate": "D15"
       },
       "arrival": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
-        "gate": null
+        "date": "25-Jun-2026",
+        "scheduled": "9:06 PM",
+        "estimated": "9:06 PM",
+        "terminal": "Concourse C",
+        "gate": "C18"
       },
-      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/2184",
-      "lastCheckedAt": "2026-06-25T10:23:28.190Z",
-      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
+      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/UA/3520",
+      "lastCheckedAt": "2026-06-25T14:28:41.000Z",
+      "message": "United reports this flight as on time. Use the United app and airport screens before acting.",
       "activeWindow": {
-        "starts": "2026-06-24T18:34:00.000Z",
-        "ends": "2026-06-25T23:34:00.000Z"
+        "starts": "2026-06-24T23:45:00.000Z",
+        "ends": "2026-06-26T04:06:00.000Z"
       }
     },
     {
-      "id": "b6-1620",
-      "number": "1620",
-      "route": "BOS -> LHR",
-      "departureIso": "2026-06-25T22:39:00Z",
-      "arrivalIso": "2026-06-26T05:30:00Z",
-      "status": "Status unavailable",
-      "statusKind": "unknown",
+      "id": "ua-924",
+      "carrier": "UA",
+      "appName": "United app",
+      "number": "924",
+      "route": "IAD -> LHR",
+      "departureIso": "2026-06-26T02:15:00Z",
+      "arrivalIso": "2026-06-26T09:40:00Z",
+      "status": "On time",
+      "statusKind": "ok",
       "departure": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
+        "date": "25-Jun-2026",
+        "scheduled": "10:15 PM",
+        "estimated": "10:15 PM",
         "terminal": null,
         "gate": null
       },
       "arrival": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
+        "date": "26-Jun-2026",
+        "scheduled": "10:40 AM",
+        "estimated": "10:40 AM",
+        "terminal": "Terminal 2",
         "gate": null
       },
-      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/1620",
-      "lastCheckedAt": "2026-06-25T10:23:28.190Z",
-      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
+      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/UA/924",
+      "lastCheckedAt": "2026-06-25T14:28:41.000Z",
+      "message": "United reports this flight as on time. Use the United app and airport screens before acting.",
       "activeWindow": {
-        "starts": "2026-06-24T22:39:00.000Z",
-        "ends": "2026-06-26T08:30:00.000Z"
+        "starts": "2026-06-25T02:15:00.000Z",
+        "ends": "2026-06-26T12:40:00.000Z"
       }
     },
     {
       "id": "b6-20",
+      "carrier": "B6",
+      "appName": "JetBlue app",
       "number": "20",
       "route": "LHR -> JFK",
       "departureIso": "2026-06-29T10:55:00Z",
@@ -80,6 +86,8 @@
     },
     {
       "id": "b6-585",
+      "carrier": "B6",
+      "appName": "JetBlue app",
       "number": "585",
       "route": "JFK -> RDU",
       "departureIso": "2026-06-29T22:30:00Z",

@@ -4,14 +4,6 @@ import { fileURLToPath } from "node:url";
 
 export const tripReminders = [
   {
-    id: "jetblue-checkin-outbound-2026-06-24",
-    sendAt: "2026-06-24T14:00:00-04:00",
-    title: "Mom and Dad: check in on JetBlue",
-    message: "Open the JetBlue app and check in for B6 2184 / B6 1620. Confirmation KDHSOU. Save boarding passes on both phones.",
-    priority: "default",
-    tags: "bell,airplane"
-  },
-  {
     id: "offline-london-maps-2026-06-24",
     sendAt: "2026-06-24T21:00:00-04:00",
     title: "Mom and Dad: download offline London maps",
@@ -20,16 +12,48 @@ export const tripReminders = [
     tags: "world_map,iphone"
   },
   {
-    id: "rdu-departure-2026-06-25",
-    sendAt: "2026-06-25T10:00:00-04:00",
-    title: "Mom and Dad: leave for RDU soon",
-    message: "Target RDU by 12:30 PM EDT for B6 2184. Keep passports, consent letter, chargers, and JetBlue confirmation KDHSOU handy.",
+    id: "united-leave-home-2026-06-25",
+    sendAt: "2026-06-25T17:00:00-04:00",
+    title: "Mom and Dad: leave home for RDU",
+    message: "Leave home now for RDU Terminal 2. United confirmation I77CEV. UA 3520 departs 7:45 PM from Gate D15, then UA 924 departs IAD at 10:15 PM.",
+    priority: "high",
+    tags: "warning,airplane"
+  },
+  {
+    id: "united-arrive-rdu-2026-06-25",
+    sendAt: "2026-06-25T17:45:00-04:00",
+    title: "Mom and Dad: arrive at RDU",
+    message: "Arrive RDU Terminal 2 between 5:45 and 5:55 PM. Go inside and head straight to standard security. United confirmation I77CEV.",
+    priority: "high",
+    tags: "airplane,ticket"
+  },
+  {
+    id: "united-security-2026-06-25",
+    sendAt: "2026-06-25T18:00:00-04:00",
+    title: "Mom and Dad: clear RDU security",
+    message: "Go straight through standard security and aim to be clear by 6:30 PM. After security, walk to Gate D15 for UA 3520.",
+    priority: "high",
+    tags: "passport_control,airplane"
+  },
+  {
+    id: "united-gate-d15-2026-06-25",
+    sendAt: "2026-06-25T18:30:00-04:00",
+    title: "Mom and Dad: go to Gate D15",
+    message: "Walk to Gate D15 now and be at the gate by 6:45 PM. Boarding for UA 3520 is likely around 7:05 PM.",
+    priority: "high",
+    tags: "airplane,ticket"
+  },
+  {
+    id: "united-boarding-2026-06-25",
+    sendAt: "2026-06-25T19:05:00-04:00",
+    title: "Mom and Dad: UA 3520 boarding",
+    message: "Boarding for UA 3520 should be starting soon at Gate D15. Keep the IAD connection in mind: UA 924 leaves at 10:15 PM.",
     priority: "high",
     tags: "warning,airplane"
   },
   {
     id: "heathrow-egates-2026-06-26",
-    sendAt: "2026-06-26T04:30:00+01:00",
+    sendAt: "2026-06-26T08:30:00+01:00",
     title: "Mom and Dad: use Heathrow eGates",
     message: "When you arrive at Heathrow, use passport control eGates / biometric line if available. Eligible biometric U.S. passports can use eGates for travelers 10+ with an adult.",
     priority: "high",
@@ -37,15 +61,15 @@ export const tripReminders = [
   },
   {
     id: "london-arrival-2026-06-26",
-    sendAt: "2026-06-26T06:45:00+01:00",
+    sendAt: "2026-06-26T10:50:00+01:00",
     title: "Mom and Dad: go to the hotel",
-    message: "After immigration and bags, go straight to Holiday Inn Express London - Victoria and ask them to store luggage.",
+    message: "After UA 924 lands, clear immigration, collect bags, then go straight to Holiday Inn Express London - Victoria and ask them to store luggage.",
     priority: "high",
     tags: "round_pushpin,hotel"
   },
   {
     id: "big-bus-activate-2026-06-26",
-    sendAt: "2026-06-26T09:30:00+01:00",
+    sendAt: "2026-06-26T13:00:00+01:00",
     title: "Mom and Dad: activate your bus ticket now",
     message: "Open the Big Bus Tours app → tap your ticket → press Activate. Ticket countdown starts. Walk to Victoria Station / Buckingham Palace Road entrance and board. Booking ref VVXCH9SM. If needed, open Wallet → Big Bus ticket PDF.",
     priority: "high",
@@ -53,7 +77,7 @@ export const tripReminders = [
   },
   {
     id: "day-1-start-2026-06-26",
-    sendAt: "2026-06-26T10:00:00+01:00",
+    sendAt: "2026-06-26T12:30:00+01:00",
     title: "Mom and Dad: Day 1 starts easy",
     message: "Open Day 1 in the trip guide. Keep it simple: Victoria, Westminster photos, South Bank, then Uber or black cab back.",
     priority: "default",

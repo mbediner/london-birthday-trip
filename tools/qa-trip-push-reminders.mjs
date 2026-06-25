@@ -33,8 +33,12 @@ assert.equal(
 
 const reminderIds = tripReminders.map(reminder => reminder.id);
 for (const id of [
-  "jetblue-checkin-outbound-2026-06-24",
   "offline-london-maps-2026-06-24",
+  "united-leave-home-2026-06-25",
+  "united-arrive-rdu-2026-06-25",
+  "united-security-2026-06-25",
+  "united-gate-d15-2026-06-25",
+  "united-boarding-2026-06-25",
   "heathrow-egates-2026-06-26",
   "big-bus-activate-2026-06-26",
   "london-eye-2026-06-26",
@@ -44,22 +48,23 @@ for (const id of [
   assert.ok(reminderIds.includes(id), `${id} should be scheduled`);
 }
 assert.equal(reminderIds.includes("phone-setup-2026-06-24"), false, "completed phone setup reminder should be removed");
+assert.equal(reminderIds.includes("jetblue-checkin-outbound-2026-06-24"), false, "cancelled outbound JetBlue check-in reminder should be removed");
 
-const beforeTrip = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T12:00:00-04:00"));
+const beforeTrip = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T20:50:00-04:00"));
 assert.equal(beforeTrip.length, 0, "nothing should send before the first reminder time");
 
-const firstDue = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T14:05:00-04:00"));
-assert.deepEqual(firstDue.map(reminder => reminder.id), ["jetblue-checkin-outbound-2026-06-24"]);
+const firstDue = dueReminders(tripReminders, { sent: {} }, new Date("2026-06-24T21:05:00-04:00"));
+assert.deepEqual(firstDue.map(reminder => reminder.id), ["offline-london-maps-2026-06-24"]);
 
 const stateAfterFirst = markSent({ sent: {} }, firstDue, new Date("2026-06-24T20:05:00-04:00"));
 assert.equal(
-  dueReminders(tripReminders, stateAfterFirst, new Date("2026-06-24T20:10:00-04:00")).length,
+  dueReminders(tripReminders, stateAfterFirst, new Date("2026-06-24T21:10:00-04:00")).length,
   0,
   "already-sent reminders should not repeat"
 );
 
-const mapsDue = dueReminders(tripReminders, stateAfterFirst, new Date("2026-06-24T21:05:00-04:00"));
-assert.deepEqual(mapsDue.map(reminder => reminder.id), ["offline-london-maps-2026-06-24"]);
+const unitedDue = dueReminders(tripReminders, stateAfterFirst, new Date("2026-06-25T17:05:00-04:00"));
+assert.deepEqual(unitedDue.map(reminder => reminder.id), ["united-leave-home-2026-06-25"]);
 
 runAt("2026-06-26T20:05:00+01:00");
 const firstRun = JSON.parse(await fs.readFile(notificationsOutput, "utf8"));
