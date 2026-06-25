@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-06-25T14:28:41.000Z",
-  "source": "united-rebook-screenshot",
+  "updatedAt": "2026-06-25T17:33:46.488Z",
+  "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
     {
@@ -15,21 +15,21 @@
       "statusKind": "ok",
       "departure": {
         "date": "25-Jun-2026",
-        "scheduled": "7:45 PM",
-        "estimated": "7:45 PM",
-        "terminal": "Terminal 2",
+        "scheduled": "19:45 EDT",
+        "estimated": "19:45 EDT",
+        "terminal": "2",
         "gate": "D15"
       },
       "arrival": {
         "date": "25-Jun-2026",
-        "scheduled": "9:06 PM",
-        "estimated": "9:06 PM",
-        "terminal": "Concourse C",
+        "scheduled": "21:06 EDT",
+        "estimated": "21:06 EDT",
+        "terminal": "N/A",
         "gate": "C18"
       },
       "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/UA/3520",
-      "lastCheckedAt": "2026-06-25T14:28:41.000Z",
-      "message": "United reports this flight as on time. Use the United app and airport screens before acting.",
+      "lastCheckedAt": "2026-06-25T17:33:46.488Z",
+      "message": "FlightStats currently reports this flight as okay.",
       "activeWindow": {
         "starts": "2026-06-24T23:45:00.000Z",
         "ends": "2026-06-26T04:06:00.000Z"
@@ -47,21 +47,21 @@
       "statusKind": "ok",
       "departure": {
         "date": "25-Jun-2026",
-        "scheduled": "10:15 PM",
-        "estimated": "10:15 PM",
-        "terminal": null,
-        "gate": null
+        "scheduled": "22:15 EDT",
+        "estimated": "22:15 EDT",
+        "terminal": "N/A",
+        "gate": "C4"
       },
       "arrival": {
         "date": "26-Jun-2026",
-        "scheduled": "10:40 AM",
-        "estimated": "10:40 AM",
-        "terminal": "Terminal 2",
-        "gate": null
+        "scheduled": "10:40 BST",
+        "estimated": "10:40 BST",
+        "terminal": "2",
+        "gate": "N/A"
       },
       "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/UA/924",
-      "lastCheckedAt": "2026-06-25T14:28:41.000Z",
-      "message": "United reports this flight as on time. Use the United app and airport screens before acting.",
+      "lastCheckedAt": "2026-06-25T17:33:46.488Z",
+      "message": "FlightStats currently reports this flight as okay.",
       "activeWindow": {
         "starts": "2026-06-25T02:15:00.000Z",
         "ends": "2026-06-26T12:40:00.000Z"
