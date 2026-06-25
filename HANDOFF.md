@@ -6,11 +6,11 @@
 
 ## Current State
 
-**Last release commit:** `8dc0b30` - Retry Pages deploy on queue timeout
-**Cache token:** `202606242216`
+**Last release commit:** `67ba356` - Update outbound flights to United rebook
+**Cache token:** `202606251434`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
-**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606242216
+**Cache-busted URL:** https://mbediner.github.io/london-birthday-trip/?v=202606251434
 
 ---
 ## Pending Fill-Ins (update in `app.js` when Marianna has the info)
@@ -24,6 +24,17 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - June 25, 2026 United outbound rebook (Codex)
+
+- **Outbound flights replaced** - cancelled JetBlue outbound legs were removed and Flights now shows United UA 3520 RDU -> IAD and United UA 924 IAD -> LHR with confirmation `I77CEV`, Gate D15, United Express operator text, and the 10:40 AM BST Heathrow arrival.
+- **Live tracker fixed** - `tools/update-flight-status.mjs` is carrier-aware and now tracks `UA/3520`, `UA/924`, `B6/20`, and `B6/585`; release prep now includes `flight:qa`.
+- **ntfy reminders adjusted** - removed the old outbound JetBlue check-in reminder and added United departure-day reminders for leaving home, RDU arrival, security, Gate D15, and boarding; Heathrow arrival, Big Bus, and Day 1 reminders were shifted later for the new arrival time.
+- **Docs and live data updated** - `README.md` now lists United outbound plus JetBlue return, and `data/flight-status.json` ships an immediate United status snapshot from the rebook screenshot.
+- **QA strengthened** - `tools/qa-site.mjs`, `tools/qa-trip-push-reminders.mjs`, and `tools/qa-flight-status.mjs` assert United content, absence of old B6 2184/B6 1620 content, and carrier-specific tracker behavior.
+- **Release verified** - `npm run release:prepare` passed, mobile Flights UAT passed at 390x844 with no horizontal overflow, pushed `67ba356`, GitHub Pages deploy `28177995689` was green, and live source/data checks confirmed cache token `202606251434`.
 
 ---
 
