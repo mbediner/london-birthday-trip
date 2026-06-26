@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-25T17:33:46.488Z",
+  "updatedAt": "2026-06-26T17:20:10.470Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
@@ -11,29 +11,14 @@
       "route": "RDU -> IAD",
       "departureIso": "2026-06-25T23:45:00Z",
       "arrivalIso": "2026-06-26T01:06:00Z",
-      "status": "On time",
-      "statusKind": "ok",
-      "departure": {
-        "date": "25-Jun-2026",
-        "scheduled": "19:45 EDT",
-        "estimated": "19:45 EDT",
-        "terminal": "2",
-        "gate": "D15"
-      },
-      "arrival": {
-        "date": "25-Jun-2026",
-        "scheduled": "21:06 EDT",
-        "estimated": "21:06 EDT",
-        "terminal": "N/A",
-        "gate": "C18"
-      },
-      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/UA/3520",
-      "lastCheckedAt": "2026-06-25T17:33:46.488Z",
-      "message": "FlightStats currently reports this flight as okay.",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
       "activeWindow": {
         "starts": "2026-06-24T23:45:00.000Z",
         "ends": "2026-06-26T04:06:00.000Z"
-      }
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
     },
     {
       "id": "ua-924",
@@ -43,29 +28,14 @@
       "route": "IAD -> LHR",
       "departureIso": "2026-06-26T02:15:00Z",
       "arrivalIso": "2026-06-26T09:40:00Z",
-      "status": "On time",
-      "statusKind": "ok",
-      "departure": {
-        "date": "25-Jun-2026",
-        "scheduled": "22:15 EDT",
-        "estimated": "22:15 EDT",
-        "terminal": "N/A",
-        "gate": "C4"
-      },
-      "arrival": {
-        "date": "26-Jun-2026",
-        "scheduled": "10:40 BST",
-        "estimated": "10:40 BST",
-        "terminal": "2",
-        "gate": "N/A"
-      },
-      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/UA/924",
-      "lastCheckedAt": "2026-06-25T17:33:46.488Z",
-      "message": "FlightStats currently reports this flight as okay.",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
       "activeWindow": {
         "starts": "2026-06-25T02:15:00.000Z",
         "ends": "2026-06-26T12:40:00.000Z"
-      }
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
     },
     {
       "id": "b6-20",
