@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-28T18:54:47.225Z",
+  "updatedAt": "2026-06-28T22:41:58.807Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
@@ -62,7 +62,7 @@
         "gate": null
       },
       "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/20",
-      "lastCheckedAt": "2026-06-28T18:54:47.225Z",
+      "lastCheckedAt": "2026-06-28T22:41:58.807Z",
       "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-28T10:55:00.000Z",
@@ -77,14 +77,29 @@
       "route": "JFK -> RDU",
       "departureIso": "2026-06-29T22:30:00Z",
       "arrivalIso": "2026-06-30T00:33:00Z",
-      "status": "Not in monitoring window",
-      "statusKind": "inactive",
+      "status": "Status unavailable",
+      "statusKind": "unknown",
+      "departure": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "arrival": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/585",
+      "lastCheckedAt": "2026-06-28T22:41:58.807Z",
+      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-28T22:30:00.000Z",
         "ends": "2026-06-30T03:33:00.000Z"
-      },
-      "lastCheckedAt": null,
-      "message": "Checks start 24 hours before departure."
+      }
     }
   ]
 }
