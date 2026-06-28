@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-26T17:20:10.470Z",
+  "updatedAt": "2026-06-28T14:58:53.819Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
@@ -45,14 +45,29 @@
       "route": "LHR -> JFK",
       "departureIso": "2026-06-29T10:55:00Z",
       "arrivalIso": "2026-06-29T19:25:00Z",
-      "status": "Not in monitoring window",
-      "statusKind": "inactive",
+      "status": "Status unavailable",
+      "statusKind": "unknown",
+      "departure": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "arrival": {
+        "date": null,
+        "scheduled": null,
+        "estimated": null,
+        "terminal": null,
+        "gate": null
+      },
+      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/20",
+      "lastCheckedAt": "2026-06-28T14:58:53.819Z",
+      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-28T10:55:00.000Z",
         "ends": "2026-06-29T22:25:00.000Z"
-      },
-      "lastCheckedAt": null,
-      "message": "Checks start 24 hours before departure."
+      }
     },
     {
       "id": "b6-585",
