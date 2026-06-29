@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-28T22:41:58.807Z",
+  "updatedAt": "2026-06-29T14:36:15.706Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
@@ -62,7 +62,7 @@
         "gate": null
       },
       "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/20",
-      "lastCheckedAt": "2026-06-28T22:41:58.807Z",
+      "lastCheckedAt": "2026-06-29T14:36:15.706Z",
       "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-28T10:55:00.000Z",
@@ -94,7 +94,7 @@
         "gate": null
       },
       "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/585",
-      "lastCheckedAt": "2026-06-28T22:41:58.807Z",
+      "lastCheckedAt": "2026-06-29T14:36:15.706Z",
       "message": "Check JetBlue app, Google Status, and airport screens before acting.",
       "activeWindow": {
         "starts": "2026-06-28T22:30:00.000Z",
