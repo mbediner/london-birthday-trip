@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-29T21:00:48.489Z",
+  "updatedAt": "2026-06-30T08:48:35.697Z",
   "source": "scheduled-flightstats",
   "note": "Automated checks run only inside each flight's active window: 24 hours before departure through 3 hours after scheduled arrival.",
   "flights": [
@@ -45,29 +45,14 @@
       "route": "LHR -> JFK",
       "departureIso": "2026-06-29T10:55:00Z",
       "arrivalIso": "2026-06-29T19:25:00Z",
-      "status": "Status unavailable",
-      "statusKind": "unknown",
-      "departure": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
-        "gate": null
-      },
-      "arrival": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
-        "gate": null
-      },
-      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/20",
-      "lastCheckedAt": "2026-06-29T21:00:48.489Z",
-      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
       "activeWindow": {
         "starts": "2026-06-28T10:55:00.000Z",
         "ends": "2026-06-29T22:25:00.000Z"
-      }
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
     },
     {
       "id": "b6-585",
@@ -77,29 +62,14 @@
       "route": "JFK -> RDU",
       "departureIso": "2026-06-29T22:30:00Z",
       "arrivalIso": "2026-06-30T00:33:00Z",
-      "status": "Status unavailable",
-      "statusKind": "unknown",
-      "departure": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
-        "gate": null
-      },
-      "arrival": {
-        "date": null,
-        "scheduled": null,
-        "estimated": null,
-        "terminal": null,
-        "gate": null
-      },
-      "trackerUrl": "https://www.flightstats.com/v2/flight-tracker/B6/585",
-      "lastCheckedAt": "2026-06-29T21:00:48.489Z",
-      "message": "Check JetBlue app, Google Status, and airport screens before acting.",
+      "status": "Not in monitoring window",
+      "statusKind": "inactive",
       "activeWindow": {
         "starts": "2026-06-28T22:30:00.000Z",
         "ends": "2026-06-30T03:33:00.000Z"
-      }
+      },
+      "lastCheckedAt": null,
+      "message": "Checks start 24 hours before departure."
     }
   ]
 }
