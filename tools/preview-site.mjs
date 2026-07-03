@@ -1,3 +1,7 @@
+// Minimal, dependency-free static file server for local preview (npm run preview).
+// Serves the repo root with no-store caching so edits show up immediately, and
+// refuses to serve anything outside the repo. Port: PORT env, argv[2], or 4173.
+
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import path from "node:path";

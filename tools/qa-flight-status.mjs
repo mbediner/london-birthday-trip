@@ -1,3 +1,9 @@
+// QA for the flight-status updater. Drives update-flight-status.mjs at fixed
+// timestamps (via FLIGHT_STATUS_NOW) against a temp output dir and asserts the
+// window logic and notification dedupe behave: no churn/notifications outside
+// windows, correct carrier tracking in-window, and no repeat push for unchanged
+// status. Network is still hit for in-window legs, so treat it as a smoke test.
+
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import os from "node:os";

@@ -1,7 +1,20 @@
+// Scheduled trip-reminder generator. Run by the "Trip Push Reminders" workflow
+// every 15 minutes: it finds reminders whose sendAt time has passed and that
+// have not been sent yet, records them as sent in data/trip-push-state.json,
+// and writes data/trip-push-notifications.json for the workflow to push via ntfy.
+//
+// Environment overrides (used by qa-trip-push-reminders.mjs):
+//   TRIP_PUSH_STATE_OUTPUT         - where the sent-state ledger lives
+//   TRIP_PUSH_NOTIFICATIONS_OUTPUT - where to write the due-now notifications
+//   TRIP_PUSH_NOW                  - ISO timestamp to treat as "now" (tests)
+
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
+// Fixed reminder schedule for the trip. Each entry fires once, when its sendAt
+// (with explicit timezone offset) passes. Exported so the QA harness can assert
+// coverage and dedupe behavior. Never reuse an id — the sent-state ledger keys on it.
 export const tripReminders = [
   {
     id: "offline-london-maps-2026-06-24",
@@ -169,6 +182,7 @@ const statePath = process.env.TRIP_PUSH_STATE_OUTPUT || path.join("data", "trip-
 const notificationsPath = process.env.TRIP_PUSH_NOTIFICATIONS_OUTPUT || path.join("data", "trip-push-notifications.json");
 const now = new Date(process.env.TRIP_PUSH_NOW || Date.now());
 
+// Load the ledger of already-sent reminder ids; a missing file means none sent.
 export async function readState(filePath = statePath) {
   try {
     return JSON.parse(await fs.readFile(filePath, "utf8"));
@@ -178,6 +192,7 @@ export async function readState(filePath = statePath) {
   }
 }
 
+// Reminders whose time has arrived and that have not already been sent.
 export function dueReminders(reminders, state, at = now) {
   return reminders.filter(reminder => {
     if (state.sent?.[reminder.id]) return false;
@@ -185,6 +200,7 @@ export function dueReminders(reminders, state, at = now) {
   });
 }
 
+// Return a new ledger with the given reminders stamped as sent (immutably).
 export function markSent(state, reminders, sentAt = now) {
   const nextState = {
     sent: { ...(state.sent || {}) }
@@ -197,6 +213,8 @@ export function markSent(state, reminders, sentAt = now) {
   return nextState;
 }
 
+// Main entry: compute due reminders, persist the updated ledger, and write the
+// notifications payload for the workflow to send.
 async function build() {
   const state = await readState();
   const notifications = dueReminders(tripReminders, state, now);
@@ -210,6 +228,8 @@ async function build() {
   }, null, 2) + "\n");
 }
 
+// Only run when executed directly (node tools/update-trip-push-reminders.mjs),
+// not when imported by the QA harness for its unit assertions.
 if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   await build();
 }

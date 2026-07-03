@@ -1,3 +1,8 @@
+// QA for the trip-reminder generator. Combines unit assertions on the exported
+// pure helpers (dueReminders / markSent / the tripReminders schedule) with
+// end-to-end runs of the script at fixed timestamps (via TRIP_PUSH_NOW) to
+// confirm reminders fire once and never repeat after the sent-state is written.
+
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import os from "node:os";

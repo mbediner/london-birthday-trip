@@ -1,6 +1,17 @@
+// Scheduled flight-status updater. Run by the "Update Flight Status" workflow
+// every 30 minutes: it scrapes FlightStats for each leg that is inside its
+// active monitoring window, writes data/flight-status.json (read by the app),
+// and emits data/flight-notifications.json for the workflow to push via ntfy.
+//
+// Environment overrides (used by qa-flight-status.mjs):
+//   FLIGHT_STATUS_OUTPUT        - where to write the status JSON
+//   FLIGHT_NOTIFICATIONS_OUTPUT - where to write the pending-notifications JSON
+//   FLIGHT_STATUS_NOW           - ISO timestamp to treat as "now" (deterministic tests)
+
 import fs from "node:fs/promises";
 import path from "node:path";
 
+// The four trip legs. Times are stored in UTC (Z) so window math is timezone-safe.
 const flights = [
   {
     id: "ua-3520",
@@ -44,6 +55,8 @@ const outputPath = process.env.FLIGHT_STATUS_OUTPUT || path.join("data", "flight
 const notificationsPath = process.env.FLIGHT_NOTIFICATIONS_OUTPUT || path.join("data", "flight-notifications.json");
 const now = process.env.FLIGHT_STATUS_NOW ? new Date(process.env.FLIGHT_STATUS_NOW) : new Date();
 
+// A flight is only checked inside its active window: 24h before scheduled
+// departure through 3h after scheduled arrival. Outside it, no network calls.
 function activeWindow(flight) {
   const departure = new Date(flight.departureIso);
   const arrival = new Date(flight.arrivalIso);
@@ -52,6 +65,8 @@ function activeWindow(flight) {
   return { starts, ends, isActive: now >= starts && now <= ends };
 }
 
+// Collapse the many free-text status strings into a small, stable set of
+// kinds the UI and notification logic branch on.
 function statusKind(status = "") {
   const text = status.toLowerCase();
   if (text.includes("cancel")) return "cancelled";
@@ -79,6 +94,9 @@ function parseTimeSection(lines, sectionLabel) {
   };
 }
 
+// FlightStats has no public API, so we parse the reader-mode text dump of the
+// tracker page: find the flight header, then read the status word and the
+// scheduled/estimated/terminal/gate values out of the surrounding lines.
 function parseFlightStats(text, flight) {
   const lines = text
     .replace(/\r/g, "\n")
@@ -107,6 +125,8 @@ function parseFlightStats(text, flight) {
   };
 }
 
+// Fetch one flight's status. Try the r.jina.ai reader proxy first (clean text,
+// less likely to be bot-blocked), then fall back to the raw tracker page.
 async function fetchFlight(flight) {
   const url = `https://www.flightstats.com/v2/flight-tracker/${flight.carrier}/${flight.number}`;
   const readerUrl = `https://r.jina.ai/${url}`;
@@ -134,6 +154,8 @@ async function fetchFlight(flight) {
   };
 }
 
+// Main entry: check every active flight, preserve a stable updatedAt when
+// nothing is in-window, and persist both the status file and pending pushes.
 async function build() {
   const results = [];
   let existing = null;
@@ -206,6 +228,9 @@ async function build() {
 
 await build();
 
+// Decide which flights warrant a phone push this run. Fires when a flight
+// first enters its window, or when its status "signature" (status + estimated
+// times + gate) changes — so unchanged statuses never re-notify.
 function buildNotifications(previousFlights, nextFlights) {
   const previousById = new Map(previousFlights.map(flight => [flight.id, flight]));
   const notifications = [];

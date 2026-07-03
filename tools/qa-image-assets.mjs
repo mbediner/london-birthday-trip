@@ -1,3 +1,6 @@
+// Image asset QA: each hero has both a JPG fallback and a WebP, and every WebP
+// is non-empty and smaller than its JPG (i.e. the optimization actually paid off).
+
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 

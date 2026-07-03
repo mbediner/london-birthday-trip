@@ -1,3 +1,8 @@
+// Cache-busting step of `release:prepare`. Stamps a fresh release token onto
+// the ?v= query strings in index.html and onto the service worker's CACHE_NAME
+// plus its cached asset URLs, so returning visitors pick up the new release.
+// Pass a token as argv[2] to override the auto-generated timestamp.
+
 import fs from "node:fs/promises";
 
 import {
