@@ -167,3 +167,11 @@ gh run watch              # confirm GitHub Pages CI is green
 - `trip-facts article:last-child:nth-child(odd) { grid-column: 1/-1; }` — no orphan cell in 2-col grid
 - `.emergency-card--embassy .call-btn { width: auto; }` — embassy button not clipped
 - Bottom nav: `padding-bottom: env(safe-area-inset-bottom, 0px)` — iPhone home indicator
+
+## Google Drive drift
+
+This repository is checked out inside Google Drive and synced across machines. Google Drive creates conflict-copies (filenames ending in ` 2`, ` 3`, or ` (1)`) — including inside `.git` — which corrupt the repo. A guardrail auto-removes them:
+
+- `scripts/clean-drive-drift.sh --fix` — remove conflict-copies then verify with `git fsck` (`--check` to only report).
+- Runs automatically via git hooks (`pre-commit`, `post-merge`, `post-checkout`) and, for Claude, on session start via `.claude/settings.json`.
+- Never commit a file whose name ends in ` 2`/` 3` — it is Google Drive junk, not a real file.
