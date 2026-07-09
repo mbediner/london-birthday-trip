@@ -1,8 +1,7 @@
 name: Trip Push Reminders
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
+  # The trip is complete; keep this manual-only so old reminders do not wake up every 15 minutes.
   workflow_dispatch:
 
 permissions:
