@@ -6,7 +6,7 @@
 
 ## Current State
 
-**Last release commit:** `67ba356` - Update outbound flights to United rebook
+**Last release commit:** `bf93920` - Disable scheduled flight status checks
 **Cache token:** `202606251434`
 **Branch:** `main` - clean, deployed, CI green
 **Live URL:** https://mbediner.github.io/london-birthday-trip/
@@ -24,6 +24,15 @@
 ## Session Log
 
 Newest first. Agents prepend a new entry here at the end of every session.
+
+---
+
+### Session - July 9, 2026 Post-trip automation shutdown (Codex)
+
+- **Trip reminders schedule disabled** - `.github/workflows/trip-push-reminders.yml` is now manual-only via `workflow_dispatch`; removed the every-15-minutes cron after the trip completed.
+- **Flight status schedule disabled** - `.github/workflows/flight-status.yml` is now manual-only via `workflow_dispatch`; removed the every-30-minutes cron so old flight checks and ntfy pushes do not keep waking up.
+- **Failure explained** - July 9 scheduled runs `29018989337` and `29019070505` were workflow-level failures because the jobs were cancelled, not because reminder or flight-status script steps failed.
+- **Verification** - `npm run check` passed, remote raw workflow files confirmed no `schedule:` triggers, and Pages deploys `29024604241` and `29024711772` were green.
 
 ---
 
