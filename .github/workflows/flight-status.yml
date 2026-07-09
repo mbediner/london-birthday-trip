@@ -1,8 +1,7 @@
 name: Update Flight Status
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"
+  # The trip is complete; keep this manual-only so old flight checks do not keep running.
   workflow_dispatch:
 
 permissions:
